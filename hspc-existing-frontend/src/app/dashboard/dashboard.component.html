@@ -1,0 +1,83 @@
+<div class=" content-background">
+    <div class="uk-section-small">
+        <div class="uk-container uk-container-large">
+
+            <div *ngIf="!selected">
+                <div uk-grid class="uk-child-width-1-1@s uk-child-width-1-2@l">
+                    <div>
+
+                        <div class="uk-card uk-card-default uk-card-hover">
+                            <div class="uk-card-header">
+                                Beginner Problems
+                            </div>
+                            <div class="uk-card-body">
+                                <table class="uk-table uk-table-striped uk-table-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Problem Name</th>
+                                            <th>Select Problem</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let problem of beginnerProblems$">
+                                            <td>{{problem.name}}</td>
+                                            <td>
+                                                <button (click)="showProblem(problem.id, problem.name, true)" class="uk-button uk-button-default uk-button-small" type="button">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-hover">
+                            <div class="uk-card-header">
+                                Advanced Problems
+                            </div>
+                            <div class="uk-card-body">
+                                <table class="uk-table uk-table-striped uk-table-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Problem Name</th>
+                                            <th>Select Problem</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let problem of advancedProblems$">
+                                            <td>{{problem.name}}</td>
+                                            <td>
+                                                <button (click)="showProblem(problem.id, problem.name, false)" class="uk-button uk-button-default uk-button-small" type="button">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div *ngIf="selected">
+                    <div class="uk-align-center uk-text-center uk-height-1-1">
+                        <p>Problem Name: {{problemName}}</p>
+                        <button (click)="showList()" class="uk-button">Go Back</button>
+                    </div>
+                    <div uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+                        <div *ngIf="beginner">
+                            <app-team-list title="Beginner Teams" beginner="beginner" problemId="{{problemId}}"></app-team-list>
+                        </div>
+                        <div *ngIf="!beginner">
+                                <app-team-list title="Advanced Teams" beginner="advanced" problemId="{{problemId}}"></app-team-list>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

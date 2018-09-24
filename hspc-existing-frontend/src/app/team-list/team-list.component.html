@@ -1,0 +1,48 @@
+<div class="uk-card uk-card-default uk-card-hover">
+  <div class="uk-card-header">
+    {{title}}
+  </div>
+  <div class="uk-card-body">
+    <table class="uk-table uk-table-striped uk-table-middle">
+      <thead>
+        <tr>
+          <th>Team Name</th>
+          <th>Mark For Judging</th>
+          <th>Correct Answer</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let team of teams$">
+          <td>{{team.team.name}}</td>
+          <td>
+            <button [disabled]="team.markedForJudging == true" (click)="markForJudging(team.team.id)" class="uk-button uk-button-default uk-button-small"
+              type="button">
+              <div *ngIf="markedLoading" uk-spinner></div>
+              <div *ngIf="!markedLoading">
+                <i class="fas fa-check"></i>
+              </div>
+            </button>
+          </td>
+          <td>
+            <button class="uk-button uk-button-default uk-button-small" type="button" (click)="correctAnswer(team.team.id)" [disabled]="!team.markedForJudging">
+              <div class="correct" [hidden]="!team.correct == true">
+                <i class="fas fa-check"></i>
+              </div>
+              <div [hidden]="team.correct">
+                <i class="fas fa-check"></i>
+              </div>
+            </button>
+            <button class="uk-button uk-button-default uk-button-small" type="button" (click)="incorrectAnswer(team.team.id)" [disabled]="!team.markedForJudging">
+              <div class="correct" [hidden]="team.correct || team.correct == NULL">
+                <i class="fas fa-ban"></i>
+              </div>
+              <div [hidden]="team.correct == false">
+                <i class="fas fa-ban"></i>
+              </div>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

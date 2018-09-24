@@ -1,0 +1,12 @@
+.content-background {
+    min-height: calc(100% - 80px);
+    background-color: #F0F0F0;
+}
+
+.dashboard-header {
+    margin-bottom: 15px;
+}
+
+.uk-button {
+    border:none;
+}

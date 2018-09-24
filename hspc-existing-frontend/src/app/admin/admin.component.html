@@ -1,0 +1,169 @@
+<div class=" content-background">
+
+  <div class="uk-section-small">
+    <div class="uk-container uk-container-large">
+      <div uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+        <div>
+
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-header">
+              Teams
+              <span class="uk-text-center fa-plus-span">
+                <button class="uk-button uk-button-default uk-button-small" type="button" uk-toggle="target: #modal-team">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </span>
+            </div>
+
+            <!-- This is the modal -->
+            <div id="modal-team" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Add Team</h2>
+                <form (ngSubmit)="CreateTeam(teamForm)" #teamForm="ngForm">
+                  <div class="uk-align-center uk-text-center uk-height-1-1">
+                    <div class="uk-vertical-align-middle">
+                      <div class="uk-margin">
+                        <div class="uk-inline">
+                          <span class="uk-form-icon" uk-icon="icon: users"></span>
+                          <input name="teamName" class="uk-input" autofocus minlength="3" type="text" placeholder="Team Name" required ngModel #teamName="ngModel">
+                        </div>
+                      </div>
+
+                      <div class="uk-margin">
+                        <div class="uk-form-controls">
+                          <label>
+                            <input class="uk-radio" type="radio" name="teamRadioButton" (change)="teamRadio('beginner')"> Beginner</label>
+                          <label>
+                            <input class="uk-radio" type="radio" name="teamRadioButton" (change)="teamRadio('advanced')"> Advanced</label>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary" type="submit">Save</button>
+                  </p>
+                </form>
+              </div>
+            </div>
+
+            <div class="uk-card-body">
+              <table class="uk-table uk-table-striped uk-table-middle">
+                <thead>
+                  <tr>
+                    <th>Team Name</th>
+                    <th>Team Level</th>
+                    <th>Delete Team</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let team of teams$">
+                    <td>{{team.name}}</td>
+                    <td>
+                      <p *ngIf="team.beginner">Beginner</p>
+                      <p *ngIf="team.advanced">Advanced</p>
+                    </td>
+
+                    <td>
+                        <button class="uk-button uk-button-default uk-button-small" (click)="deleteTeam(team.id)" type="button">
+                            <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div>
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-header">
+              Problems
+              <span class="uk-text-center fa-plus-span">
+                <button class="uk-button uk-button-default uk-button-small" type="button" uk-toggle="target: #modal-problem">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </span>
+            </div>
+
+            <!-- This is the modal -->
+            <div id="modal-problem" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Add Problem</h2>
+                <form (ngSubmit)="CreateProblem(problemForm)" #problemForm="ngForm">
+                  <div class="uk-align-center uk-text-center uk-height-1-1">
+                    <div class="uk-vertical-align-middle">
+                      <div class="uk-margin">
+                        <div class="uk-inline">
+                          <span class="uk-form-icon" uk-icon="icon: users"></span>
+                          <input name="problemName" class="uk-input" autofocus minlength="3" type="text" placeholder="Problem Name" required ngModel
+                            #problemName="ngModel">
+                        </div>
+                      </div>
+                      <div class="uk-margin">
+                        <div class="uk-inline">
+                          <span class="uk-form-icon" uk-icon="icon: hashtag"></span>
+                          <input name="problemNumber" class="uk-input" minlength="1" type="number" placeholder="Problem Number" required ngModel #problemNumber="ngModel">
+                        </div>
+                      </div>
+
+                      <div class="uk-margin">
+                        <div class="uk-form-controls">
+                          <label>
+                            <input class="uk-radio" type="radio" name="problemRadioButton" (change)="problemRadio('beginner')"> Beginner</label>
+                          <label>
+                            <input class="uk-radio" type="radio" name="problemRadioButton" (change)="problemRadio('advanced')"> Advanced</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary" type="submit">Save</button>
+                  </p>
+                </form>
+              </div>
+            </div>
+
+
+            <div class="uk-card-body">
+              <table class="uk-table uk-table-striped uk-table-middle">
+                <thead>
+                  <tr>
+                    <th>Problem Name</th>
+                    <th>Problem Level</th>
+                    <th>Delete Team</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let problem of problems$">
+                    <td>{{problem.name}}</td>
+                    <td>
+                      <p *ngIf="problem.beginner">Beginner</p>
+                      <p *ngIf="problem.advanced">Advanced</p>
+                    </td>
+                    <td>
+                      <button class="uk-button uk-button-default uk-button-small" (click)="deleteProblem(problem.id)" type="button">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
