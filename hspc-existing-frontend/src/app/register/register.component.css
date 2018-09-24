@@ -1,0 +1,32 @@
+.icon {
+  margin-bottom: 2em;
+}
+
+.ng-valid {
+  border-color: #1bc98e !important;
+}
+
+.ng-dirty.ng-invalid {
+  border-color: #e64759 !important;
+}
+
+.login-btn {
+  width: 219px;
+}
+
+.login-btn:enabled {
+  color: #1e87f0;
+  border-style: solid;
+  border-color: #1e87f0;
+  background-color: white;
+}
+
+.alert {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.password-alert {
+  margin-left: 2em;
+  margin-right: 2em;
+}
