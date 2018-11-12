@@ -9,11 +9,8 @@ export default class Home extends Component{
             <Grid>
                 <Jumbotron>
                     <h2>Welcome to Kansas State University!</h2>
-                    <p>Actual functionality coming soon</p>
+                    <p>Site Under Construction</p>
                 </Jumbotron>
-                <Link to="/register">
-                    <Button bsStyle="primary">Register</Button>
-                </Link>
             </Grid>
         )
     }
