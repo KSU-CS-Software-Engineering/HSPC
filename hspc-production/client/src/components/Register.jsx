@@ -7,9 +7,7 @@ import { white } from 'material-ui/styles/colors';
 import './Register.css';
 import Login from './Login';
 const style = { margin: 15 };
-//const sqlite3 = require('sqlite3').verbose();
-//var dbFile = './master.db';
-//var db = new sqlite3.Database(dbFile);
+
 
 export default class Register extends Component {
     constructor(props){
@@ -24,7 +22,7 @@ export default class Register extends Component {
 
     // handles the adding of a new user to the database - fix
     handleClick(event){
-        var apiBaseUrl = "http://localhost:3001/api/";
+        var apiBaseUrl = "http://localhost:3001";
         console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
         if(this.state.first_name == '' || this.state.last_name == ''
           || this.state.email == '' || this.state.password == ''){
@@ -40,20 +38,12 @@ export default class Register extends Component {
         }
         
         // rest api? - fix
-        Axios.post(apiBaseUrl+'/register', payload)
+        Axios.post(apiBaseUrl+'/auth/register', payload)
         .then(function (response) {
           console.log(response);
-          if(response.data.code == 200){
-          // console.log("registration successfull");
-            var loginscreen=[];
-            loginscreen.push(<Login parentContext={this}/>);
-            var loginmessage = "Not Registered yet. Please register an account.";
-            self.props.parentContext.setState({
-                loginscreen:loginscreen,
-                loginmessage:loginmessage,
-                buttonLabel:"Register",
-                isLogin:true
-            });
+          if(response.status == 201){
+            alert("Registration Complete!");
+            // redirect to login.
           }
         })
        .catch(function (error) {
@@ -108,23 +98,3 @@ export default class Register extends Component {
       );
     }
 }
-
-/*
-// use this to insert data into db
-var create_user = db.prepare(
-    'INSERT INTO `users` (`Phone`, `FirstName`, `LastName`, `Email`, 'Role') ' +
-    'VALUES (?, ?, ?, ?, ?)'
-);
-var create_team = de.prepare(
-    'INSERT INTO `team` (`TeamName`, `Level`, `SchoolID`) ' +
-    'VALUES (?, ?, ?)'
-);
-var create_school = de.prepare(
-    'INSERT INTO `school` (`Address`, `State`, `PostalCode`) ' +
-    'VALUES (?, ?, ?)'
-);
-// example data
-    create_user.run('1234567890', 'First', 'Last', 'some@example.com', 'Student');
-    create_user.finalize();
-    db.close();
-*/

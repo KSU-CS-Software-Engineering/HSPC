@@ -19,7 +19,7 @@ export default class Login extends Component {
 
     // handles the click event and checking of the database for a user match - fix
     handleClick(event){
-        var apiBaseUrl = "http://localhost:3001/api/";
+        var apiBaseUrl = "http://localhost:3001";
         var self = this;
         var payload={
         "email":this.state.username,
@@ -27,22 +27,17 @@ export default class Login extends Component {
         }
 
         // rest api? - fix
-        Axios.post(apiBaseUrl+'login', payload)
+        Axios.post(apiBaseUrl+'/auth/login', payload)
         .then(function (response) {
         console.log(response);
-        if(response.data.code == 200){
+        if(response.status == 200){
             console.log("Login successfull");
-            var uploadScreen=[];
-            uploadScreen.push(<UploadScreen appContext={self.props.appContext}/>)
-            self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
-        }
-        else if(response.data.code == 204){
-            console.log("Username password do not match");
-            alert("username password do not match")
+            alert("Welcome to HSPC!");
+            // redirect to portal.
         }
         else{
-            console.log("Username does not exists");
-            alert("Username does not exist");
+            console.log("Invalid Username/Password.");
+            alert("Invalid Username/Password");
         }
         })
             .catch(function (error) {
