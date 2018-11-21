@@ -20,7 +20,10 @@ export default class Login extends Component {
         }
     }
 
-  // handles the click event and checking of the database for a user match - fix
+  /**
+   * Checks for matching user credentials and redirects the user to the proper portal.
+   * @param {*} event 
+   */
   handleClick(event){
     var apiBaseUrl = "http://localhost:3001";
     var self = this;

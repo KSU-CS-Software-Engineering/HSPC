@@ -18,7 +18,7 @@ export default class Register extends Component {
       last_name:'',
       email:'',
       password:'',
-      access: 1
+      accesslevel: '1'
     }
   }
 
@@ -39,7 +39,8 @@ export default class Register extends Component {
           "first_name": this.state.first_name,
           "last_name":this.state.last_name,
           "email":this.state.email,
-          "password":this.state.password
+          "password":this.state.password,
+          "accesslevel":this.state.accesslevel
       }
         
       // captcha goes here
@@ -69,12 +70,12 @@ export default class Register extends Component {
   * Handle the changing of access level.
   */
   handleChange = (value, event) => {
-    this.setState({access: value}, () => {
+    this.setState({accesslevel: value}, () => {
       console.log("Access level changed.");
+      if(this.state.accesslevel != '1'){
+        alert("If account is anything other than 'Student' it will be subjected to further review.");
+      }
     });
-    if(value != 1){
-      alert("If account is anything other than 'Student' it will be subjected to further review.");
-    }
   }
 
   /**

@@ -11,7 +11,9 @@ router.post('/register', (req, res) => {
     const lastName = req.body['last_name'];
     const email = req.body['email'];
     const password = req.body['password'];
+    const accesslevel = req.body['accesslevel'];
     // checks
+    // add check for access level
     if (!(firstName && lastName && email && password)) return statusResponses.badRequest(res, "FirstName, LastName, Email, and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
     if (password.length < 8) return statusResponses.badRequest(res, 'Password must be at least 8 characters');
@@ -21,7 +23,7 @@ router.post('/register', (req, res) => {
             if (data.length > 0) return statusResponses.conflict(res, `'${email}' could not be registered`);
             authService.generateHash(password)
                 .then((hashedPassword) => {
-                    userService.register(firstName, lastName, email, hashedPassword)
+                    userService.register(firstName, lastName, email, accesslevel, hashedPassword)
                         .then(() => {
                             statusResponses.created(res, `${email}' successfully registered!`);
                         })
