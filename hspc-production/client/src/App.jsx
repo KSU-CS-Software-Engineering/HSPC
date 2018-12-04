@@ -17,7 +17,6 @@ const config = {
   client_id: '0oahawo8og2PdREgB0h7'
 } 
 */
-
 class App extends Component {
   render() {
     return (
