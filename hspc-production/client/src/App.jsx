@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Scoreboard from './components/Scoreboard';
 import Navbar from './components/TopNavbar';
 import Loginscreen from './components/Loginscreen';
+import Administrator from './components/Administrator';
 
 /*
 //okta api code
@@ -29,6 +30,7 @@ class App extends Component {
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
             <Route path="/scoreboard" component={Scoreboard}/>
+            <Route path="/administrator" component={Administrator}/>
 	      </div>
       </Router>
     );
