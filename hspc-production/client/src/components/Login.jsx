@@ -39,6 +39,10 @@ export default class Login extends Component {
             if(response.status == 200){
                 console.log("Login successfull");
                 // redirect to portal
+                // will need to redirect to Admin, Advisor, Student, Judge
+
+                // Administrator
+                
             }
             else{
                 console.log("Invalid Username/Password.");
@@ -47,7 +51,7 @@ export default class Login extends Component {
         }).catch(function (error) {
             console.log(error);
         });
-    }
+    }// end handClick()
 
     /**
      * Handles switching between the Registration and Login pages.
