@@ -23,8 +23,10 @@ export default class Administrator extends Component{
 
     render(){
         return (
-        // main div
+
+            // main div
             <div>
+                {/*
                 <div className="SideButtonBar">
                     <table>
                         <tr>
@@ -38,9 +40,29 @@ export default class Administrator extends Component{
                                 <button className="SideButton">Metrics</button>
                             </NavLink> 
                         </tr>
+                        <br />
+                        <tr>
+                            <NavLink to="/administrator/metrics">
+                                <button className="SideButton">New Button</button>
+                            </NavLink> 
+                        </tr>
                     </table>
+  
+                </div> 
+                */}
 
-                    <br/>
+                <div className="SideButtonGroup">
+                    <div>
+                        <NavLink to="/administrator/accounts">
+                            <button className="SideButton">Accounts</button>
+                        </NavLink>                      
+                    </div>
+                    <br />
+                    <div>
+                        <NavLink to="/administrator/metrics">
+                            <button className="SideButton">Metrics</button>
+                        </NavLink>                       
+                    </div>
   
                 </div>
                 <div className="MainContent">
