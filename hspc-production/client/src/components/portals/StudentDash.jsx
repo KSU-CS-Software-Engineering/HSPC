@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
-import { Jumbotron } from 'react-bootstrap';
+import { Navbar, Button } from 'react-bootstrap';
+import './StudentDash.css';
 
-export default class StudentDash extends Component{
-    render(){
-        return(
+export default class StudentDash extends Component {
+    render() {
+        return (
             <div>
-                <h2>Student Portal:</h2>
-                <Jumbotron>
-                    <p>Student Data Coming Soon!</p>
-                </Jumbotron>
+                <Navbar>
+                    <Navbar.Header>
+                    <Navbar.Brand className="student_brand">
+                            <a href="#home">Student Portal</a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Text>Team Number: </Navbar.Text>
+                    <Navbar.Text>Difficulty Level: </Navbar.Text>
+                    <Navbar.Collapse>
+                        <Navbar.Text pullRight>
+                            <Button bsStyle="primary">Call Judge</Button>
+                        </Navbar.Text>
+                    </Navbar.Collapse>
+                </Navbar>;
             </div>
         )
     }

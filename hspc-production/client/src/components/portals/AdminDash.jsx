@@ -1,75 +1,30 @@
-// Author: Joe Webster
-
 import React, { Component } from 'react';
-//import { NavLink, Route } from 'react-router-dom';
-//import Accounts from "./Accounts";
-//import Metrics from "./Metrics";
-//import "./Administrator.css";
+import { Navbar, Button } from 'react-bootstrap';
+import './AdminDash.css';
 
-// for buttons
-//import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-//import RaisedButton from 'material-ui/RaisedButton';
-//import TextField from 'material-ui/TextField';
-// for side nav
-//https://reactjsexample.com/react-side-nav-component/
-//import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-//import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-
-
-/**
- * Creates and renders the Admin portal;
- * Admins will have a unique NavBar and a sidebar 
- * to access administrative actions.
- **/
-export default class Administrator extends Component {
+export default class AdminDash extends Component {
     render() {
         return (
             <div>
-                <h1>Admin Portal</h1>
-                {/*
-                <div className="SideButtonBar">
-                    <table>
-                        <tr>
-                            <NavLink to="/administrator/accounts">
-                                <button className="SideButton">Accounts</button>
-                            </NavLink>
-                        </tr>
-                        <br />
-                        <tr>
-                            <NavLink to="/administrator/metrics">
-                                <button className="SideButton">Metrics</button>
-                            </NavLink> 
-                        </tr>
-                        <br />
-                        <tr>
-                            <NavLink to="/administrator/metrics">
-                                <button className="SideButton">New Button</button>
-                            </NavLink> 
-                        </tr>
-                    </table>
-  
-                </div> 
-                */}
-                {/*
-                <div className="SideButtonGroup">
-                    <div>
-                        <NavLink to="/administrator/accounts">
-                            <button className="SideButton">Accounts</button>
-                        </NavLink>
-                    </div>
-                    <br />
-                    <div>
-                        <NavLink to="/administrator/metrics">
-                            <button className="SideButton">Metrics</button>
-                        </NavLink>
-                    </div>
-
-                </div>
-                <div className="MainContent">
-                    <Route path="/administrator/accounts" component={Accounts} />
-                    <Route path="/administrator/metrics" component={Metrics} />
-                </div>*/}
+                <Navbar className="subnav">
+                    <Navbar.Header>
+                        <Navbar.Brand className="admin_brand">
+                            <h1>Admin Portal</h1>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                        
+                    </Navbar.Header>
+                    <Navbar.Collapse className="content_ribbon">
+                        <Navbar.Text pullRight className="buttonlist">
+                            <Button bsStyle='info'>Pending Requests</Button>
+                            <Button bsStyle='info'>Create Team</Button>
+                            <Button bsStyle='info'>View Users</Button>
+                            <Button bsStyle='info'>History</Button>
+                            <Button bsStyle='success'>Show Scoreboard</Button>
+                        </Navbar.Text>
+                    </Navbar.Collapse>
+                </Navbar>;
             </div>
         )
-    }//end render()
-}// end class declaration
+    }
+}

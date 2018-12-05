@@ -1,13 +1,28 @@
 import React, { Component } from 'react'
-import { Jumbotron } from 'react-bootstrap';
+import { Navbar, Jumbotron, Button } from 'react-bootstrap';
 
 export default class JudgeDash extends Component {
     render() {
         return (
             <div>
-                <h2>Judge Portal:</h2>
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#home">Admin Portal</a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Navbar.Text pullRight>
+                            <Button bsStyle="info">Question List</Button>
+                            <Button bsStyle="info">Student List</Button>
+                            <Button bsStyle="info">Answer Key</Button>
+                            <Button bsStyle="Success">Show Scoreboard</Button>
+                        </Navbar.Text>
+                    </Navbar.Collapse>
+                </Navbar>;
                 <Jumbotron>
-                    <p>Judge Data Coming Soon!</p>
+                    <p>Under Contrustion.</p>
                 </Jumbotron>
             </div>
         )

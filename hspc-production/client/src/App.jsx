@@ -5,7 +5,6 @@ import { SecureRoute } from 'react-route-guard';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
-import Scoreboard from './components/Scoreboard';
 import Navbar from './components/TopNavbar';
 
 import StudentDash from './components/portals/StudentDash';
@@ -28,7 +27,6 @@ class App extends Component {
             <Route exact path="/" component={Home}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
-            <Route path="/scoreboard" component={Scoreboard}/>
             <SecureRoute path='/studentdash' component={StudentDash} routeGuard={StudentAuthGuard} redirectToPathWhenFail='/login' />>
             <SecureRoute path='/volunteerdash' component={VolunteerDash} routeGuard={VolunteerAuthGuard} redirectToPathWhenFail='/login' />>
             <SecureRoute path='/judgedash' component={JudgeDash} routeGuard={JudgeAuthGuard} redirectToPathWhenFail='/login' />>
