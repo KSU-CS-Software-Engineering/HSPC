@@ -28,7 +28,7 @@ function sendResponse(res, content, statusCode) {
 }
 
 function parseContent(content) {
-    if (typeof content == 'string') {
+    if (typeof content === 'string') {
         content = {
             message: content
         }

@@ -54,10 +54,10 @@ router.post('/login', (req, res) => {
                     const user = {
                         userId: data.UserID,
                         email: email,
-                        roles: []
+                        accesslevel: data.AccessLevel
                     }
                     req.session.user = user;
-                    statusResponses.ok(res);
+                    statusResponses.ok(res, user);
                 })
                 .catch((err) => {
                     if (err) {

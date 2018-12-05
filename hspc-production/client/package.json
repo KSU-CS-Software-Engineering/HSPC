@@ -20,9 +20,11 @@
     "react": "^16.6.1",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.1",
+    "react-route-guard": "^1.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "react-tap-event-plugin": "^3.0.3",
+    "request": "^2.88.0",
     "requirejs": "^2.3.6",
     "sqlite3": "^4.0.4",
     "underscore": "^1.9.1"

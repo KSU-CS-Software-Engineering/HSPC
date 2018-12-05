@@ -4,8 +4,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { white } from 'material-ui/styles/colors';
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import './Register.css';
-import { ButtonToolbar, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
 /**
  * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
@@ -29,12 +29,11 @@ export default class Register extends Component {
   handleRegister(event){
       var apiBaseUrl = "http://localhost:3001";
       console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
-      if(this.state.first_name == '' || this.state.last_name == ''
-        || this.state.email == '' || this.state.password == ''){
+      if(this.state.first_name === '' || this.state.last_name === ''
+        || this.state.email === '' || this.state.password === ''){
           alert("Invalid input. Please try again.");
           return;
-        }
-      var self = this;
+      }
       var payload={
           "first_name": this.state.first_name,
           "last_name":this.state.last_name,
@@ -49,7 +48,7 @@ export default class Register extends Component {
       Axios.post(apiBaseUrl+'/auth/register', payload)
       .then(function (response) {
         console.log(response);
-        if(response.status == 201){
+        if(response.status === 201){
           alert("Registration Complete!");
             // redirect to login.
           }
@@ -72,7 +71,7 @@ export default class Register extends Component {
   handleChange = (value, event) => {
     this.setState({accesslevel: value}, () => {
       console.log("Access level changed.");
-      if(this.state.accesslevel != '1'){
+      if(this.state.accesslevel !== '1'){
         alert("If account is anything other than 'Student' it will be subjected to further review.");
       }
     });

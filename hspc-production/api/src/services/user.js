@@ -19,7 +19,8 @@ module.exports = {
             const query =
                 `SELECT U.UserID,
                 U.Email,
-                U.EncryptedPassword
+                U.EncryptedPassword,
+                U.AccessLevel
             FROM dbo.users AS U
             WHERE Email = '${email}'`;
             mssql.query(query)
