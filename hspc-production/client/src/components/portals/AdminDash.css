@@ -1,0 +1,31 @@
+.admin_field{
+    height: 700px;
+}
+
+.subnav{
+    align-content: center;
+    align-self: center;
+}
+
+.buttonlist{
+    align-content: center;
+    align-self: center;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.btn{
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.navbar-collapse{
+    align-content: center;
+}
+
+.admin_brand{
+    vertical-align: -webkit-baseline-middle;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 28px;
+}
