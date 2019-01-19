@@ -45,7 +45,7 @@ export default class Login extends Component {
                         loginRedirectPath = '/judgedash'
                         break;
                     case '4':
-                        loginRedirectPath = '/admindash'
+                        loginRedirectPath = '/admin/admindash'
                         break;
                     default:
                         this.statusMessages.current.showError('Something went wrong. Please try again');

@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { white } from 'material-ui/styles/colors';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import ReCAPTCHA from 'react-recaptcha';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import './Register.css';
 
 /**
@@ -13,12 +15,15 @@ import './Register.css';
 export default class Register extends Component {
   constructor(props){
     super(props);
+    this.recaptchaLoaded = this.recaptchaLoaded.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this);
     this.state={
       first_name:'',
       last_name:'',
       email:'',
       password:'',
-      accesslevel: '1'
+      accesslevel: '1',
+      isVerified: false
     }
   }
 
@@ -27,6 +32,7 @@ export default class Register extends Component {
    * @param {*} event button event that handles submission of user information.
    */
   handleRegister(event){
+    if(this.state.isVerified){
       var apiBaseUrl = "http://localhost:3001";
       console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
       if(this.state.first_name === '' || this.state.last_name === ''
@@ -34,6 +40,7 @@ export default class Register extends Component {
           alert("Invalid input. Please try again.");
           return;
       }
+  
       var payload={
           "first_name": this.state.first_name,
           "last_name":this.state.last_name,
@@ -41,22 +48,23 @@ export default class Register extends Component {
           "password":this.state.password,
           "accesslevel":this.state.accesslevel
       }
-        
-      // captcha goes here
 
       // Rest API call. Creates a new column in the users table in the database and adds cooresponding payload values.
       Axios.post(apiBaseUrl+'/auth/register', payload)
       .then(function (response) {
         console.log(response);
-        if(response.status === 201){
+        if(response.status === 201)
           alert("Registration Complete!");
-            // redirect to login.
-          }
+        else
+          alert("An error has occurred")
         })
       .catch(function (error) {
         console.log(error);
       });
-    }
+    } else{
+      alert("Please verify that you are a human.");
+    }  
+  }
 
   /**
    * Handles switching between the Registration and Login pages.
@@ -77,6 +85,25 @@ export default class Register extends Component {
     });
   }
 
+  /*
+  * Indicates successful loading of the captcha for debugging purposes
+  */
+  recaptchaLoaded(){
+    console.log('captcha successfully loaded.');
+  }
+
+  /*
+  * Changes the verfied state to true following a verified captcha result.
+  */
+  verifyCallback(response){
+    if(response){
+      this.setState({ isVerified: true })
+    }
+    else{
+      this.setState({ isVerified: false})
+    }
+  }
+
   /**
    * Renders the Registration Page component. Allows the user to switch between Login and Registration. 
    */
@@ -85,7 +112,7 @@ export default class Register extends Component {
       <div className="RegisterBox">
         <h2>New User?</h2>
         <p><b>Please fill out the information below.</b></p>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
           <div>
             <TextField
               hintText="Enter your First Name"
@@ -119,8 +146,17 @@ export default class Register extends Component {
               <ToggleButton value={2} onChange={this.handleChange.bind(this, 2)}>Volunteer</ToggleButton>
               <ToggleButton value={3} onChange={this.handleChange.bind(this, 3)}>Judge</ToggleButton>
             </ToggleButtonGroup>
-            <br />
-            <RaisedButton 
+            <br /><br />
+            <div align="center">
+              <ReCAPTCHA 
+                class="Captcha" 
+                sitekey="6LdB8YoUAAAAAL5OtI4zXys_QDLidEuqpkwd3sKN"
+                render="explicit"
+                onloadCallback={this.recaptchaLoaded}
+                verifyCallback = {this.verifyCallback}
+              />
+            </div>
+            <RaisedButton
               className="RegisterButton" 
               label="Create Account" 
               style = { {margin: 15} }
@@ -128,9 +164,8 @@ export default class Register extends Component {
               labelColor={white} 
               onClick={(event) => this.handleRegister(event)}
             />
-          </div>
-          <div className="LoginSwitchBox">
-            <p><br /><b>Already have an account?</b></p>
+            
+            <p><b>Already have an account?</b></p>
             <RaisedButton 
               className="LoginButton" 
               label="Sign In" 

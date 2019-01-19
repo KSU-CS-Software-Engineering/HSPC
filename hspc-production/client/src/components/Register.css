@@ -1,3 +1,7 @@
 .RegisterBox{
-    text-align: center;
+    margin: 0 auto;
+    align-content: center;
+}
+#captcha{
+    align: center;
 }

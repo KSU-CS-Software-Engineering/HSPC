@@ -7,10 +7,11 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Navbar from './components/TopNavbar';
 
-import StudentDash from './components/portals/StudentDash';
-import VolunteerDash from './components/portals/VolunteerDash';
-import JudgeDash from './components/portals/JudgeDash';
-import AdminDash from './components/portals/AdminDash';
+import StudentDash from './components/portals/student/StudentDash';
+import VolunteerDash from './components/portals/volunteer/VolunteerDash';
+import JudgeDash from './components/portals/judge/JudgeDash';
+import AdminDash from './components/portals/admin/AdminDash';
+import Scoreboard from './components/portals/scoreboard/Scoreboard';
 
 import StudentAuthGuard from './_common/guards/student';
 import VolunteerAuthGuard from './_common/guards/volunteer';
@@ -27,10 +28,12 @@ class App extends Component {
             <Route exact path="/" component={Home}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
-            <SecureRoute path='/studentdash' component={StudentDash} routeGuard={StudentAuthGuard} redirectToPathWhenFail='/login' />>
-            <SecureRoute path='/volunteerdash' component={VolunteerDash} routeGuard={VolunteerAuthGuard} redirectToPathWhenFail='/login' />>
-            <SecureRoute path='/judgedash' component={JudgeDash} routeGuard={JudgeAuthGuard} redirectToPathWhenFail='/login' />>
-            <SecureRoute path='/admindash' component={AdminDash} routeGuard={AdminAuthGuard} redirectToPathWhenFail='/login' />>
+            <SecureRoute path='/student/studentdash' component={StudentDash} routeGuard={StudentAuthGuard} redirectToPathWhenFail='/login' />>
+            <SecureRoute path='/volunteer/volunteerdash' component={VolunteerDash} routeGuard={VolunteerAuthGuard} redirectToPathWhenFail='/login' />>
+            <SecureRoute path='/judge/judgedash' component={JudgeDash} routeGuard={JudgeAuthGuard} redirectToPathWhenFail='/login' />>
+            <SecureRoute path='/admin/admindash' component={AdminDash} routeGuard={AdminAuthGuard} redirectToPathWhenFail='/login' />>
+            
+            <SecureRoute path='/scoreboard/scoreboard' component={Scoreboard} routeGuard={AdminAuthGuard} redirectToPathWhenFail='/login' />>
           </Switch>
         </div>
       </Router>

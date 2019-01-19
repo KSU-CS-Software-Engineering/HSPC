@@ -27,5 +27,15 @@ module.exports = {
                 .then((data) => resolve(data))
                 .catch((err) => reject(err));
         });
+    },
+    getAllUsers: () => {
+        return new Promise((resolve, reject) => {
+            const query =
+            `SELECT U.Email
+            FROM dbo.users AS U`
+            mssql.query(query)
+                .then((data) => resolve(data))
+                .catch((err) => reject(err));
+        });
     }
 };

@@ -8,7 +8,6 @@ export default class Scoreboard extends Component{
     render(){
         return(
             <div>
-                <h2>Scoreboard:</h2>
                 <Jumbotron>
                     <p>Scoreboard Coming Soon.</p>
                 </Jumbotron>
