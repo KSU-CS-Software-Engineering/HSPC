@@ -1,31 +1,18 @@
-.admin_field{
+.page-body{
     height: 700px;
-}
-
-.subnav{
-    align-content: center;
-    align-self: center;
-}
-
-.buttonlist{
-    align-content: center;
-    align-self: center;
+    background-color: lightgray;
     text-align: center;
-    padding: 15px;
-    margin-top: 20px;
-}
-
-.btn{
-    margin-left: 2px;
-    margin-right: 2px;
-}
-.navbar-collapse{
     align-content: center;
 }
-
-.admin_brand{
-    vertical-align: -webkit-baseline-middle;
-    padding: 15px;
-    margin-top: 20px;
-    font-size: 28px;
+.navbar{
+    margin: 0px;
+    padding: 0px;
+    border: none;
+}
+.page-body{
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 700px;
+    background-color: lightgrey;
 }
