@@ -17,7 +17,6 @@ export default class AdminDash extends Component {
     * Parent function for switching between tabs
     */
     handleChangeTab(){
-        alert("did the thing");
         console.log(this.state.activeTab);
         switch(this.state.activeTab){
             case 'Pending Requests': 
