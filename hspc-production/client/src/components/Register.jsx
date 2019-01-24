@@ -7,6 +7,7 @@ import { white } from 'material-ui/styles/colors';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import ReCAPTCHA from 'react-recaptcha';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import StatusMessages from '../_common/components/status-messages/status-messages';
 import './Register.css';
 
 /**
@@ -14,7 +15,8 @@ import './Register.css';
  */
 export default class Register extends Component {
   constructor(props){
-    super(props);
+    super(props)
+    this.statusMessages = React.createRef();
     this.recaptchaLoaded = this.recaptchaLoaded.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
     this.state={
@@ -42,27 +44,28 @@ export default class Register extends Component {
       }
   
       var payload={
-          "first_name": this.state.first_name,
-          "last_name":this.state.last_name,
-          "email":this.state.email,
-          "password":this.state.password,
-          "accesslevel":this.state.accesslevel
+        "first_name": this.state.first_name,
+        "last_name":this.state.last_name,
+        "email":this.state.email,
+        "password":this.state.password,
+        "accesslevel":this.state.accesslevel
       }
 
       // Rest API call. Creates a new column in the users table in the database and adds cooresponding payload values.
       Axios.post(apiBaseUrl+'/auth/register', payload)
       .then(function (response) {
         console.log(response);
-        if(response.status === 201)
-          alert("Registration Complete!");
+        if(response.status === 201){
+          this.statusMessages.current.showSuccess("Registration Complete!");
+        }
         else
-          alert("An error has occurred")
+          this.statusMessages.current.showError('Something went wrong. Please try again');
         })
       .catch(function (error) {
         console.log(error);
       });
     } else{
-      alert("Please verify that you are a human.");
+      this.statusMessages.current.showError("Please verify that you are a human.");
     }  
   }
 
@@ -80,7 +83,7 @@ export default class Register extends Component {
     this.setState({accesslevel: value}, () => {
       console.log("Access level changed.");
       if(this.state.accesslevel !== '1'){
-        alert("If account is anything other than 'Student' it will be subjected to further review.");
+        this.statusMessages.current.showError("If account is anything other than 'Student' it will be subjected to further review.");
       }
     });
   }
@@ -110,6 +113,7 @@ export default class Register extends Component {
   render() {
     return (
       <div className="RegisterBox">
+        <StatusMessages ref={this.statusMessages}></StatusMessages>
         <h2>New User?</h2>
         <p><b>Please fill out the information below.</b></p>
         <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -145,6 +149,7 @@ export default class Register extends Component {
               <ToggleButton value={1} onChange={this.handleChange.bind(this, 1)}>Student</ToggleButton>
               <ToggleButton value={2} onChange={this.handleChange.bind(this, 2)}>Volunteer</ToggleButton>
               <ToggleButton value={3} onChange={this.handleChange.bind(this, 3)}>Judge</ToggleButton>
+              <ToggleButton value={4} onChange={this.handleChange.bind(this, 4)}>Advisor</ToggleButton>
             </ToggleButtonGroup>
             <br /><br />
             <div align="center">

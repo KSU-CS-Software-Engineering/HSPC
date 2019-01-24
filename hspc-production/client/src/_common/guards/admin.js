@@ -6,7 +6,7 @@ class AdminAuthGuard {
             authService.isAuthenticated()
                 .then((success) => {
                     console.log(authService.authenticatedUser);
-                    if (authService.authenticatedUser.accesslevel !== '4') success = false;
+                    if (authService.authenticatedUser.accesslevel !== '5') success = false;
                     resolve(success);
                 })
                 .catch((err) => {

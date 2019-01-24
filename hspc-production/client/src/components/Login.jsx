@@ -36,19 +36,25 @@ export default class Login extends Component {
                 let loginRedirectPath;
                 switch (authService.authenticatedUser.accesslevel) {
                     case '1':
-                        loginRedirectPath = '/studentdash'
+                        loginRedirectPath = '/student/studentdash'
                         break;
                     case '2':
-                        loginRedirectPath = '/volunteerdash'
+                        loginRedirectPath = '/volunteer/volunteerdash'
                         break;
                     case '3':
-                        loginRedirectPath = '/judgedash'
+                        loginRedirectPath = '/judge/judgedash'
                         break;
                     case '4':
+                        loginRedirectPath = '/advisor/advisordash'
+                        break;
+                    case '5':
                         loginRedirectPath = '/admin/admindash'
                         break;
+                    case '6':
+                        loginRedirectPath = '/master/masterdash'
+                        break;
                     default:
-                        this.statusMessages.current.showError('Something went wrong. Please try again');
+                        alert("problem");//this.statusMessages.current.showError('Something went wrong. Please try again');
                         return;
                 }
                 this.setState({
@@ -58,9 +64,9 @@ export default class Login extends Component {
             } else this.statusMessages.current.showError(response.body.message);
         }).catch((resErr) => this.statusMessages.current.showError('Something went wrong. Please try again'));
 
-        /**
-        * Handles switching between the Registration and Login pages.
-         */
+    /**
+    * Handles switching between the Registration and Login pages.
+    */
     }
     handleSwitch = () => {
         this.props.history.push('/register');

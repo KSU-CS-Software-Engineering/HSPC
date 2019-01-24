@@ -17,7 +17,7 @@ export default class StudentDash extends Component {
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
-                        <Navbar.Brand>Judge Portal</Navbar.Brand>
+                        <Navbar.Brand>Student Portal</Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
