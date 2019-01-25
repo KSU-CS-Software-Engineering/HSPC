@@ -1,4 +1,4 @@
-import request from 'request';
+import * as request from 'request';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/user';
 

@@ -39,7 +39,7 @@ export default class Register extends Component {
       console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
       if(this.state.first_name === '' || this.state.last_name === ''
         || this.state.email === '' || this.state.password === ''){
-          alert("Invalid input. Please try again.");
+          this.statusMessages.current.showError('Something went wrong. Please try again');
           return;
       }
   
@@ -53,7 +53,7 @@ export default class Register extends Component {
 
       // Rest API call. Creates a new column in the users table in the database and adds cooresponding payload values.
       Axios.post(apiBaseUrl+'/auth/register', payload)
-      .then(function (response) {
+      .then((response)=> {
         console.log(response);
         if(response.status === 201){
           this.statusMessages.current.showSuccess("Registration Complete!");
@@ -61,8 +61,8 @@ export default class Register extends Component {
         else
           this.statusMessages.current.showError('Something went wrong. Please try again');
         })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error)=> {
+        this.statusMessages.current.showError('Something went wrong. Please try again.');
       });
     } else{
       this.statusMessages.current.showError("Please verify that you are a human.");

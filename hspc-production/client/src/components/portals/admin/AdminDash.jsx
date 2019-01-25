@@ -69,9 +69,8 @@ export default class AdminDash extends Component {
     handleShowUsers(){
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
-                alert(response);
+                console.log(response.body);
                 // render user list
-                // fix 404 error
             }
         })
     }

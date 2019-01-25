@@ -54,7 +54,7 @@ export default class Login extends Component {
                         loginRedirectPath = '/master/masterdash'
                         break;
                     default:
-                        alert("problem");//this.statusMessages.current.showError('Something went wrong. Please try again');
+                        this.statusMessages.current.showError('Something went wrong. Please try again');
                         return;
                 }
                 this.setState({
