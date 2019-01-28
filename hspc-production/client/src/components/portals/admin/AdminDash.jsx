@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Panel, Navbar, NavItem, Nav } from 'react-bootstrap';
+import { Panel, Navbar, NavItem, Nav, Table } from 'react-bootstrap';
 import userService from '../../../_common/services/user';
-//import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './AdminDash.css';
+
+var currentView = null; 
 
 export default class AdminDash extends Component {
     constructor(props){
         super(props)
-        //this.statusMessages = React.createRef(); for showing error codes
-        this.state = {
-
-        };
+        this.handleShowScore = this.handleShowScore.bind(this);
+        this.handleShowUsers = this.handleShowUsers.bind(this);
+        this.statusMessages = React.createRef();
+        this.state = { userTable: [] };
     }
     
     /*
@@ -26,7 +28,7 @@ export default class AdminDash extends Component {
                 this.handleCreateTeams();
                 break;
             case 'Events':
-                this.handleShowHistory();
+                this.handleShowEventHistory();
                 break;
             case 'Users':
                 this.handleShowUsers();
@@ -58,7 +60,7 @@ export default class AdminDash extends Component {
     /*
     * Shows a table of previous events and participants.
     */
-    handleShowHistory(){
+    handleShowEventHistory(){
         
         // finish
     }
@@ -70,9 +72,48 @@ export default class AdminDash extends Component {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
                 console.log(response.body);
-                // render user list
+                let data = JSON.parse(response.body);
+                let tempCol = [];
+                let i;
+                
+                for(i=0; i<data.length; i++){
+                    let tempRow = [];
+                    tempRow.push(
+                        data[i].FirstName,
+                        data[i].LastName,
+                        data[i].Email
+                    );
+                    tempCol.push(tempRow);
+                }
+                console.log({tempCol});
+                
+                this.setState({userTable: tempCol}, () =>{
+                    console.log("Table Created");
+                    this.generateUserTable();
+                })
             }
-        })
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+    }
+
+    /*
+    * Helper function for handleShowUsers. Generates a table component.
+    */
+    generateUserTable(){ 
+        currentView = <Table striped bordered condensed hover>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>{this.state.userTable[0]}</tr>
+        </tbody>
+        </Table>
+        this.forceUpdate();
     }
 
     /*
@@ -105,7 +146,7 @@ export default class AdminDash extends Component {
                             </NavItem>
                             
                             <NavItem 
-                                onClick={this.handleShowHistory}
+                                onClick={this.handleShowEventHistory}
                                 eventKey={3}>
                                 Events
                             </NavItem>
@@ -120,7 +161,8 @@ export default class AdminDash extends Component {
                 </Navbar>
 
                 <Panel className="page-body">
-                    <p>Comming soon</p>
+                    <StatusMessages ref={this.statusMessages}></StatusMessages>
+                    {currentView}
                 </Panel>  
             </div>
         )

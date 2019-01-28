@@ -31,7 +31,9 @@ module.exports = {
     getAllUsers: () => {
         return new Promise((resolve, reject) => {
             const query =
-            `SELECT U.Email
+            `SELECT U.FirstName,
+            U.LastName,
+            U.Email
             FROM dbo.users AS U`
             mssql.query(query)
                 .then((data) => resolve(data))
