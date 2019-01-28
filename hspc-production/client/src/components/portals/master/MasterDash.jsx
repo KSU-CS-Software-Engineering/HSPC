@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Panel, Navbar, NavItem, Nav } from 'react-bootstrap';
+import { Panel, Navbar, NavItem, Nav, Table } from 'react-bootstrap';
 import userService from '../../../_common/services/user';
-//import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './MasterDash.css';
 
-export default class MasterDash extends Component {
-    constructor(props){
-        super(props)
-        //this.statusMessages = React.createRef(); for showing error codes
-        this.state = {
+var currentView = null;
 
-        };
+export default class MasterDash extends Component {
+    constructor(props) {
+        super(props)
+        this.handleShowScore = this.handleShowScore.bind(this);
+        this.handleShowUsers = this.handleShowUsers.bind(this);
+        this.statusMessages = React.createRef();
+        this.state = { userTable: [] };
     }
     
     /*
@@ -42,44 +44,76 @@ export default class MasterDash extends Component {
     /*
     * Shows outstanding requests for a higher level accounts.
     */
-    handlePendingRequests(){
-        
+    handlePendingRequests() {
+
         // finish
     }
 
     /*
     * Prompts the user to create a team from existing users.
     */
-    handleCreateTeams(){
-        
+    handleCreateTeams() {
+
         // finish
     }
 
     /*
     * Shows a table of previous events and participants.
     */
-    handleShowHistory(){
-        
+    handleShowEventHistory() {
+
         // finish
     }
 
     /*
     * Returns a list of all registered users
     */
-    handleShowUsers(){
+    handleShowUsers() {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
-                alert(response);
-                // render user list
-                // fix 404 error
+                this.setState({ userTable: JSON.parse(response.body) }, () => {
+                    console.log("Table Created");
+                    this.generateUserTable();
+                });
             }
-        })
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+    }
+
+    /*
+    * Helper function for handleShowUsers. Generates a table component.
+    */
+    generateUserTable() {
+        currentView = [];
+        const users = [];
+        this.state.userTable.forEach((user, index) => {
+            users.push(<tr key={index}>
+                <td>{index}</td>
+                <td>{user.FirstName}</td>
+                <td>{user.LastName}</td>
+                <td>{user.Email}</td>
+            </tr>);
+        });
+        currentView = <Table striped bordered condensed hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users}
+            </tbody>
+        </Table>;
+        this.forceUpdate();
     }
 
     /*
     * Renders the hidden scoreboard.
     */
-    handleShowScore(){
+    handleShowScore() {
         this.props.history.push('../scoreboard/Scoreboard');
     }
 
@@ -88,30 +122,30 @@ export default class MasterDash extends Component {
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
-                        <Navbar.Brand>Master Portal</Navbar.Brand>
+                        <Navbar.Brand>Admin Portal</Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem 
+                            <NavItem
                                 onClick={this.handlePendingRequests}
                                 eventKey={1}>
                                 Pending Requests
                             </NavItem>
 
-                            <NavItem 
+                            <NavItem
                                 onClick={this.handleShowUsers}
                                 eventKey={2}>
                                 Users
                             </NavItem>
-                            
-                            <NavItem 
-                                onClick={this.handleShowHistory}
+
+                            <NavItem
+                                onClick={this.handleShowEventHistory}
                                 eventKey={3}>
                                 Events
                             </NavItem>
-                            
-                            <NavItem 
+
+                            <NavItem
                                 onClick={this.handleShowScore}
                                 eventKey={4}>
                                 Scoreboard
@@ -121,8 +155,9 @@ export default class MasterDash extends Component {
                 </Navbar>
 
                 <Panel className="page-body">
-                    <p>Comming soon</p>
-                </Panel>  
+                    <StatusMessages ref={this.statusMessages}></StatusMessages>
+                    {currentView}
+                </Panel>
             </div>
         )
     }
