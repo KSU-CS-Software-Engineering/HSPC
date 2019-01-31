@@ -13,10 +13,10 @@ module.exports = {
                 .catch((err) => reject(err));
         });
     },
-    // check access level?
+    
     getLogin: (email) => {
         return new Promise((resolve, reject) => {
-            const query =
+            const query =b-mssq
                 `SELECT U.UserID,
                 U.Email,
                 U.EncryptedPassword,

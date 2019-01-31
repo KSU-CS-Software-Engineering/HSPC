@@ -1,46 +1,29 @@
 import React, { Component } from 'react';
 import { Panel, Navbar, NavItem, Nav } from 'react-bootstrap';
-//import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './AdvisorDash.css';
+
+const currentView = null;
 
 export default class AdvisorDash extends Component {
     constructor(props){
         super(props)
-        //this.statusMessages = React.createRef(); for showing error codes
-        this.state = {
-
-        };
-    }
-    
-    /*
-    * Parent function for switching between tabs
-    */
-    handleChangeTab(){
-        console.log(this.state.activeTab);
-        switch(this.state.activeTab){
-            case 'Registered Teams': 
-                this.handleShowTeams();
-                break;
-            case 'Create Team':
-                this.handleCreateTeams();
-                break;
-            default:
-                console.log("error occurred");
-        }
-    }
-
-    /*
-    * Shows outstanding requests for a higher level accounts.
-    */
-    handleShowTeams(){
-        
-        // finish
+        this.statusMessages = React.createRef();
+        this.state = { };
     }
 
     /*
     * Prompts the user to create a team from existing users.
     */
     handleCreateTeams(){
+        
+        // finish
+    }
+
+    /*
+    * Shows outstanding requests for a higher level accounts.
+    */
+    handleShowTeams(){
         
         // finish
     }
@@ -56,23 +39,23 @@ export default class AdvisorDash extends Component {
                     <Navbar.Collapse>
                         <Nav>
                             <NavItem 
-                                onClick={this.handleShowTeams}
+                                onClick={this.handleCreateTeams}
                                 eventKey={1}>
-                                Registered Teams
-                            </NavItem>
-
-                            <NavItem 
-                                onClick={this.handleShowUsers}
-                                eventKey={2}>
                                 Create Team
+                            </NavItem>
+                            <NavItem 
+                                onClick={this.handleShowTeams}
+                                eventKey={2}>
+                                Registered Teams
                             </NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
                 <Panel className="page-body">
-                    <p>Comming soon</p>
-                </Panel>  
+                    <StatusMessages ref={this.statusMessages}></StatusMessages>
+                    {currentView}
+                </Panel> 
             </div>
         )
     }

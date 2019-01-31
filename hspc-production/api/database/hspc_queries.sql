@@ -16,6 +16,8 @@ CREATE TABLE Users(
 	Email NVARCHAR(45) UNIQUE NOT NULL,
 )
 
+CREATE TABLE Teams
+
 
 -- Change to Account Admin
 USE hspc_database;
