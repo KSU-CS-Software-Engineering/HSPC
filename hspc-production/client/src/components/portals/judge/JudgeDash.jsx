@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Panel, Navbar, NavItem, Nav } from 'react-bootstrap';
 import userService from '../../../_common/services/user';
-//import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './JudgeDash.css';
+
+var currentView = null;
 
 export default class JudgeDash extends Component {
     constructor(props){
         super(props)
-        //this.statusMessages = React.createRef(); for showing error codes
-        this.state = {
-
-        };
+        this.statusMessages = React.createRef();
+        this.state = { };
     }
     
     /*
@@ -95,8 +95,9 @@ export default class JudgeDash extends Component {
                 </Navbar>
 
                 <Panel className="page-body">
-                    <p>Comming soon</p>
-                </Panel>  
+                    <StatusMessages ref={this.statusMessages}></StatusMessages>
+                    {currentView}
+                </Panel> 
             </div>
         )
     }

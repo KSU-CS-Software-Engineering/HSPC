@@ -83,7 +83,7 @@ export default class AdminDash extends Component {
     * Helper function for handleShowUsers. Generates a table component.
     */
     generateUserTable() {
-        currentView = [];
+        //currentView = [];
         const users = [];
         this.state.userTable.forEach((user, index) => {
             users.push(<tr key={index}>

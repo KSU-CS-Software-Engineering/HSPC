@@ -14,21 +14,21 @@ export default class MasterDash extends Component {
         this.statusMessages = React.createRef();
         this.state = { userTable: [] };
     }
-    
+
     /*
     * Parent function for switching between tabs
     */
-    handleChangeTab(){
+    handleChangeTab() {
         console.log(this.state.activeTab);
-        switch(this.state.activeTab){
-            case 'Pending Requests': 
+        switch (this.state.activeTab) {
+            case 'Pending Requests':
                 this.handlePendingRequests();
                 break;
             case 'Teams':
                 this.handleCreateTeams();
                 break;
             case 'Events':
-                this.handleShowHistory();
+                this.handleShowEventHistory();
                 break;
             case 'Users':
                 this.handleShowUsers();
@@ -72,7 +72,6 @@ export default class MasterDash extends Component {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
                 this.setState({ userTable: JSON.parse(response.body) }, () => {
-                    console.log("Table Created");
                     this.generateUserTable();
                 });
             }
@@ -84,7 +83,7 @@ export default class MasterDash extends Component {
     * Helper function for handleShowUsers. Generates a table component.
     */
     generateUserTable() {
-        currentView = [];
+        //currentView = [];
         const users = [];
         this.state.userTable.forEach((user, index) => {
             users.push(<tr key={index}>
@@ -122,7 +121,7 @@ export default class MasterDash extends Component {
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
-                        <Navbar.Brand>Admin Portal</Navbar.Brand>
+                        <Navbar.Brand>Master Portal</Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
