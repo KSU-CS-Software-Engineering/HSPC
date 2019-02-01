@@ -1,5 +1,7 @@
 .jumbotron{
     margin-bottom: 4em;
+    height: 250px;
+    text-align: center;
 }
 .person-wrapper{
     margin-bottom: 2em;
@@ -7,7 +9,9 @@
 .profile-pic{
     width: 50%;
 }
-
+h2{
+    font-size: 36px;
+}
 h3{
     margin-bottom: 1em;
 }

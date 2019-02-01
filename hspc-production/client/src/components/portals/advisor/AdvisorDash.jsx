@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import userService from '../../../_common/services/user';
 import { Panel, Navbar, NavItem, Nav } from 'react-bootstrap';
 import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './AdvisorDash.css';
@@ -32,6 +33,7 @@ export default class AdvisorDash extends Component {
     * Helper function for handleCreateTeams. Post request for adding team data to the database.
     */
     submitTeamCreation(teamData){
+        var apiBaseUrl = "http://localhost:3001";
         Axios.post(apiBaseUrl + '/user/createteam', teamData) // api contoller location.
        .then((response) => {
             console.log(response);
