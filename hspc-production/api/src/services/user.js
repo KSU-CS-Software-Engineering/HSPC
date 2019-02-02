@@ -13,10 +13,10 @@ module.exports = {
                 .catch((err) => reject(err));
         });
     },
-    
     getLogin: (email) => {
+        console.log(email);
         return new Promise((resolve, reject) => {
-            const query =b-mssq
+            const query =
                 `SELECT U.UserID,
                 U.Email,
                 U.EncryptedPassword,
@@ -40,4 +40,4 @@ module.exports = {
                 .catch((err) => reject(err));
         });
     }
-};
+}
