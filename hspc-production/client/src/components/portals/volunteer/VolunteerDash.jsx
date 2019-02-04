@@ -68,7 +68,7 @@ export default class VolunteerDash extends Component {
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
-                        <Navbar.Brand>Judge Portal</Navbar.Brand>
+                        <Navbar.Brand>Volunteer Portal</Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>

@@ -1,12 +1,6 @@
 th{
     text-align: center;
 }
-.page-body{
-    height: 700px;
-    background-color: lightgray;
-    text-align: center;
-    align-content: center;
-}
 .navbar{
     margin: 0px;
     padding: 0px;
@@ -16,6 +10,7 @@ th{
     margin: 0px;
     padding: 0px;
     border: none;
-    height: 700px;
-    background-color: lightgrey;
+    height: 900px;
+    text-align: center;
+    align-content: center;
 }
