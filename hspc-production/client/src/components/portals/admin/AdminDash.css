@@ -1,5 +1,14 @@
 th{
     text-align: center;
+    border: 1px solid black;
+}
+tr{
+    text-align: center;
+    border: 1px solid black;
+}
+td{
+    text-align: center;
+    border: 1px solid black;
 }
 .navbar{
     margin: 0px;
@@ -10,7 +19,8 @@ th{
     margin: 0px;
     padding: 0px;
     border: none;
-    height: 900px;
+    height: 700px;
     text-align: center;
     align-content: center;
+    background-color: white;
 }

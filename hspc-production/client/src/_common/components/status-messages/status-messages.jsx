@@ -1,7 +1,7 @@
 import React from 'react';
 import './status-messages.css';
 
-export default class Login extends React.Component {
+export default class StatusMessages extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

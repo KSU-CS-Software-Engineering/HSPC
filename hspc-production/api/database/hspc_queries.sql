@@ -37,6 +37,7 @@ CREATE TABLE Questions(
 
 CREATE TABLE School(
 	SchoolID INTEGER PRIMARY KEY IDENTITY(1,1),
+	SchoolName NVARCHAR(64),
 	LocalAddress NVARCHAR(128),
 	StateCode NVARCHAR(32),
 	PostalCode INTEGER
