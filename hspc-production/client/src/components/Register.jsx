@@ -10,21 +10,23 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../_common/components/status-messages/status-messages';
 import './Register.css';
 
+const apiBaseUrl = "http://localhost:3001";
+
 /**
  * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
  */
 export default class Register extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.statusMessages = React.createRef();
     this.recaptchaLoaded = this.recaptchaLoaded.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
-    this.state={
-      first_name:'',
-      last_name:'',
-      email:'',
-      password:'',
-      accesslevel: '1',
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      accessLevel: '1',
       isVerified: false
     }
   }
@@ -33,46 +35,41 @@ export default class Register extends Component {
    * Handles the registration of users and adds the user information to the SQL database.
    * @param {*} event button event that handles submission of user information.
    */
-  handleRegister(event){
-    if(this.state.isVerified){
-      var apiBaseUrl = "http://localhost:3001";
-      console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
-      if(this.state.first_name === '' || this.state.last_name === ''
-        || this.state.email === '' || this.state.password === ''){
-          this.statusMessages.current.showError('Something went wrong. Please try again');
-          return;
+  handleRegister(event) {
+    if (this.state.isVerified) {
+      console.log(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
+      if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
+        this.statusMessages.current.showError('Something went wrong. Please try again');
+        return;
       }
-  
-      var payload={
-        "first_name": this.state.first_name,
-        "last_name":this.state.last_name,
-        "email":this.state.email,
-        "password":this.state.password,
-        "accesslevel":this.state.accesslevel
+      var dataPackage = {
+        "firstName": this.state.first_name,
+        "lastName": this.state.last_name,
+        "email": this.state.email,
+        "password": this.state.password,
+        "accessLevel": this.state.accesslevel
       }
-
-      // Rest API call. Creates a new column in the users table in the database and adds cooresponding payload values.
-      Axios.post(apiBaseUrl+'/auth/register', payload)
-      .then((response)=> {
-        console.log(response);
-        if(response.status === 201){
-          this.statusMessages.current.showSuccess("Registration Complete!");
-        }
-        else
-          this.statusMessages.current.showError('Something went wrong. Please try again');
+      Axios.post(apiBaseUrl + '/auth/register', dataPackage)
+        .then((response) => {
+          console.log(response);
+          if (response.status === 201) {
+            this.statusMessages.current.showSuccess("Registration Complete!");
+          }
+          else
+            this.statusMessages.current.showError('Something went wrong. Please try again');
         })
-      .catch((error)=> {
-        this.statusMessages.current.showError('Something went wrong. Please try again.');
-      });
-    } else{
+        .catch((error) => {
+          this.statusMessages.current.showError('Something went wrong. Please try again.');
+        });
+    } else {
       this.statusMessages.current.showError("Please verify that you are a human.");
-    }  
+    }
   }
 
   /**
    * Handles switching between the Registration and Login pages.
    */
-  handleSwitch(){
+  handleSwitch() {
     this.props.history.push('/login');
   }
 
@@ -80,9 +77,9 @@ export default class Register extends Component {
   * Handle the changing of access level.
   */
   handleChange = (value, event) => {
-    this.setState({accesslevel: value}, () => {
+    this.setState({ accesslevel: value }, () => {
       console.log("Access level changed.");
-      if(this.state.accesslevel !== '1'){
+      if (this.state.accesslevel !== '1') {
         this.statusMessages.current.showError("If account is anything other than 'Student' it will be subjected to further review.");
       }
     });
@@ -91,19 +88,19 @@ export default class Register extends Component {
   /*
   * Indicates successful loading of the captcha for debugging purposes
   */
-  recaptchaLoaded(){
+  recaptchaLoaded() {
     console.log('captcha successfully loaded.');
   }
 
   /*
   * Changes the verfied state to true following a verified captcha result.
   */
-  verifyCallback(response){
-    if(response){
+  verifyCallback(response) {
+    if (response) {
       this.setState({ isVerified: true })
     }
-    else{
-      this.setState({ isVerified: false})
+    else {
+      this.setState({ isVerified: false })
     }
   }
 
@@ -121,29 +118,29 @@ export default class Register extends Component {
             <TextField
               hintText="Enter your First Name"
               floatingLabelText="First Name"
-              onChange = {(event,newValue) => this.setState({first_name:newValue})}
+              onChange={(event, newValue) => this.setState({ first_name: newValue })}
             />
-            <br/>
+            <br />
             <TextField
               hintText="Enter your Last Name"
               floatingLabelText="Last Name"
-              onChange = {(event,newValue) => this.setState({last_name:newValue})}
+              onChange={(event, newValue) => this.setState({ last_name: newValue })}
             />
-            <br/>
+            <br />
             <TextField
               hintText="Enter your Email"
               type="email"
               floatingLabelText="Email"
-              onChange = {(event,newValue) => this.setState({email:newValue})}
+              onChange={(event, newValue) => this.setState({ email: newValue })}
             />
-            <br/>
+            <br />
             <TextField
-              type = "password"
+              type="password"
               hintText="Enter your Password"
               floatingLabelText="Password"
-              onChange = {(event,newValue) => this.setState({password:newValue})}
+              onChange={(event, newValue) => this.setState({ password: newValue })}
             />
-            <br/>
+            <br />
             <p><br />Please select an account type.</p>
             <ToggleButtonGroup className="RoleSelect" type="radio" name="options" defaultValue={1}>
               <ToggleButton value={1} onChange={this.handleChange.bind(this, 1)}>Student</ToggleButton>
@@ -153,34 +150,34 @@ export default class Register extends Component {
             </ToggleButtonGroup>
             <br /><br />
             <div align="center">
-              <ReCAPTCHA 
-                class="Captcha" 
+              <ReCAPTCHA
+                class="Captcha"
                 sitekey="6LdB8YoUAAAAAL5OtI4zXys_QDLidEuqpkwd3sKN"
                 render="explicit"
                 onloadCallback={this.recaptchaLoaded}
-                verifyCallback = {this.verifyCallback}
+                verifyCallback={this.verifyCallback}
               />
             </div>
             <RaisedButton
-              className="RegisterButton" 
-              label="Create Account" 
-              style = { {margin: 15} }
-              backgroundColor={'#00a655'} 
-              labelColor={white} 
+              className="RegisterButton"
+              label="Create Account"
+              style={{ margin: 15 }}
+              backgroundColor={'#00a655'}
+              labelColor={white}
               onClick={(event) => this.handleRegister(event)}
             />
-            
+
             <p><b>Already have an account?</b></p>
-            <RaisedButton 
-              className="LoginButton" 
-              label="Sign In" 
-              style = { {margin: 15} } 
-              backgroundColor={'#350B4F'} 
-              labelColor={white} 
+            <RaisedButton
+              className="LoginButton"
+              label="Sign In"
+              style={{ margin: 15 }}
+              backgroundColor={'#350B4F'}
+              labelColor={white}
               onClick={this.handleSwitch.bind(this)}
             />
           </div>
-         </MuiThemeProvider>
+        </MuiThemeProvider>
       </div>
     );
   }

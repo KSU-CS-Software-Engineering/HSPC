@@ -1,13 +1,10 @@
 DROP DATABASE IF EXISTS hspc_database
 
 DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS School;
-DROP TABLE IF EXISTS Submissions;
-DROP TABLE IF EXISTS Competition;
 DROP TABLE IF EXISTS Team;
 DROP TABLE IF EXISTS Questions;
-DROP TABLE IF EXISTS Round;
-DROP TABLE IF EXISTS Difficulty;
+DROP TABLE IF EXISTS School;
+DROP TABLE IF EXISTS Competition;
 
 CREATE DATABASE hspc_database
 GO
@@ -25,24 +22,20 @@ CREATE TABLE Users(
 	Email NVARCHAR(45) UNIQUE NOT NULL
 )
 
-CREATE TABLE Team(
+CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
-	AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
 	TeamName NVARCHAR(64),
-	QuestionLevel NVARCHAR(2),
+	SchoolName NVARCHAR(64),
+	SchoolAddress NVARCHAR(64),
+	StateCode NVARCHAR(64),
+	QuestionLevel NVARCHAR(12),
+	AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
 	SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
-)
-
-/* Level on the schema */
-CREATE TABLE Difficulty(
-	DifficultyID INTEGER PRIMARY KEY IDENTITY(1,1),
-	Description NVARCHAR(256)
 )
 
 CREATE TABLE Questions(
 	QuestionID INTEGER PRIMARY KEY IDENTITY(1,1),
-	QuestionDescription NOT NULL NVARCHAR(256),
-	QuestionDifficulty FOREIGN KEY REFERENCES QuestionDifficulty(DifficultyID)
+	QuestionDescription NOT NULL NVARCHAR(256)
 )
 
 CREATE TABLE School(
@@ -53,33 +46,20 @@ CREATE TABLE School(
 	PostalCode INTEGER
 )
 
-/* Event on the Schema */
 CREATE TABLE Competition(
 	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
 	TeamID INTEGER FOREIGN KEY REFERENCES Team(TeamID),
 	EventLocation NVARCHAR(64),
 	EventDate DATETIMEOFFSET NOT NULL DEFAULT(SYSDATETIMEOFFSET())
 )
-	
-CREATE TABLE Round(
-	RoundID INTEGER PRIMARY KEY IDENTITY(1,1),
-	DifficultID INTEGER FOREIGN KEY REFERENCES Difficulty(DifficultyID),
-	ComptetitionID INTEGER FOREIGN KEY REFERENCES Competition(CompetitionID)
-)
-
-/* Added a reference to Round; Submissions have a Round. We could swap them though. */
-CREATE TABLE Submissions(
-	CompetitionID INTEGER PRIMARY KEY REFERENCES Competition(CompetitionID),
-	TeamID INTEGER FOREIGN KEY REFERENCES Team(TeamID),
-	Location NOT NULL NVARCHAR(256),
-	SubmissionDate DATETIMEOFFSET NOT NULL DEFAULT(SYSDATETIMEOFFSET()),
-	RoundID INTEGER FOREIGN KEY REFERENCES Round(RoundID)					       
-)
 
 /*
 -- Functions for Manipulating Data.
 use hspc_database;
 select * from Users
+
+use hspc_database;
+select * from Teams
 
 -- Update Accesslevel
 update Users

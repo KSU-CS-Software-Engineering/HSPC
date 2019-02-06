@@ -1,7 +1,5 @@
 const router = require('express').Router();
-
 const validator = require('validator');
-
 const statusResponses = getHelper('status-response');
 const authService = getService('auth');
 const userService = getService('user');
@@ -12,8 +10,7 @@ router.post('/register', (req, res) => {
     const email = req.body['email'];
     const password = req.body['password'];
     const accesslevel = req.body['accesslevel'];
-    // checks
-    // add check for access level
+    
     if (!(firstName && lastName && email && password)) return statusResponses.badRequest(res, "FirstName, LastName, Email, and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
     if (password.length < 8) return statusResponses.badRequest(res, 'Password must be at least 8 characters');

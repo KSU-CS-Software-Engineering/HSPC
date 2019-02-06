@@ -6,12 +6,15 @@ class userService {
     constructor() {
         this.users = null;
         this.teams = null;
+        this.events = null;
+        this.userRequests = null;
     }
 
     /*
-    * Returns an array of all registered users.
-    */
-    getAllUsers(){
+     * WORKING
+     * Returns an array of all registered users.
+     */
+    getAllUsers() {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
@@ -19,9 +22,9 @@ class userService {
                 headers: {}
             }
             request(options, (err, response, body) => {
-                if (err || response.statusCode !== 200) 
+                if (err || response.statusCode !== 200)
                     return reject(err || response);
-                if (response.statusCode === 200){
+                if (response.statusCode === 200) {
                     this.users = body; // saves the request response.
                 }
                 resolve(response);
@@ -30,9 +33,32 @@ class userService {
     }
 
     /*
-    * Returns a list of advisor created teams.
-    */
-    getAllTeams(){
+     * SUSPECT
+     * Returns an array of all access upgrade requests.
+     */
+    getAllRequests() {
+        return new Promise((resolve, reject) => {
+            const options = {
+                method: 'GET',
+                url: `${controllerUrl}/admindash`,
+                headers: {}
+            }
+            request(options, (err, response, body) => {
+                if (err || response.statusCode !== 200)
+                    return reject(err || response);
+                if (response.statusCode === 200) {
+                    this.userRequests = body; // saves the request response.
+                }
+                resolve(response);
+            });
+        });
+    }
+
+    /*
+     * SUSPECT
+     * Returns a list of created teams.
+     */
+    getAllTeams() {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
@@ -40,30 +66,55 @@ class userService {
                 headers: {}
             }
             request(options, (err, response, body) => {
-                if (err || response.statusCode !== 200) 
+                if (err || response.statusCode !== 200)
                     return reject(err || response);
-                if (response.statusCode === 200){
-                    this.users = body; // saves the request response.
+                if (response.statusCode === 200) {
+                    this.teams = body; // saves the request response.
                 }
                 resolve(response);
             });
-        });        
+        });
     }
 
     /*
-    * Creates a team from selected users.
-    */
-    createTeam(){
+     * PARTIALLY WORKING
+     * Returns a of scheduled events.
+     */
+    getAllEvents() {
+        return new Promise((resolve, reject) => {
+            const options = {
+                method: 'GET',
+                url: `${controllerUrl}/admindash`,
+                headers: {}
+            }
+            request(options, (err, response, body) => {
+                if (err || response.statusCode !== 200)
+                    return reject(err || response);
+                if (response.statusCode === 200) {
+                    this.events = body; // saves the request response.
+                }
+                resolve(response);
+            });
+        });
+    }
+
+    /*
+     * SUSPECT
+     * Registers a new team.
+     */
+    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/advisordash`,
+                url: `${controllerUrl}/registerteam`,
                 headers: {},
                 json: true,
                 body: {
-
-                    // search data.
-
+                    teamName: teamName,
+                    schoolName: schoolName,
+                    address: schoolAddress,
+                    state: stateCode,
+                    questionLevel: questionLevel
                 }
             }
             request(options, (err, response, body) => {
@@ -72,8 +123,6 @@ class userService {
             });
         });
     }
-
-    
 }
 
 export default new userService();
