@@ -99,22 +99,22 @@ class userService {
     }
 
     /*
-     * SUSPECT
-     * Registers a new team.
-     */
-    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel) {
+    * HIGHLY SUSPECT
+    */
+    addUser(teamName, firstName, lastName, email, accesslevel, hashedPassword) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/registerteam`,
+                url: `${controllerUrl}/adduser`,
                 headers: {},
                 json: true,
                 body: {
                     teamName: teamName,
-                    schoolName: schoolName,
-                    address: schoolAddress,
-                    state: stateCode,
-                    questionLevel: questionLevel
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: hashedPassword,
+                    accessLevel: accesslevel,
                 }
             }
             request(options, (err, response, body) => {

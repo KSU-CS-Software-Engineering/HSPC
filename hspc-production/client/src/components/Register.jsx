@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -8,9 +7,8 @@ import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import ReCAPTCHA from 'react-recaptcha';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../_common/components/status-messages/status-messages';
+import AuthService from '../_common/services/auth';
 import './Register.css';
-
-const apiBaseUrl = "http://localhost:3001";
 
 /**
  * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
@@ -27,6 +25,7 @@ export default class Register extends Component {
       email: '',
       password: '',
       accessLevel: '1',
+      teamName: ' ',
       isVerified: false
     }
   }
@@ -37,24 +36,15 @@ export default class Register extends Component {
    */
   handleRegister(event) {
     if (this.state.isVerified) {
-      console.log(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
       if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
         this.statusMessages.current.showError('Something went wrong. Please try again');
         return;
       }
-      var dataPackage = {
-        "firstName": this.state.first_name,
-        "lastName": this.state.last_name,
-        "email": this.state.email,
-        "password": this.state.password,
-        "accessLevel": this.state.accesslevel
-      }
-      Axios.post(apiBaseUrl + '/auth/register', dataPackage)
+
+      AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.password, this.state.accessLevel)
         .then((response) => {
-          console.log(response);
-          if (response.status === 201) {
+          if (response.statusCode === 201)
             this.statusMessages.current.showSuccess("Registration Complete!");
-          }
           else
             this.statusMessages.current.showError('Something went wrong. Please try again');
         })
@@ -77,9 +67,9 @@ export default class Register extends Component {
   * Handle the changing of access level.
   */
   handleChange = (value, event) => {
-    this.setState({ accesslevel: value }, () => {
+    this.setState({ accessLevel: value }, () => {
       console.log("Access level changed.");
-      if (this.state.accesslevel !== '1') {
+      if (this.state.accessLevel !== '1') {
         this.statusMessages.current.showError("If account is anything other than 'Student' it will be subjected to further review.");
       }
     });
@@ -118,13 +108,13 @@ export default class Register extends Component {
             <TextField
               hintText="Enter your First Name"
               floatingLabelText="First Name"
-              onChange={(event, newValue) => this.setState({ first_name: newValue })}
+              onChange={(event, newValue) => this.setState({ firstName: newValue })}
             />
             <br />
             <TextField
               hintText="Enter your Last Name"
               floatingLabelText="Last Name"
-              onChange={(event, newValue) => this.setState({ last_name: newValue })}
+              onChange={(event, newValue) => this.setState({ lastName: newValue })}
             />
             <br />
             <TextField

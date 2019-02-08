@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
 import AddUser from './AddUser';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,8 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../_common/components/status-messages/status-messages';
 import ReCAPTCHA from 'react-recaptcha';
 import './Register.css';
-
-const apiBaseUrl = "http://localhost:3001";
+import AuthService from '../_common/services/auth'
 
 /**
  * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
@@ -45,32 +43,22 @@ export default class RegisterTeam extends Component {
                 this.statusMessages.current.showError('Something went wrong. Please try again');
                 return;
             }
-            var dataPackage = {
-                "teamName": this.state.teamName,
-                "schoolName": this.state.schoolName,
-                "schoolAddress": this.state.schoolAddress,
-                "stateCode": this.state.stateCode,
-                "questionLevel": this.state.questionLevel
-            }
-            // Rest API call. Adds a new object to the Teams table. 
-            Axios.post(apiBaseUrl + '/user/registerteam', dataPackage)
+            AuthService.registerTeam(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel)
                 .then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                        this.statusMessages.current.showSuccess("Team Registration Complete!");
-                        this.setState({ redirect: true })
+                    if (response.statusCode === 201) {
+                        this.statusMessages.current.showSuccess("Registration Complete!");
+                        this.setState({ redirect: true });
                     }
-                    else
+                    else {
                         this.statusMessages.current.showError('Something went wrong. Please try again');
+                    }
                 })
                 .catch((error) => {
                     this.statusMessages.current.showError('Something went wrong. Please try again.');
                 });
-        }
-        else {
+        } else {
             this.statusMessages.current.showError("Please verify that you are a human.");
         }
-        this.forceUpdate();
     }
 
     /*
@@ -101,10 +89,7 @@ export default class RegisterTeam extends Component {
      * Auto-Redirect to the Add Users Page. By default, this method renders the registration box. 
      */
     renderRedirect() {
-        if (this.state.redirect) {
-            return <AddUser />;
-        }
-        else {
+        if (this.state.redirect === false) {
             return (
                 <div className="RegisterBox" >
                     <StatusMessages ref={this.statusMessages}></StatusMessages>
@@ -164,6 +149,9 @@ export default class RegisterTeam extends Component {
                     </MuiThemeProvider>
                 </div>
             )
+        }
+        else {
+            return <AddUser team_name={this.state.teamName} />;
         }
     }
 

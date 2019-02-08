@@ -13,7 +13,7 @@ class AuthService {
                 .catch((err) => resolve(false));
         });
     }
-    register(firstName, lastName, email, password) {
+    register(teamName, firstName, lastName, email, password, accessLevel) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -21,10 +21,33 @@ class AuthService {
                 headers: {},
                 json: true,
                 body: {
+                    teamName: teamName,
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
-                    password: password
+                    password: password,
+                    accessLevel: accessLevel
+                }
+            }
+            request(options, (err, response, body) => {
+                if (err || response.statusCode >= 500) return reject(err || response);
+                resolve(response);
+            });
+        });
+    }
+    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel) {
+        return new Promise((resolve, reject) => {
+            const options = {
+                method: 'POST',
+                url: `${controllerUrl}/registerteam`,
+                headers: {},
+                json: true,
+                body: {
+                    teamName: teamName,
+                    schoolName: schoolName,
+                    address: schoolAddress,
+                    state: stateCode,
+                    questionLevel: questionLevel
                 }
             }
             request(options, (err, response, body) => {

@@ -5,22 +5,24 @@ const authService = getService('auth');
 const userService = getService('user');
 
 router.post('/register', (req, res) => {
-    const firstName = req.body['first_name'];
-    const lastName = req.body['last_name'];
+    const teamName = req.body['teamName'];
+    const firstName = req.body['firstName'];
+    const lastName = req.body['lastName'];
     const email = req.body['email'];
     const password = req.body['password'];
-    const accesslevel = req.body['accesslevel'];
-    
+    const accesslevel = req.body['accessLevel'];
+
     if (!(firstName && lastName && email && password)) return statusResponses.badRequest(res, "FirstName, LastName, Email, and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
     if (password.length < 8) return statusResponses.badRequest(res, 'Password must be at least 8 characters');
+
     // checks for unique email and encrypts.
     userService.getLogin(email)
         .then(data => {
             if (data.length > 0) return statusResponses.conflict(res, `'${email}' could not be registered`);
             authService.generateHash(password)
                 .then((hashedPassword) => {
-                    userService.register(firstName, lastName, email, accesslevel, hashedPassword)
+                    userService.register(teamName, firstName, lastName, email, accesslevel, hashedPassword)
                         .then(() => {
                             statusResponses.created(res, `${email}' successfully registered!`);
                         })
@@ -30,7 +32,25 @@ router.post('/register', (req, res) => {
                 })
                 .catch((err) => {
                     statusResponses.serverError(res);
-                });            
+                });
+        });
+});
+
+router.post('/registerteam', (req, res) => {
+    const teamName = req.body['teamName'];
+    const schoolName = req.body['schoolName'];
+    const schoolAddress = req.body['schoolAddress'];
+    const stateCode = req.body['stateCode'];
+    const questionLevel = req.body['questionLevel'];
+
+    // add checks
+
+    userService.registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel)
+        .then(() => {
+            statusResponses.created(res, `Team Successfully Created!`);
+        })
+        .catch((err) => {
+            statusResponses.serverError(res);
         });
 });
 
@@ -62,7 +82,7 @@ router.post('/login', (req, res) => {
                     } else {
                         statusResponses.unauthorized(res, `'${email}' could not be logged in`);
                     }
-                });            
+                });
         })
         .catch((err) => {
             statusResponses.serverError(res);
