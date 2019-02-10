@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
 import userService from '../../../_common/services/user';
 import teamService from '../../../_common/services/team';
+import eventService from '../../../_common/services/event';
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import Register from '../../Register.jsx';
 import RegisterTeam from '../../RegisterTeam.jsx';
 import Scoreboard from '../scoreboard/Scoreboard.jsx';
 import CreateEvent from '../events/CreateEvent';
+import AddUser from '../../../components/AddUser';
 import './AdminDash.css';
 
 var currentView = null;
@@ -19,6 +21,8 @@ export default class AdminDash extends Component {
         this.handleCreateUser = this.handleCreateUser.bind(this);
         this.handleCreateTeam = this.handleCreateTeam.bind(this);
         this.handleCreateEvent = this.handleCreateEvent.bind(this);
+        this.handleAddToTeam = this.handleAddToTeam.bind(this);
+        this.handleShowTeams = this.handleShowTeams.bind(this);
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
@@ -30,55 +34,55 @@ export default class AdminDash extends Component {
         };
     }
 
-    /*
-    * WORKING
-    * Handles the registration of a new students, volunteers, judges, and adviosrs.
-    */
+    /*************************************************************************************
+    * Renders the Register.jsx component.
+    * Prompts the user to create a new user and saves the information to the database.
+    *************************************************************************************/
     handleCreateUser() {
         currentView = <Register />;
         this.forceUpdate();
     }
 
-    /*
-    * PARTIALLY WORKING
-    * Prompts the user to create a new team.
-    */
+    /*************************************************************************************
+    * Renders the RegisterTeam.jsx component.
+    * Prompts the user to create a new team and saves the information to the database.
+    *************************************************************************************/
     handleCreateTeam() {
         currentView = <RegisterTeam />
         this.forceUpdate();
     }
 
-    /*
-    * SUSPECT
-    * Prompts the user to create a new event.
-    */
+    /*************************************************************************************
+    * Renders the AddUser.jsx component.
+    * Prompts the user to a new team member and updates the information to the database.
+    *************************************************************************************/
+    handleAddToTeam(){
+        currentView = <AddUser />
+        this.forceUpdate();
+    }
+
+    /*************************************************************************************
+    * Renders the CreateEvent.jsx component.
+    * Prompts the user to create a new event and saves the information to the database.
+    *************************************************************************************/
     handleCreateEvent() {
         currentView = <CreateEvent />
         this.forceUpdate();
     }
 
-    /*
-    * PARTIALLY WORKING
-    * Renders the hidden scoreboard.
-    */
+    /*************************************************************************************
+    * Renders the Scoreboard.jsx component.
+    * Only available to users with an access level of >3 by default. 
+    *************************************************************************************/
     handleShowScore() {
         currentView = <Scoreboard />
         this.forceUpdate();
     }
 
-    /*
-    * WORKING
-    * Resets the currentView property to null.
-    */
-    clearAll() {
-        currentView = null;
-        this.forceUpdate();
-    }
-
-    /*
-    * HIGHLY SUSPECT
+    /*************************************************************************************
+    * IN PROGRESS
     * Shows outstanding requests for a higher level accounts.
-    */
+    *************************************************************************************/
     handlePendingRequests() {
         userService.getAllRequests().then((response) => {
             if (response.statusCode === 200) {
@@ -90,60 +94,60 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*
-    * WORKING
-    * Returns a list of all registered users
-    */
+    /*************************************************************************************
+    * Returns a JSON message of all registered users.
+    * Helper function needed to generate this data as a table.
+    *************************************************************************************/
     handleShowUsers() {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
                 this.setState({ userTable: JSON.parse(response.body) }, () => {
-                    this.generateUserTable();
+                    this.generateUserTable(); // helper function
                 });
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*
-    * WORKING?
-    * Shows a table of all registered teams and information about them.
-    */
+    /*************************************************************************************
+    * Returns a JSON message of all registered teams.
+    * Helper function needed to generate this data as a table.
+    **************************************************************************************/
     handleShowTeams() {
         teamService.getAllTeams().then((response) => {
             if (response.statusCode === 200) {
                 console.log(JSON.parse(response.body));
                 this.setState({ teamTable: JSON.parse(response.body) }, () => {
-
-                    alert("Working");
+                    this.generateTeamTable(); // helper function
                 });
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*
-    * SUSPECT
-    * Shows a table of previous events and participants.
-    */
+    /**************************************************************************************
+    * IN PROGRESS
+    * Returns a JSON message of all scheduled events.
+    * Helper function needed to generate this data as a table.
+    **************************************************************************************/
     handleShowEventHistory() {
-        userService.getAllEvents().then((response) => {
+        eventService.getAllEvents().then((response) => {
             if (response.statusCode === 200) {
                 this.setState({ eventTable: JSON.parse(response.body) }, () => {
-                    this.generateEventTable();
+                    this.generateEventTable(); // helper function
                 });
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*
-    * SUSPECT
-    * Helper function for handlePendingRequests. Generates a table component.
-    */
+    /**************************************************************************************
+    * IN PROGRESS
+    * Helper function for handlePendingRequests. Generates the data as a table.
+    **************************************************************************************/
     generateRequestTable() {
         const requests = [];
-        this.state.requestTable.forEach((user, index) => {
+        this.state.requestTable.forEach((request, index) => {
             requests.push(<tr key={index}>
                 <td>{index}</td>
                 <td>{}</td>
@@ -167,49 +171,19 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
-    /*
-    * WORKING
-    * Helper function for handleShowUsers. Generates a table component.
-    */
-    generateUserTable() {
-        const users = [];
-        this.state.userTable.forEach((user, index) => {
-            users.push(<tr key={index}>
-                <td>{index}</td>
-                <td>{user.FirstName}</td>
-                <td>{user.LastName}</td>
-                <td>{user.Email}</td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {users}
-            </tbody>
-        </Table>;
-        this.forceUpdate();
-    }
-
-    /*
-    * SUSPECT
-    * Helper function for handleShowEvent. Generates a table component.
-    */
+    /**************************************************************************************
+    * IN PROGRESS
+    * Helper function for handleShowEvent. Generates the data as a table.
+    **************************************************************************************/
     generateEventTable() {
         const events = [];
-        this.state.eventTable.forEach((user, index) => {
+        console.log(this.state.eventTable);
+        this.state.eventTable.forEach((event, index) => {
             events.push(<tr key={index}>
                 <td>{index}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
+                <td>{event.EventLocation}</td>
+                <td>{event.EventDate}</td>
+                <td>{event.EventTime}</td>
             </tr>);
         });
         currentView = <Table striped bordered condensed hover>
@@ -219,7 +193,6 @@ export default class AdminDash extends Component {
                     <th>Location</th>
                     <th>Time</th>
                     <th>Date</th>
-                    <th>State</th>
                 </tr>
             </thead>
             <tbody>
@@ -229,6 +202,83 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
+    /**************************************************************************************
+    * Helper function for handleShowUsers. Generates the data as a table.
+    **************************************************************************************/
+    generateUserTable() {
+        const users = [];
+        this.state.userTable.forEach((user, index) => {
+            users.push(<tr key={index}>
+                <td>{index}</td>
+                <td>{user.FirstName}</td>
+                <td>{user.LastName}</td>
+                <td>{user.Email}</td>
+                <td>{user.AccessLevel}</td>
+            </tr>);
+        });
+        currentView = <Table striped bordered condensed hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Account Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users}
+            </tbody>
+        </Table>;
+        this.forceUpdate();
+    }
+
+    /**************************************************************************************
+    * Helper function for handleShowTeams. Generates the data as a table.
+    **************************************************************************************/
+    generateTeamTable() {
+        const teams = [];
+        this.state.teamTable.forEach((team, index) => {
+            teams.push(<tr key={index}>
+                <td>{index}</td>
+                <td>{team.TeamName}</td>
+                <td>{team.SchoolName}</td>
+                <td>{team.SchoolAddress}</td>
+                <td>{team.StateCode}</td>
+                <td>{team.QuestionLevel}</td>
+                <td>{team.AdvisorID}</td>
+            </tr>);
+        });
+        currentView = <Table striped bordered condensed hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team Name</th>
+                    <th>School</th>
+                    <th>Address</th>
+                    <th>State</th>
+                    <th>Level</th>
+                    <th>Advisor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {teams}
+            </tbody>
+        </Table>;
+        this.forceUpdate();
+    }
+
+    /*************************************************************************************
+    * Resets the currentView property to null and clears the screen.
+    *************************************************************************************/
+    clearAll() {
+        currentView = null;
+        this.forceUpdate();
+    }
+
+    /**************************************************************************************
+     *  Renders the component UI.
+    **************************************************************************************/
     render() {
         return (
             <div>
@@ -250,7 +300,7 @@ export default class AdminDash extends Component {
 
                             <NavDropdown title="Teams" id="basic-nav-dropdown">
                                 <NavItem eventKey={4} onClick={this.handleCreateTeam}>Create Team</NavItem>
-                                <NavItem eventKey={5}>Add To Team</NavItem>
+                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add To Team</NavItem>
                                 <NavItem eventKey={6} onClick={this.handleShowTeams}>View Teams</NavItem>
                             </NavDropdown>
 

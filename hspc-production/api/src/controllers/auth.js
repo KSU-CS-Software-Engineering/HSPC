@@ -43,8 +43,6 @@ router.post('/registerteam', (req, res) => {
     const stateCode = req.body['stateCode'];
     const questionLevel = req.body['questionLevel'];
 
-    // add checks
-
     userService.registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel)
         .then(() => {
             statusResponses.created(res, `Team Successfully Created!`);

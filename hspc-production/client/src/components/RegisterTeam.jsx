@@ -136,7 +136,6 @@ export default class RegisterTeam extends Component {
                                     verifyCallback={this.verifyCallback}
                                 />
                             </div>
-                            <br /><b>All users must be registered before they can be added to a team.</b><br />
                             <RaisedButton
                                 className="RegisterButton"
                                 label="Register Team"

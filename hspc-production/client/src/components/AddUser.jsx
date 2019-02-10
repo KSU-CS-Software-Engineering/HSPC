@@ -15,6 +15,7 @@ export default class AddUser extends Component {
     constructor(props) {
         super(props)
         this.statusMessages = React.createRef();
+        this.refreshPage = this.refreshPage.bind(this);
         this.state = {
             firstName: '',
             lastName: '',
@@ -22,7 +23,6 @@ export default class AddUser extends Component {
             password: '',
             accessLevel: '1',
             teamName: this.props.teamName,
-            isVerified: false,
         }
     }
 
@@ -49,7 +49,22 @@ export default class AddUser extends Component {
             });
     }
 
+    /*
+    * IN PROGRESS
+    * Refreshes the page and removes any error messages.
+    */
+    refreshPage(){
+        this.statusMessages.current.showError(null);
+        this.setState({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: ''
+        });  
+    }
+
     render() {
+        console.log(this.props.teamName);
         return (
             <div className="RegisterBox">
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
@@ -57,6 +72,13 @@ export default class AddUser extends Component {
                 <p><b>Please fill out the information below.</b></p>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
+                        <TextField
+                            hintText="Enter a Team Name"
+                            floatingLabelText="Team Name"
+                            defaultValue={this.props.teamName}
+                            onChange={(event, newValue) => this.setState({ teamName: newValue })}
+                        />
+                        <br />
                         <TextField
                             hintText="Enter the Student's First Name"
                             floatingLabelText="First Name"
@@ -99,7 +121,7 @@ export default class AddUser extends Component {
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
                             labelColor={white}
-                            onClick={this.forceUpdate()}
+                            onClick={this.refreshPage}
                         />
                     </div>
                 </MuiThemeProvider>

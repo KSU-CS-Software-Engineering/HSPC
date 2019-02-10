@@ -33,7 +33,8 @@ module.exports = {
             const query =
                 `SELECT U.FirstName,
             U.LastName,
-            U.Email
+            U.Email,
+            U.AccessLevel
             FROM dbo.Users AS U`
             mssql.query(query)
                 .then((data) => resolve(data))

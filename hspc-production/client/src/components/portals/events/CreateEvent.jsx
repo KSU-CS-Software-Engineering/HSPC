@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-//import Axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -7,10 +6,8 @@ import { white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import ReCAPTCHA from 'react-recaptcha';
+import eventService from '../../../_common/services/event'
 
-/**
- * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
- */
 export default class CreateEvent extends Component {
     constructor(props) {
         super(props)
@@ -18,67 +15,31 @@ export default class CreateEvent extends Component {
         this.recaptchaLoaded = this.recaptchaLoaded.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
         this.state = {
-            location: '',
-            time: '',
-            date: '',
+            eventLocation: '',
+            eventDate: '',
+            eventTime: '',
             isVerified: false
         }
     }
 
-    /**
-   * Handles the registration of teams and adds the team information to the SQL database.
-   * @param {*} event button event that handles submission of user information.
-   */
+    // TO DO: change date and time to datetimeoffsets.
     handleRegister(event) {
-        console.log("Event Added");
-        /*
         if (this.state.isVerified) {
-            var apiBaseUrl = "http://localhost:3001";
-            console.log("values", this.state.first_name, this.state.last_name, this.state.email, this.state.password);
-            if (this.state.first_name === '' || this.state.last_name === ''
-                || this.state.email === '' || this.state.password === '') {
-                this.statusMessages.current.showError('Something went wrong. Please try again');
-                return;
-            }
-
-            var payload = {
-                "first_name": this.state.first_name,
-                "last_name": this.state.last_name,
-                "email": this.state.email,
-                "password": this.state.password,
-                "accesslevel": this.state.accesslevel
-            }
-
-            // Rest API call. Creates a new column in the users table in the database and adds cooresponding payload values.
-            Axios.post(apiBaseUrl + '/auth/register', payload)
+            eventService.createEvent(this.state.eventLocation, this.state.eventDate, this.state.eventTime)
                 .then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                        this.statusMessages.current.showSuccess("Registration Complete!");
+                    if (response.statusCode === 201) {
+                        this.statusMessages.current.showSuccess("Event Scheduled Successfully!");
                     }
-                    else
+                    else {
                         this.statusMessages.current.showError('Something went wrong. Please try again');
+                    }
                 })
                 .catch((error) => {
                     this.statusMessages.current.showError('Something went wrong. Please try again.');
                 });
         } else {
             this.statusMessages.current.showError("Please verify that you are a human.");
-        }*/
-    }
-
-    /*
-    * Handles switching between the Registration and Login pages.
-    */
-    handleSwitch() {
-        this.props.history.push('/login');
-    }
-
-    /*
-    * Handle the changing of access level.
-    */
-    handleChange = (value, event) => {
-        this.setState({ questionlevel: value });
+        }
     }
 
     /*
@@ -100,9 +61,6 @@ export default class CreateEvent extends Component {
         }
     }
 
-    /**
-     * Renders the Registration Page component. Allows the user to switch between Login and Registration. 
-     */
     render() {
         return (
             <div className="RegisterBox">
@@ -114,27 +72,20 @@ export default class CreateEvent extends Component {
                         <TextField
                             hintText="Enter a Location"
                             floatingLabelText="Location"
-                            onChange={(event, newValue) => this.setState({ team_name: newValue })}
-                        />
-                        <br />
-                        <TextField
-                            hintText="Enter a Start Time"
-                            floatingLabelText="Time"
-                            onChange={(event, newValue) => this.setState({ school_name: newValue })}
+                            onChange={(event, newValue) => this.setState({ eventLocation: newValue })}
                         />
                         <br />
                         <TextField
                             hintText="Enter a Date"
                             floatingLabelText="Date"
-                            onChange={(event, newValue) => this.setState({ address: newValue })}
+                            onChange={(event, newValue) => this.setState({ eventTime: newValue })}
                         />
                         <br />
                         <TextField
-                            hintText="Enter your State"
-                            floatingLabelText="State"
-                            onChange={(event, newValue) => this.setState({ state: newValue })}
+                            hintText="Enter a Start Time"
+                            floatingLabelText="Time"
+                            onChange={(event, newValue) => this.setState({ eventDate: newValue })}
                         />
-
                         <div align="center">
                             <ReCAPTCHA
                                 class="Captcha"

@@ -4,8 +4,8 @@ const teamService = getService('team');
 
 router.get('/admindash', (req, res) => {
     teamService.getAllTeams()
-        .then((userdata) => {
-            statusResponses.ok(res, userdata);
+        .then((teamData) => {
+            statusResponses.ok(res, teamData);
         })
         .catch((err) => {
             statusResponses.serverError(res);

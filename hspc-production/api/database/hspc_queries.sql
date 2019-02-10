@@ -14,7 +14,6 @@ USE hspc_database;
 CREATE TABLE Users(
 	UserID INTEGER PRIMARY KEY IDENTITY(1, 1),
 	TeamID INTEGER,
-	TeamName NVARCHAR(45),
 	Phone NVARCHAR(12),
 	FirstName NVARCHAR(45) NOT NULL,
 	LastName NVARCHAR(45) NOT NULL,
@@ -26,10 +25,9 @@ CREATE TABLE Users(
 CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
 	TeamName NVARCHAR(64),
-	SchoolName NVARCHAR(64),
 	SchoolAddress NVARCHAR(64),
 	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(12),
+	QuestionLevel NVARCHAR(2),
 	AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
 	SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
 )
@@ -41,17 +39,18 @@ CREATE TABLE Questions(
 
 CREATE TABLE School(
 	SchoolID INTEGER PRIMARY KEY IDENTITY(1,1),
-	SchoolName NVARCHAR(64),
-	LocalAddress NVARCHAR(128),
-	StateCode NVARCHAR(32),
+	Address NVARCHAR(128),
+	State NVARCHAR(32),
 	PostalCode INTEGER
 )
 
+--EventDate and EventTime will be DateTimeOffsets. NVARCHAR is temporarily being used for API testing.
 CREATE TABLE Competition(
 	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
-	TeamID INTEGER FOREIGN KEY REFERENCES Team(TeamID),
+	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
 	EventLocation NVARCHAR(64),
-	EventDate DATETIMEOFFSET NOT NULL DEFAULT(SYSDATETIMEOFFSET())
+	EventDate NVARCHAR(64),
+	EventTime NVARCHAR(64)
 )
 
 /*
@@ -62,12 +61,18 @@ select * from Users
 use hspc_database;
 select * from Teams
 
+use hspc_database;
+select * from Competition
+
 -- Update Accesslevel
 update Users
 set AccessLevel = 2
 where
 	Email = 'volunteer@gmail.com'
 	
--- Delete Values;
-TRUNCATE TABLE Users
+-- Delete All Values Except Base Cases
+DELETE FROM Users WHERE FirstName != 'John';
+
+-- Delete Everything From Table
+TRUNCATE TABLE Teams
 */          

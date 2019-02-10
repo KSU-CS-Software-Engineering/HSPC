@@ -55,28 +55,6 @@ class userService {
     }
 
     /*
-     * PARTIALLY WORKING
-     * Returns a of scheduled events.
-     */
-    getAllEvents() {
-        return new Promise((resolve, reject) => {
-            const options = {
-                method: 'GET',
-                url: `${controllerUrl}/admindash`,
-                headers: {}
-            }
-            request(options, (err, response, body) => {
-                if (err || response.statusCode !== 200)
-                    return reject(err || response);
-                if (response.statusCode === 200) {
-                    this.events = body; // saves the request response.
-                }
-                resolve(response);
-            });
-        });
-    }
-
-    /*
     * HIGHLY SUSPECT
     */
     addUser(teamName, firstName, lastName, email, accesslevel, hashedPassword) {
