@@ -55,28 +55,6 @@ class userService {
     }
 
     /*
-     * SUSPECT
-     * Returns a list of created teams.
-     */
-    getAllTeams() {
-        return new Promise((resolve, reject) => {
-            const options = {
-                method: 'GET',
-                url: `${controllerUrl}/advisordash`,
-                headers: {}
-            }
-            request(options, (err, response, body) => {
-                if (err || response.statusCode !== 200)
-                    return reject(err || response);
-                if (response.statusCode === 200) {
-                    this.teams = body; // saves the request response.
-                }
-                resolve(response);
-            });
-        });
-    }
-
-    /*
      * PARTIALLY WORKING
      * Returns a of scheduled events.
      */

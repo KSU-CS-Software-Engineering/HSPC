@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Panel, Navbar, NavItem, Nav, Table } from 'react-bootstrap';
+import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
 import userService from '../../../_common/services/user';
+import teamService from '../../../_common/services/team';
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import Register from '../../Register.jsx';
 import RegisterTeam from '../../RegisterTeam.jsx';
@@ -22,7 +23,10 @@ export default class AdminDash extends Component {
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
         this.state = {
-            userTable: [], eventTable: [], requestTable: []
+            userTable: [],
+            eventTable: [],
+            teamTable: [],
+            requestTable: []
         };
     }
 
@@ -36,7 +40,7 @@ export default class AdminDash extends Component {
     }
 
     /*
-    * SUSPECT
+    * PARTIALLY WORKING
     * Prompts the user to create a new team.
     */
     handleCreateTeam() {
@@ -72,14 +76,13 @@ export default class AdminDash extends Component {
     }
 
     /*
-    * SUSPECT
+    * HIGHLY SUSPECT
     * Shows outstanding requests for a higher level accounts.
     */
     handlePendingRequests() {
         userService.getAllRequests().then((response) => {
             if (response.statusCode === 200) {
                 this.setState({ requestTable: JSON.parse(response.body) }, () => {
-                    alert("information corrrect");
                     this.generateRequestTable();
                 });
             }
@@ -96,6 +99,23 @@ export default class AdminDash extends Component {
             if (response.statusCode === 200) {
                 this.setState({ userTable: JSON.parse(response.body) }, () => {
                     this.generateUserTable();
+                });
+            }
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+    }
+
+    /*
+    * WORKING?
+    * Shows a table of all registered teams and information about them.
+    */
+    handleShowTeams() {
+        teamService.getAllTeams().then((response) => {
+            if (response.statusCode === 200) {
+                console.log(JSON.parse(response.body));
+                this.setState({ teamTable: JSON.parse(response.body) }, () => {
+
+                    alert("Working");
                 });
             }
             else console.log("An error has occurred, Please try again.");
@@ -222,55 +242,32 @@ export default class AdminDash extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem
-                                onClick={this.handlePendingRequests}
-                                eventKey={1}>
-                                Pending Requests
-                            </NavItem>
+                            <NavDropdown title="Users" id="basic-nav-dropdown">
+                                <NavItem eventKey={1} onClick={this.handlePendingRequests}>Pending Requests</NavItem>
+                                <NavItem eventKey={2} onClick={this.handleCreateUser}>Create User</NavItem>
+                                <NavItem eventKey={3} onClick={this.handleShowUsers}>View Users</NavItem>
+                            </NavDropdown>
 
-                            <NavItem
-                                onClick={this.handleCreateUser}
-                                eventKey={2}>
-                                Create User
-                            </NavItem>
+                            <NavDropdown title="Teams" id="basic-nav-dropdown">
+                                <NavItem eventKey={4} onClick={this.handleCreateTeam}>Create Team</NavItem>
+                                <NavItem eventKey={5}>Add To Team</NavItem>
+                                <NavItem eventKey={6} onClick={this.handleShowTeams}>View Teams</NavItem>
+                            </NavDropdown>
 
-                            <NavItem
-                                onClick={this.handleShowUsers}
-                                eventKey={3}>
-                                User List
-                            </NavItem>
+                            <NavDropdown title="Events" id="basic-nav-dropdown">
+                                <NavItem eventKey={7} onClick={this.handleCreateEvent}>Schedule Event</NavItem>
+                                <NavItem eventKey={8} onClick={this.handleShowEventHistory}>Event History</NavItem>
+                            </NavDropdown>
 
-                            <NavItem
-                                onClick={this.handleCreateTeam}
-                                eventKey={4}>
-                                Create Team
-                            </NavItem>
-
-                            <NavItem
-                                onClick={this.handleCreateEvent}
-                                eventKey={5}>
-                                Schedule Event
-                            </NavItem>
-
-                            <NavItem
-                                onClick={this.handleShowEventHistory}
-                                eventKey={6}>
-                                Event History
-                            </NavItem>
-
-                            <NavItem
-                                onClick={this.handleShowScore}
-                                eventKey={7}>
-                                Scoreboard
-                            </NavItem>
+                            <NavItem eventKey={9} onClick={this.handleShowScore}>Scoreboard</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
-                <Panel className="page-body">
+                <Jumbotron className="page-body">
                     <StatusMessages ref={this.statusMessages}></StatusMessages>
                     {currentView}
-                </Panel>
+                </Jumbotron>
             </div>
         )
     }

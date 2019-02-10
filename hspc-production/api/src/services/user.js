@@ -5,7 +5,7 @@ module.exports = {
         console.log(teamName, firstName, lastName, email, accesslevel, encryptedPassword);
         return new Promise((resolve, reject) => {
             const query =
-            `INSERT INTO dbo.Users
+                `INSERT INTO dbo.Users
                 (TeamName, FirstName, LastName, Email, AccessLevel, EncryptedPassword)
             VALUES('${teamName}', '${firstName}', '${lastName}', '${email}', '${accesslevel}', '${encryptedPassword}')`;
             mssql.query(query)
@@ -21,7 +21,7 @@ module.exports = {
                 U.Email,
                 U.EncryptedPassword,
                 U.AccessLevel
-            FROM dbo.users AS U
+            FROM dbo.Users AS U
             WHERE Email = '${email}'`;
             mssql.query(query)
                 .then((data) => resolve(data))
@@ -31,10 +31,10 @@ module.exports = {
     getAllUsers: () => {
         return new Promise((resolve, reject) => {
             const query =
-            `SELECT U.FirstName,
+                `SELECT U.FirstName,
             U.LastName,
             U.Email
-            FROM dbo.users AS U`
+            FROM dbo.Users AS U`
             mssql.query(query)
                 .then((data) => resolve(data))
                 .catch((err) => reject(err));
@@ -44,7 +44,7 @@ module.exports = {
         console.log(teamName, schoolName, schoolAddress, stateCode, questionLevel);
         return new Promise((resolve, reject) => {
             const query =
-            `INSERT INTO dbo.Teams
+                `INSERT INTO dbo.Teams
                 (TeamName, SchoolName, SchoolAddress, StateCode, QuestionLevel)
             VALUES('${teamName}', '${schoolName}', '${schoolAddress}', '${stateCode}', '${questionLevel}')`;
             mssql.query(query)

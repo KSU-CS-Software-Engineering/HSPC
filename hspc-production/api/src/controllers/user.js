@@ -13,7 +13,6 @@ router.get('/admindash', (req, res) => {
         });
 });
 
-// HIGHLY SUSPECT
 router.post('/adduser', (req, res) => {
     const teamName = req.body['teamName'];
     const firstName = req.body['firstName'];
@@ -21,9 +20,9 @@ router.post('/adduser', (req, res) => {
     const email = req.body['email'];
     const password = req.body['password'];
     const accesslevel = req.body['accessLevel'];
-
+    console.log(teamName, firstName, lastName, email, password, accesslevel);
     // add checks
-
+    
     userService.register(teamName, firstName, lastName, email, accesslevel, password)
         .then(data => {
             if (data.length > 0) return statusResponses.conflict(res, `'${email}' could not be registered`);

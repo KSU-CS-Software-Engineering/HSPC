@@ -45,8 +45,8 @@ class AuthService {
                 body: {
                     teamName: teamName,
                     schoolName: schoolName,
-                    address: schoolAddress,
-                    state: stateCode,
+                    schoolAddress: schoolAddress,
+                    stateCode: stateCode,
                     questionLevel: questionLevel
                 }
             }

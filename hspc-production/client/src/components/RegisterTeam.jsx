@@ -151,7 +151,7 @@ export default class RegisterTeam extends Component {
             )
         }
         else {
-            return <AddUser team_name={this.state.teamName} />;
+            return <AddUser teamName={this.state.teamName} />;
         }
     }
 
