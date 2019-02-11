@@ -1,19 +1,16 @@
 import React, { Component } from 'react'
-import AddUser from './AddUser';
+import ReCAPTCHA from 'react-recaptcha';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { white } from 'material-ui/styles/colors';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../_common/components/status-messages/status-messages';
-import ReCAPTCHA from 'react-recaptcha';
-import teamService from '../_common/services/team'
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import teamService from '../../../_common/services/team'
+import AddUser from './AddUser';
 import './Register.css';
 
-/**
- * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
- */
 export default class RegisterTeam extends Component {
     constructor(props) {
         super(props)
@@ -32,10 +29,10 @@ export default class RegisterTeam extends Component {
         }
     }
 
-    /**
+    /**************************************************************************************
      * Handles the registration of teams and adds the team information to the SQL database.
      * @param {*} event button event that handles submission of user information.
-     */
+     **************************************************************************************/
     handleRegisterTeam(event) {
         if (this.state.isVerified) {
             console.log(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel);
@@ -61,23 +58,23 @@ export default class RegisterTeam extends Component {
         }
     }
 
-    /*
+    /**************************************************************************************
     * Handle the changing of access level.
-    */
+    **************************************************************************************/
     handleChange = (value, event) => {
         this.setState({ questionLevel: value });
     }
 
-    /*
+    /**************************************************************************************
     * Indicates successful loading of the captcha for debugging purposes
-    */
+    **************************************************************************************/
     recaptchaLoaded() {
         console.log('captcha successfully loaded.');
     }
 
-    /*
+    /**************************************************************************************
     * Changes the verfied state to true following a verified captcha result.
-    */
+    **************************************************************************************/
     verifyCallback(response) {
         if (response)
             this.setState({ isVerified: true })
@@ -85,9 +82,9 @@ export default class RegisterTeam extends Component {
             this.setState({ isVerified: false })
     }
 
-    /**
-     * Auto-Redirect to the Add Users Page. By default, this method renders the registration box. 
-     */
+    /**************************************************************************************
+     * Auto-Redirect to the Add Users Page. By default, this renders the registration box. 
+     **************************************************************************************/
     renderRedirect() {
         if (this.state.redirect === false) {
             return (
@@ -154,9 +151,9 @@ export default class RegisterTeam extends Component {
         }
     }
 
-    /*
-    * Renders either the Registration Box or the Add User
-    */
+    /**************************************************************************************
+    * Renders the component UI.
+    **************************************************************************************/
     render() {
         return (
             <div>{this.renderRedirect()}</div>

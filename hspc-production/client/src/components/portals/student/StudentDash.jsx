@@ -1,35 +1,52 @@
 import React, { Component } from 'react';
-import { Panel, Navbar, Nav } from 'react-bootstrap';
-//import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import { Navbar, NavItem, Nav, Jumbotron } from 'react-bootstrap';
+import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import './StudentDash.css';
 
-export default class StudentDash extends Component {
-    constructor(props){
-        super(props)
-        //this.statusMessages = React.createRef(); for showing error codes
-        this.state = {
+var currentView = null;
 
-        };
+export default class StudentDash extends Component {
+    constructor(props) {
+        super(props)
+        this.clearAll = this.clearAll.bind(this);
+        this.statusMessages = React.createRef();
+        this.state = {};
     }
-    
+
+    /*************************************************************************************
+    * Resets the currentView property to null and clears the screen.
+    *************************************************************************************/
+    clearAll() {
+        currentView = null;
+        this.forceUpdate();
+    }
+
+    /**************************************************************************************
+     *  Renders the component UI.
+    **************************************************************************************/
     render() {
         return (
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
-                        <Navbar.Brand>Student Portal</Navbar.Brand>
+                        <Navbar.Brand
+                            onClick={this.clearAll}>
+                            Student Portal
+                        </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <noscript> Insert team number and level </noscript>
+                            <NavItem eventKey={1}>Questions</NavItem>
+                            <NavItem eventKey={2}>Events</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
-                <Panel className="page-body">
-                    <p>Comming soon</p>
-                </Panel>  
+                <Jumbotron className="page-body">
+                    <StatusMessages ref={this.statusMessages}></StatusMessages>
+                    {currentView}
+                </Jumbotron>
             </div>
         )
     }

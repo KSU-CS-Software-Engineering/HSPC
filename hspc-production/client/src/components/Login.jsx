@@ -5,14 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { white } from 'material-ui/styles/colors';
 import StatusMessages from '../_common/components/status-messages/status-messages';
+import authService from '../_common/services/auth';
 import './Login.css';
 import './Home';
 
-import authService from '../_common/services/auth';
-
-/**
- * Allows the user to a series of portals. The default portal is the basic student portal.
- */
 export default class Login extends Component {
     constructor(props) {
         super(props)
@@ -25,12 +21,11 @@ export default class Login extends Component {
         }
     }
 
-    /**
-     * Checks for matching user credentials and redirects the user to the proper portal.
-     * @param {*} event 
-     */
+    /*************************************************************************************
+    * Checks for matching user credentials and redirects the user to the proper portal.
+    * @param {*} event 
+    *************************************************************************************/
     handleClick(event) {
-        // Rest API call. Verifies the user's login information and determines if the user has requested access.
         authService.login(this.state.email, this.state.password).then((response) => {
             if (response.statusCode === 200) {
                 let loginRedirectPath;
@@ -63,18 +58,18 @@ export default class Login extends Component {
                 });
             } else this.statusMessages.current.showError(response.body.message);
         }).catch((resErr) => this.statusMessages.current.showError('Something went wrong. Please try again'));
+    }
 
-    /**
+    /*************************************************************************************
     * Handles switching between the Registration and Login pages.
-    */
-    }
+    *************************************************************************************/
     handleSwitch = () => {
-        this.props.history.push('/register');
+        this.props.history.push('/Register');
     }
 
-    /**
-     * Renders the Login Page component. Allows the user to switch between Login and Registration.
-     */
+    /*************************************************************************************
+    * Renders the component UI.
+    *************************************************************************************/
     render() {
         return (
             <div className="LoginBox">

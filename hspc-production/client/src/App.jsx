@@ -4,7 +4,7 @@ import { SecureRoute } from 'react-route-guard';
 
 import Home from './components/Home';
 import Login from './components/Login';
-import Register from './components/Register';
+import Register from './components/portals/register/Register'
 import Navbar from './components/TopNavbar';
 
 import StudentDash from './components/portals/student/StudentDash';

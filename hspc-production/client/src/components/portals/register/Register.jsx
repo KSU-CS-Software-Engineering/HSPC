@@ -6,13 +6,10 @@ import { white } from 'material-ui/styles/colors';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import ReCAPTCHA from 'react-recaptcha';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../_common/components/status-messages/status-messages';
-import AuthService from '../_common/services/auth';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import AuthService from '../../../_common/services/auth';
 import './Register.css';
 
-/**
- * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
- */
 export default class Register extends Component {
   constructor(props) {
     super(props)
@@ -30,10 +27,10 @@ export default class Register extends Component {
     }
   }
 
-  /**
+  /**************************************************************************************
    * Handles the registration of users and adds the user information to the SQL database.
    * @param {*} event button event that handles submission of user information.
-   */
+   **************************************************************************************/
   handleRegister(event) {
     if (this.state.isVerified) {
       if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
@@ -56,16 +53,16 @@ export default class Register extends Component {
     }
   }
 
-  /**
+  /**************************************************************************************
    * Handles switching between the Registration and Login pages.
-   */
+   **************************************************************************************/
   handleSwitch() {
     this.props.history.push('/login');
   }
 
-  /*
+  /**************************************************************************************
   * Handle the changing of access level.
-  */
+  **************************************************************************************/
   handleChange = (value, event) => {
     this.setState({ accessLevel: value }, () => {
       console.log("Access level changed.");
@@ -75,16 +72,16 @@ export default class Register extends Component {
     });
   }
 
-  /*
+  /**************************************************************************************
   * Indicates successful loading of the captcha for debugging purposes
-  */
+  **************************************************************************************/
   recaptchaLoaded() {
     console.log('captcha successfully loaded.');
   }
 
-  /*
+  /**************************************************************************************
   * Changes the verfied state to true following a verified captcha result.
-  */
+  **************************************************************************************/
   verifyCallback(response) {
     if (response) {
       this.setState({ isVerified: true })
@@ -94,9 +91,9 @@ export default class Register extends Component {
     }
   }
 
-  /**
-   * Renders the Registration Page component. Allows the user to switch between Login and Registration. 
-   */
+  /**************************************************************************************
+   *  Renders the component UI.
+  **************************************************************************************/
   render() {
     return (
       <div className="RegisterBox">
@@ -156,7 +153,6 @@ export default class Register extends Component {
               labelColor={white}
               onClick={(event) => this.handleRegister(event)}
             />
-
             <p><b>Already have an account?</b></p>
             <RaisedButton
               className="LoginButton"

@@ -1,107 +1,181 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
-import userService from '../../../_common/services/user';
-import { Panel, Navbar, NavItem, Nav } from 'react-bootstrap';
-import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
+import teamService from '../../../_common/services/team';
+import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
+import RegisterTeam from '../register/RegisterTeam.jsx';
+import AddUser from '../register/AddUser.jsx';
+import eventService from '../../../_common/services/event';
+import '../../portals/register/Register.css';
 import './AdvisorDash.css';
 
 var currentView = null;
 
-export default class AdvisorDash extends Component {
+export default class AdminDash extends Component {
     constructor(props) {
         super(props)
+        this.handleCreateTeam = this.handleCreateTeam.bind(this);
+        this.handleAddToTeam = this.handleAddToTeam.bind(this);
+        this.handleShowTeams = this.handleShowTeams.bind(this);
+        this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
+        this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
-        this.state = {};
+        this.state = {
+            teamTable: []
+        };
     }
 
-    /*
-    * Prompts the user to create a team from existing users.
-    */
-    handleCreateTeams() {
-
-        // add search data in running tab.
-
-        var teamData={
-            //"first_name": this.state.first_name,
-            //"last_name":this.state.last_name,
-            //"email":this.state.email,
-        }
-        this.submitTeamCreation(teamData);
+    /*************************************************************************************
+    * Renders the RegisterTeam.jsx component.
+    * Prompts the user to create a new team and saves the information to the database.
+    *************************************************************************************/
+    handleCreateTeam() {
+        currentView = <RegisterTeam />
+        this.forceUpdate();
     }
 
-    /*
-    * Helper function for handleCreateTeams. Post request for adding team data to the database.
-    */
-    submitTeamCreation(teamData){
-        var apiBaseUrl = "http://localhost:3001";
-        Axios.post(apiBaseUrl + '/user/createteam', teamData) // api contoller location.
-       .then((response) => {
-            console.log(response);
-            if (response.status === 201) {
-                this.statusMessages.current.showSuccess("Team Created Successfully!");
-            }
-            else
-                this.statusMessages.current.showError('Something went wrong. Please try again');
-        })
-        .catch((error) => {
-            this.statusMessages.current.showError('Something went wrong. Please try again.');
-        });
+    /*************************************************************************************
+    * Renders the AddUser.jsx component.
+    * Prompts the user to a new team member and updates the information to the database.
+    *************************************************************************************/
+    handleAddToTeam() {
+        currentView = <AddUser />
+        this.forceUpdate();
     }
 
-    /*
-    * Shows outstanding requests for a higher level accounts.
-    */
+    /*************************************************************************************
+    * Returns a JSON message of all registered teams.
+    * Helper function needed to generate this data as a table.
+    **************************************************************************************/
     handleShowTeams() {
-        userService.getAllTeams().then((response) => {
+        teamService.getAllTeams().then((response) => {
             if (response.statusCode === 200) {
-                this.setState({ userTable: JSON.parse(response.body) }, () => {
-
-                    // Function call to display a table of teams.
-
+                console.log(JSON.parse(response.body));
+                this.setState({ teamTable: JSON.parse(response.body) }, () => {
+                    this.generateTeamTable(); // helper function
                 });
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-
-    /*
-    * Modifies a specific value within a selection of team data.
-    */
-    handleModifyTeam(){
-        
-        // finish
-
+    /**************************************************************************************
+    * Returns a JSON message of all scheduled events.
+    * Helper function needed to generate this data as a table.
+    **************************************************************************************/
+    handleShowEventHistory() {
+        eventService.getAllEvents().then((response) => {
+            if (response.statusCode === 200) {
+                this.setState({ eventTable: JSON.parse(response.body) }, () => {
+                    this.generateEventTable(); // helper function
+                });
+            }
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
+    /**************************************************************************************
+    * Helper function for handleShowEvent. Generates the data as a table.
+    **************************************************************************************/
+    generateEventTable() {
+        const events = [];
+        console.log(this.state.eventTable);
+        this.state.eventTable.forEach((event, index) => {
+            events.push(<tr key={index}>
+                <td>{index + 1}</td>
+                <td>{event.EventLocation}</td>
+                <td>{event.EventDate}</td>
+                <td>{event.EventTime}</td>
+            </tr>);
+        });
+        currentView = <Table striped bordered condensed hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Location</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {events}
+            </tbody>
+        </Table>;
+        this.forceUpdate();
+    }
+
+    /**************************************************************************************
+    * Helper function for handleShowTeams. Generates the data as a table.
+    **************************************************************************************/
+    generateTeamTable() {
+        const teams = [];
+        this.state.teamTable.forEach((team, index) => {
+            teams.push(<tr key={index}>
+                <td>{index + 1}</td>
+                <td>{team.TeamName}</td>
+                <td>{team.SchoolName}</td>
+                <td>{team.SchoolAddress}</td>
+                <td>{team.StateCode}</td>
+                <td>{team.QuestionLevel}</td>
+                <td>{team.AdvisorID}</td>
+            </tr>);
+        });
+        currentView = <Table striped bordered condensed hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team Name</th>
+                    <th>School</th>
+                    <th>Address</th>
+                    <th>State</th>
+                    <th>Level</th>
+                    <th>Advisor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {teams}
+            </tbody>
+        </Table>;
+        this.forceUpdate();
+    }
+
+    /*************************************************************************************
+    * Resets the currentView property to null and clears the screen.
+    *************************************************************************************/
+    clearAll() {
+        currentView = null;
+        this.forceUpdate();
+    }
+
+    /**************************************************************************************
+     *  Renders the component UI.
+    **************************************************************************************/
     render() {
         return (
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
-                        <Navbar.Brand>Advisor Portal</Navbar.Brand>
+                        <Navbar.Brand
+                            onClick={this.clearAll}>
+                            Advisor Portal
+                        </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem
-                                onClick={this.handleCreateTeams}
-                                eventKey={1}>
-                                Create Team
-                            </NavItem>
-                            <NavItem
-                                onClick={this.handleShowTeams}
-                                eventKey={2}>
-                                Registered Teams
-                            </NavItem>
+                            <NavDropdown title="Teams" id="basic-nav-dropdown">
+                                <NavItem eventKey={1} onClick={this.handleCreateTeam}>Create Team</NavItem>
+                                <NavItem eventKey={2} onClick={this.handleAddToTeam}>Add Student</NavItem>
+                                <NavItem eventKey={3} onClick={this.handleShowTeams}>View Teams</NavItem>
+                            </NavDropdown>
+                            <NavItem eventKey={4} onClick={this.handleShowEventHistory}>View Events</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
-                <Panel className="page-body">
+                <Jumbotron className="page-body">
                     <StatusMessages ref={this.statusMessages}></StatusMessages>
                     {currentView}
-                </Panel>
+                </Jumbotron>
             </div>
         )
     }

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
 import './Home.css';
 
-/**
- * Creates and renders the homepage.
- */
-export default class Home extends Component{
-    render(){
-        return(
+export default class Home extends Component {
+    
+    /*************************************************************************************
+     * Renders the component UI.
+    *************************************************************************************/
+    render() {
+        return (
             <Jumbotron>
                 <h2>Welcome to Kansas State University!</h2>
                 <p>Site Under Construction</p>

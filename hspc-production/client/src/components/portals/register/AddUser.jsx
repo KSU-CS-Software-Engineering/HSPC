@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
-import AuthService from '../_common/services/auth'
+import AuthService from '../../../_common/services/auth'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../_common/components/status-messages/status-messages';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './Register.css';
 
-/**
- * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
- */
 export default class AddUser extends Component {
     constructor(props) {
         super(props)
@@ -26,10 +23,10 @@ export default class AddUser extends Component {
         }
     }
 
-    /**
-     * Handles the registration of users and adds the user information to the SQL database.
-     * @param {*} event button event that handles submission of user information.
-     */
+    /*************************************************************************************
+    * Handles the registration of users and adds the user information to the SQL database.
+    * @param {*} event button event that handles submission of user information.
+    *************************************************************************************/
     handleRegister(event) {
         console.log(this.state.firstName, this.state.lastName, this.state.email, this.state.password, this.state.teamName);
         if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
@@ -49,20 +46,23 @@ export default class AddUser extends Component {
             });
     }
 
-    /*
+    /*************************************************************************************
     * IN PROGRESS
     * Refreshes the page and removes any error messages.
-    */
-    refreshPage(){
+    *************************************************************************************/
+    refreshPage() {
         this.statusMessages.current.showError(null);
         this.setState({
             firstName: '',
             lastName: '',
             email: '',
             password: ''
-        });  
+        });
     }
 
+    /**************************************************************************************
+    * Renders the component UI.
+    **************************************************************************************/
     render() {
         console.log(this.props.teamName);
         return (

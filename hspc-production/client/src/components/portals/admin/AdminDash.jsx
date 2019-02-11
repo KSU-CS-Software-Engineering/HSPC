@@ -4,11 +4,12 @@ import userService from '../../../_common/services/user';
 import teamService from '../../../_common/services/team';
 import eventService from '../../../_common/services/event';
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
-import Register from '../../Register.jsx';
-import RegisterTeam from '../../RegisterTeam.jsx';
+import Register from '../../portals/register/Register.jsx';
+import RegisterTeam from '../register/RegisterTeam.jsx';
 import Scoreboard from '../scoreboard/Scoreboard.jsx';
 import CreateEvent from '../events/CreateEvent';
-import AddUser from '../../../components/AddUser';
+import AddUser from '../register/AddUser.jsx';
+import '../../portals/register/Register.css';
 import './AdminDash.css';
 
 var currentView = null;
