@@ -6,6 +6,10 @@ class AuthService {
     constructor() {
         this.authenticatedUser = null;
     }
+
+    /**************************************************************************************
+     * Calls the API and verifies the users login credentials.
+     **************************************************************************************/
     isAuthenticated() {
         return new Promise((resolve, reject) => {
             if (this.authenticatedUser) return resolve(true);
@@ -13,6 +17,10 @@ class AuthService {
                 .catch((err) => resolve(false));
         });
     }
+
+    /**************************************************************************************
+     * Calls the API and registers a new user object in the database.
+     **************************************************************************************/
     register(teamName, firstName, lastName, email, password, accessLevel) {
         return new Promise((resolve, reject) => {
             const options = {
@@ -35,27 +43,10 @@ class AuthService {
             });
         });
     }
-    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel) {
-        return new Promise((resolve, reject) => {
-            const options = {
-                method: 'POST',
-                url: `${controllerUrl}/registerteam`,
-                headers: {},
-                json: true,
-                body: {
-                    teamName: teamName,
-                    schoolName: schoolName,
-                    schoolAddress: schoolAddress,
-                    stateCode: stateCode,
-                    questionLevel: questionLevel
-                }
-            }
-            request(options, (err, response, body) => {
-                if (err || response.statusCode >= 500) return reject(err || response);
-                resolve(response);
-            });
-        });
-    }
+
+    /**************************************************************************************
+     * Calls the API and registers a new Event object in the database.
+     **************************************************************************************/
     login(email, password) {
         return new Promise((resolve, reject) => {
             const options = {
@@ -77,6 +68,10 @@ class AuthService {
             });
         });
     }
+
+    /**************************************************************************************
+     * Helper function for isAuthenticated.
+     **************************************************************************************/
     validate() {
         return new Promise((resolve, reject) => {
             const options = {

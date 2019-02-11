@@ -10,10 +10,9 @@ class userService {
         this.userRequests = null;
     }
 
-    /*
-     * WORKING
-     * Returns an array of all registered users.
-     */
+    /**************************************************************************************
+     * Calls the API and returns a JSON list of all registered users.
+     **************************************************************************************/
     getAllUsers() {
         return new Promise((resolve, reject) => {
             const options = {
@@ -32,10 +31,10 @@ class userService {
         });
     }
 
-    /*
-     * SUSPECT
-     * Returns an array of all access upgrade requests.
-     */
+    /**************************************************************************************
+     * IN PROGRESS
+     * Calls the API and returns a JSON list of all requests for a higher tier account.
+     **************************************************************************************/
     getAllRequests() {
         return new Promise((resolve, reject) => {
             const options = {
@@ -54,9 +53,9 @@ class userService {
         });
     }
 
-    /*
-    * HIGHLY SUSPECT
-    */
+    /**************************************************************************************
+     * Calls the API, registers a new user object, and assigns the user to teamName
+     **************************************************************************************/
     addUser(teamName, firstName, lastName, email, accesslevel, hashedPassword) {
         return new Promise((resolve, reject) => {
             const options = {

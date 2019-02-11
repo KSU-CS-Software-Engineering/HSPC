@@ -8,8 +8,8 @@ import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../_common/components/status-messages/status-messages';
 import ReCAPTCHA from 'react-recaptcha';
+import teamService from '../_common/services/team'
 import './Register.css';
-import AuthService from '../_common/services/auth'
 
 /**
  * Summary. Processes user information and allows the user to instantly create a basic user account or request higher access.
@@ -26,7 +26,7 @@ export default class RegisterTeam extends Component {
             schoolName: ' ',
             schoolAddress: ' ',
             stateCode: ' ',
-            questionLevel: '1',
+            questionLevel: 'Beginner',
             isVerified: false,
             redirect: false
         }
@@ -43,7 +43,7 @@ export default class RegisterTeam extends Component {
                 this.statusMessages.current.showError('Something went wrong. Please try again');
                 return;
             }
-            AuthService.registerTeam(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel)
+            teamService.registerTeam(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel)
                 .then((response) => {
                     if (response.statusCode === 201) {
                         this.statusMessages.current.showSuccess("Registration Complete!");
@@ -122,9 +122,9 @@ export default class RegisterTeam extends Component {
                             />
                             <br />
                             <p><br />Please select an experience level.</p>
-                            <ToggleButtonGroup className="RoleSelect" type="radio" name="options" defaultValue={1}>
-                                <ToggleButton value={1} onChange={this.handleChange.bind(this, 'Beginner')}>Beginner</ToggleButton>
-                                <ToggleButton value={2} onChange={this.handleChange.bind(this, 'Advanced')}>Advanced</ToggleButton>
+                            <ToggleButtonGroup className="RoleSelect" type="radio" name="options" defaultValue={'Beginner'}>
+                                <ToggleButton value={'Beginner'} onChange={this.handleChange.bind(this, 'Beginner')}>Beginner</ToggleButton>
+                                <ToggleButton value={'Advanced'} onChange={this.handleChange.bind(this, 'Advanced')}>Advanced</ToggleButton>
                             </ToggleButtonGroup>
                             <br /><br />
                             <div align="center">

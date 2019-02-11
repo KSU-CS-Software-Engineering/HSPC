@@ -126,7 +126,6 @@ export default class AdminDash extends Component {
     }
 
     /**************************************************************************************
-    * IN PROGRESS
     * Returns a JSON message of all scheduled events.
     * Helper function needed to generate this data as a table.
     **************************************************************************************/
@@ -300,13 +299,13 @@ export default class AdminDash extends Component {
 
                             <NavDropdown title="Teams" id="basic-nav-dropdown">
                                 <NavItem eventKey={4} onClick={this.handleCreateTeam}>Create Team</NavItem>
-                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add To Team</NavItem>
+                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add Student</NavItem>
                                 <NavItem eventKey={6} onClick={this.handleShowTeams}>View Teams</NavItem>
                             </NavDropdown>
 
                             <NavDropdown title="Events" id="basic-nav-dropdown">
                                 <NavItem eventKey={7} onClick={this.handleCreateEvent}>Schedule Event</NavItem>
-                                <NavItem eventKey={8} onClick={this.handleShowEventHistory}>Event History</NavItem>
+                                <NavItem eventKey={8} onClick={this.handleShowEventHistory}>View Events</NavItem>
                             </NavDropdown>
 
                             <NavItem eventKey={9} onClick={this.handleShowScore}>Scoreboard</NavItem>

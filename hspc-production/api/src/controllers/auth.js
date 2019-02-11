@@ -36,28 +36,12 @@ router.post('/register', (req, res) => {
         });
 });
 
-router.post('/registerteam', (req, res) => {
-    const teamName = req.body['teamName'];
-    const schoolName = req.body['schoolName'];
-    const schoolAddress = req.body['schoolAddress'];
-    const stateCode = req.body['stateCode'];
-    const questionLevel = req.body['questionLevel'];
-
-    userService.registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel)
-        .then(() => {
-            statusResponses.created(res, `Team Successfully Created!`);
-        })
-        .catch((err) => {
-            statusResponses.serverError(res);
-        });
-});
-
 router.post('/login', (req, res) => {
     const email = req.body['email']
     const password = req.body['password'];
     if (!(email && password)) return statusResponses.badRequest(res, "Email and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
-    // find user in db
+    
     userService.getLogin(email)
         .then(data => {
             if (data.length === 0) return statusResponses.unauthorized(res, `'${email}' could not be logged in`);

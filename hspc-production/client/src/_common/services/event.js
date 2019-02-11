@@ -7,6 +7,9 @@ class eventService {
         this.event = null;
     }
 
+    /**************************************************************************************
+     * Calls the API and registers a new Event object in the database.
+     **************************************************************************************/
     createEvent(eventLocation, eventDate, eventTime) {
         return new Promise((resolve, reject) => {
             const options = {
@@ -26,6 +29,10 @@ class eventService {
             });
         });
     }
+
+    /**************************************************************************************
+     * Calls the API and returns a JSON list of all registered events.
+     **************************************************************************************/
     getAllEvents() {
         return new Promise((resolve, reject) => {
             const options = {

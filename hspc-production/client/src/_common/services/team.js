@@ -7,10 +7,34 @@ class teamService {
         this.teams = null;
     }
 
-    /*
-     * SUSPECT
-     * Returns a list of created teams.
-     */
+    /**************************************************************************************
+     * Passes team information to the API and registers a new team object in the database.
+     **************************************************************************************/
+    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel) {
+        return new Promise((resolve, reject) => {
+            const options = {
+                method: 'POST',
+                url: `${controllerUrl}/registerteam`,
+                headers: {},
+                json: true,
+                body: {
+                    teamName: teamName,
+                    schoolName: schoolName,
+                    schoolAddress: schoolAddress,
+                    stateCode: stateCode,
+                    questionLevel: questionLevel
+                }
+            }
+            request(options, (err, response, body) => {
+                if (err || response.statusCode >= 500) return reject(err || response);
+                resolve(response);
+            });
+        });
+    }
+
+    /**************************************************************************************
+     * Calls the API and returns a JSON list of all registered teams.
+     **************************************************************************************/
     getAllTeams() {
         return new Promise((resolve, reject) => {
             const options = {

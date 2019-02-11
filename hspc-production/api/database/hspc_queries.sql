@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS hspc_database
 
 DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Team;
+DROP TABLE IF EXISTS Teams;
 DROP TABLE IF EXISTS Questions;
 DROP TABLE IF EXISTS School;
 DROP TABLE IF EXISTS Competition;
@@ -25,9 +25,10 @@ CREATE TABLE Users(
 CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
 	TeamName NVARCHAR(64),
+	SchoolName NVARCHAR(64),
 	SchoolAddress NVARCHAR(64),
 	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(2),
+	QuestionLevel NVARCHAR(12),
 	AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
 	SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
 )
@@ -44,7 +45,7 @@ CREATE TABLE School(
 	PostalCode INTEGER
 )
 
---EventDate and EventTime will be DateTimeOffsets. NVARCHAR is temporarily being used for API testing.
+--Date and Time will be DateTimeOffsets. NVARCHAR used for testing.
 CREATE TABLE Competition(
 	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
 	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
