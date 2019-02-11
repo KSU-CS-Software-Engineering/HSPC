@@ -149,7 +149,7 @@ export default class AdminDash extends Component {
         const requests = [];
         this.state.requestTable.forEach((request, index) => {
             requests.push(<tr key={index}>
-                <td>{index}</td>
+                <td>{index+1}</td>
                 <td>{}</td>
                 <td>{}</td>
                 <td>{}</td>
@@ -180,7 +180,7 @@ export default class AdminDash extends Component {
         console.log(this.state.eventTable);
         this.state.eventTable.forEach((event, index) => {
             events.push(<tr key={index}>
-                <td>{index}</td>
+                <td>{index+1}</td>
                 <td>{event.EventLocation}</td>
                 <td>{event.EventDate}</td>
                 <td>{event.EventTime}</td>
@@ -191,8 +191,8 @@ export default class AdminDash extends Component {
                 <tr>
                     <th>#</th>
                     <th>Location</th>
-                    <th>Time</th>
                     <th>Date</th>
+                    <th>Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -209,7 +209,7 @@ export default class AdminDash extends Component {
         const users = [];
         this.state.userTable.forEach((user, index) => {
             users.push(<tr key={index}>
-                <td>{index}</td>
+                <td>{index+1}</td>
                 <td>{user.FirstName}</td>
                 <td>{user.LastName}</td>
                 <td>{user.Email}</td>
@@ -240,7 +240,7 @@ export default class AdminDash extends Component {
         const teams = [];
         this.state.teamTable.forEach((team, index) => {
             teams.push(<tr key={index}>
-                <td>{index}</td>
+                <td>{index+1}</td>
                 <td>{team.TeamName}</td>
                 <td>{team.SchoolName}</td>
                 <td>{team.SchoolAddress}</td>

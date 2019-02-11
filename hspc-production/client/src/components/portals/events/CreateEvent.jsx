@@ -76,15 +76,19 @@ export default class CreateEvent extends Component {
                         />
                         <br />
                         <TextField
-                            hintText="Enter a Date"
                             floatingLabelText="Date"
-                            onChange={(event, newValue) => this.setState({ eventTime: newValue })}
+                            label="Event Date"
+                            type="date"
+                            defaultValue="Enter a Date"
+                            onChange={(event, newValue) => this.setState({ eventDate: newValue })}
                         />
                         <br />
                         <TextField
-                            hintText="Enter a Start Time"
                             floatingLabelText="Time"
-                            onChange={(event, newValue) => this.setState({ eventDate: newValue })}
+                            label="Event Time"
+                            type="time"
+                            defaultValue="Enter a Time"
+                            onChange={(event, newValue) => this.setState({ eventTime: newValue })}
                         />
                         <div align="center">
                             <ReCAPTCHA
@@ -105,7 +109,8 @@ export default class CreateEvent extends Component {
                         />
                     </div>
                 </MuiThemeProvider>
-            </div>
+            </div >
         );
     }
+
 }

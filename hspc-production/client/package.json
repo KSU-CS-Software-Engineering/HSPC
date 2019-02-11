@@ -27,6 +27,7 @@
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-bootstrap-sidebar": "0.0.1",
+    "react-day-picker": "^7.2.4",
     "react-dom": "^16.7.0",
     "react-onsenui": "^1.11.2",
     "react-recaptcha": "^2.3.10",
