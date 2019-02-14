@@ -8,6 +8,11 @@ The intended audience includes High school Students, Advisors, and KSU Computer 
 ## Getting Started  
 Install **Node** and **NPM (Node Packet Manager)** on a **Linux OS**. Refer to a how-to [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).  
 Verify that you have a version of **Node** greater than or equal to **Node v.11.1.0** installed.  
+Open the terminal and type the following:  
+```
+node -v
+npm -v
+```
 **Ubuntu 18.04 (64-bit)** was used to develop this project, but any 64-bit Linux Distribution should work.
 
 ## Environment
