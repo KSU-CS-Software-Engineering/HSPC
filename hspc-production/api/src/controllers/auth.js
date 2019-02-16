@@ -9,6 +9,7 @@ router.post('/register', (req, res) => {
     const firstName = req.body['firstName'];
     const lastName = req.body['lastName'];
     const email = req.body['email'];
+    const phone = req.body['phone'];
     const password = req.body['password'];
     const accesslevel = req.body['accessLevel'];
 
@@ -22,7 +23,7 @@ router.post('/register', (req, res) => {
             if (data.length > 0) return statusResponses.conflict(res, `'${email}' could not be registered`);
             authService.generateHash(password)
                 .then((hashedPassword) => {
-                    userService.register(teamName, firstName, lastName, email, accesslevel, hashedPassword)
+                    userService.register(teamName, firstName, lastName, email, phone, accesslevel, hashedPassword)
                         .then(() => {
                             statusResponses.created(res, `${email}' successfully registered!`);
                         })

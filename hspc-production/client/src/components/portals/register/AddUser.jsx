@@ -17,6 +17,7 @@ export default class AddUser extends Component {
             firstName: '',
             lastName: '',
             email: '',
+            phone: '',
             password: '',
             accessLevel: '1',
             teamName: this.props.teamName,
@@ -33,8 +34,12 @@ export default class AddUser extends Component {
             this.statusMessages.current.showError('Something went wrong. Please try again');
             return;
         }
+        if(this.state.teamName === '' || this.state.teamName === undefined ){
+            this.statusMessages.current.showError('Please Enter a Team Name.');
+            return;
+        }
 
-        AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.password, this.state.accessLevel)
+        AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel)
             .then((response) => {
                 if (response.statusCode === 201)
                     this.statusMessages.current.showSuccess("Registration Successful!");
@@ -96,6 +101,13 @@ export default class AddUser extends Component {
                             type="email"
                             floatingLabelText="Email"
                             onChange={(event, newValue) => this.setState({ email: newValue })}
+                        />
+                        <br />
+                        <TextField
+                            hintText="Enter the Student's Phone #"
+                            type="email"
+                            floatingLabelText="Phone # (Optional)"
+                            onChange={(event, newValue) => this.setState({ phone: newValue })}
                         />
                         <br />
                         <TextField

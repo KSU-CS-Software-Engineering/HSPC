@@ -210,9 +210,11 @@ export default class AdminDash extends Component {
         this.state.userTable.forEach((user, index) => {
             users.push(<tr key={index}>
                 <td>{index+1}</td>
+                <td>{user.TeamName}</td>
                 <td>{user.FirstName}</td>
                 <td>{user.LastName}</td>
                 <td>{user.Email}</td>
+                <td>{user.Phone}</td>
                 <td>{user.AccessLevel}</td>
             </tr>);
         });
@@ -220,9 +222,11 @@ export default class AdminDash extends Component {
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Team Name</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
+                    <th>Phone</th>
                     <th>Account Level</th>
                 </tr>
             </thead>

@@ -56,7 +56,7 @@ class userService {
     /**************************************************************************************
      * Calls the API, registers a new user object, and assigns the user to teamName
      **************************************************************************************/
-    addUser(teamName, firstName, lastName, email, accesslevel, hashedPassword) {
+    addUser(teamName, firstName, lastName, email, phone, accesslevel, hashedPassword) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -68,6 +68,7 @@ class userService {
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
+                    phone: phone,
                     password: hashedPassword,
                     accessLevel: accesslevel,
                 }

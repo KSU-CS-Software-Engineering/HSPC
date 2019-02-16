@@ -1,13 +1,13 @@
 const mssql = getHelper('db-mssql');
 
 module.exports = {
-    register: (teamName, firstName, lastName, email, accesslevel, encryptedPassword) => {
-        console.log(teamName, firstName, lastName, email, accesslevel, encryptedPassword);
+    register: (teamName, firstName, lastName, email, phone, accesslevel, encryptedPassword) => {
+        console.log(teamName, firstName, lastName, email, phone, accesslevel, encryptedPassword);
         return new Promise((resolve, reject) => {
             const query =
                 `INSERT INTO dbo.Users
-                (TeamName, FirstName, LastName, Email, AccessLevel, EncryptedPassword)
-            VALUES('${teamName}', '${firstName}', '${lastName}', '${email}', '${accesslevel}', '${encryptedPassword}')`;
+                (TeamName, FirstName, LastName, Email, Phone, AccessLevel, EncryptedPassword)
+            VALUES('${teamName}', '${firstName}', '${lastName}', '${email}', '${phone}', '${accesslevel}', '${encryptedPassword}')`;
             mssql.query(query)
                 .then(() => resolve())
                 .catch((err) => reject(err));
@@ -32,8 +32,10 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const query =
                 `SELECT U.FirstName,
+            U.TeamName,
             U.LastName,
             U.Email,
+            U.Phone,
             U.AccessLevel
             FROM dbo.Users AS U`
             mssql.query(query)

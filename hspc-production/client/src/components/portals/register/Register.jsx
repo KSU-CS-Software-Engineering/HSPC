@@ -21,8 +21,9 @@ export default class Register extends Component {
       lastName: '',
       email: '',
       password: '',
+      phone: '',
       accessLevel: '1',
-      teamName: ' ',
+      teamName: '',
       isVerified: false
     }
   }
@@ -38,7 +39,7 @@ export default class Register extends Component {
         return;
       }
 
-      AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.password, this.state.accessLevel)
+      AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel)
         .then((response) => {
           if (response.statusCode === 201)
             this.statusMessages.current.showSuccess("Registration Complete!");
@@ -119,6 +120,12 @@ export default class Register extends Component {
               type="email"
               floatingLabelText="Email"
               onChange={(event, newValue) => this.setState({ email: newValue })}
+            />
+            <br />
+            <TextField
+              hintText="Enter your Phone #"
+              floatingLabelText="Phone Number (Optional)"
+              onChange={(event, newValue) => this.setState({ phone: newValue })}
             />
             <br />
             <TextField
