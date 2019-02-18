@@ -9,6 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import AuthService from '../../../_common/services/auth';
 import './Register.css';
+import 'react-responsive-ui/style.css'
 
 export default class Register extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class Register extends Component {
       password: '',
       phone: '',
       accessLevel: '1',
+      requestLevel: '',
       teamName: '',
       isVerified: false
     }
@@ -39,7 +41,7 @@ export default class Register extends Component {
         return;
       }
 
-      AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel)
+      AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel, this.state.requestLevel)
         .then((response) => {
           if (response.statusCode === 201)
             this.statusMessages.current.showSuccess("Registration Complete!");
@@ -68,7 +70,9 @@ export default class Register extends Component {
     this.setState({ accessLevel: value }, () => {
       console.log("Access level changed.");
       if (this.state.accessLevel !== '1') {
-        this.statusMessages.current.showError("If account is anything other than 'Student' it will be subjected to further review.");
+        this.setState({ requestLevel: value, accessLevel: '1' }, () => {
+          this.statusMessages.current.showError("Selections Other Than 'Student' Will be Subjected to Further Review.");
+        });
       }
     });
   }
@@ -123,16 +127,16 @@ export default class Register extends Component {
             />
             <br />
             <TextField
-              hintText="Enter your Phone #"
-              floatingLabelText="Phone Number (Optional)"
-              onChange={(event, newValue) => this.setState({ phone: newValue })}
-            />
-            <br />
-            <TextField
               type="password"
               hintText="Enter your Password"
               floatingLabelText="Password"
               onChange={(event, newValue) => this.setState({ password: newValue })}
+            />
+            <br />
+            <TextField
+              hintText="Enter your Phone #"
+              floatingLabelText="Phone Number (Optional)"
+              onChange={(event, newValue) => this.setState({ phone: newValue })}
             />
             <br />
             <p><br />Please select an account type.</p>
@@ -145,7 +149,6 @@ export default class Register extends Component {
             <br /><br />
             <div align="center">
               <ReCAPTCHA
-                class="Captcha"
                 sitekey="6LdB8YoUAAAAAL5OtI4zXys_QDLidEuqpkwd3sKN"
                 render="explicit"
                 onloadCallback={this.recaptchaLoaded}

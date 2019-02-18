@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
 import userService from '../../../_common/services/user';
 import teamService from '../../../_common/services/team';
+import upgradeService from '../../../_common/services/upgrade';
 import eventService from '../../../_common/services/event';
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import Register from '../../portals/register/Register.jsx';
@@ -11,6 +12,8 @@ import CreateEvent from '../events/CreateEvent';
 import AddUser from '../register/AddUser.jsx';
 import '../../portals/register/Register.css';
 import './AdminDash.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AcceptIcon from '@material-ui/icons/Done';
 
 var currentView = null;
 
@@ -24,6 +27,9 @@ export default class AdminDash extends Component {
         this.handleCreateEvent = this.handleCreateEvent.bind(this);
         this.handleAddToTeam = this.handleAddToTeam.bind(this);
         this.handleShowTeams = this.handleShowTeams.bind(this);
+        this.handleAcceptRequest = this.handleAcceptRequest.bind(this);
+        this.handleDenyRequest = this.handleDenyRequest.bind(this);
+        this.handlePendingRequests = this.handlePendingRequests.bind(this);
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
@@ -31,7 +37,7 @@ export default class AdminDash extends Component {
             userTable: [],
             eventTable: [],
             teamTable: [],
-            requestTable: []
+            requestTable: [],
         };
     }
 
@@ -57,7 +63,7 @@ export default class AdminDash extends Component {
     * Renders the AddUser.jsx component.
     * Prompts the user to a new team member and updates the information to the database.
     *************************************************************************************/
-    handleAddToTeam(){
+    handleAddToTeam() {
         currentView = <AddUser />
         this.forceUpdate();
     }
@@ -85,10 +91,11 @@ export default class AdminDash extends Component {
     * Shows outstanding requests for a higher level accounts.
     *************************************************************************************/
     handlePendingRequests() {
-        userService.getAllRequests().then((response) => {
+        upgradeService.getAllUpgrades().then((response) => {
+            console.log(JSON.parse(response.body));
             if (response.statusCode === 200) {
                 this.setState({ requestTable: JSON.parse(response.body) }, () => {
-                    this.generateRequestTable();
+                    this.generateRequestTable(); // helper function
                 });
             }
             else console.log("An error has occurred, Please try again.");
@@ -143,25 +150,63 @@ export default class AdminDash extends Component {
 
     /**************************************************************************************
     * IN PROGRESS
+    * Helper function for generateRequestTable. Updates the users AccessLevel.
+    **************************************************************************************/
+    handleAcceptRequest(email, level) {
+        upgradeService.acceptUpgradeRequest(email, level).then((response) => {
+            if (response.statusCode === 200) {
+                console.log("Account Updated");
+                this.forceUpdate();
+            }
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+    }
+
+    /**************************************************************************************
+    * IN PROGRESS
+    * Helper function for generateRequestTable. Deletes the user from the database.
+    **************************************************************************************/
+    handleDenyRequest(email) {
+        upgradeService.removeUpgradeRequest(email).then((response) => {
+            if (response.statusCode === 200) {
+                console.log("Request Removed");
+                this.forceUpdate();
+            }
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+    }
+
+    /**************************************************************************************
     * Helper function for handlePendingRequests. Generates the data as a table.
     **************************************************************************************/
     generateRequestTable() {
         const requests = [];
         this.state.requestTable.forEach((request, index) => {
             requests.push(<tr key={index}>
-                <td>{index+1}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
+                <td>{index + 1}</td>
+                <td>{request.TeamName}</td>
+                <td>{request.FirstName}</td>
+                <td>{request.LastName}</td>
+                <td>{request.Email}</td>
+                <td>{request.Phone}</td>
+                <td>{request.RequestLevel}</td>
+                <td>
+                    <AcceptIcon onClick={() => this.handleAcceptRequest(request.Email, request.RequestLevel)} />
+                    <DeleteIcon onClick={() => this.handleDenyRequest(request.Email)} />
+                </td>
             </tr>);
         });
         currentView = <Table striped bordered condensed hover>
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Team Name</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
+                    <th>Phone</th>
+                    <th>Requested Level</th>
+                    <th>Activate</th>
                 </tr>
             </thead>
             <tbody>
@@ -180,7 +225,7 @@ export default class AdminDash extends Component {
         console.log(this.state.eventTable);
         this.state.eventTable.forEach((event, index) => {
             events.push(<tr key={index}>
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td>{event.EventLocation}</td>
                 <td>{event.EventDate}</td>
                 <td>{event.EventTime}</td>
@@ -209,7 +254,7 @@ export default class AdminDash extends Component {
         const users = [];
         this.state.userTable.forEach((user, index) => {
             users.push(<tr key={index}>
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td>{user.TeamName}</td>
                 <td>{user.FirstName}</td>
                 <td>{user.LastName}</td>
@@ -244,7 +289,7 @@ export default class AdminDash extends Component {
         const teams = [];
         this.state.teamTable.forEach((team, index) => {
             teams.push(<tr key={index}>
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td>{team.TeamName}</td>
                 <td>{team.SchoolName}</td>
                 <td>{team.SchoolAddress}</td>
@@ -297,7 +342,7 @@ export default class AdminDash extends Component {
                     <Navbar.Collapse>
                         <Nav>
                             <NavDropdown title="Users" id="basic-nav-dropdown">
-                                <NavItem eventKey={1} onClick={this.handlePendingRequests}>Pending Requests</NavItem>
+                                <NavItem eventKey={1} onClick={this.handlePendingRequests}>Upgrade Requests</NavItem>
                                 <NavItem eventKey={2} onClick={this.handleCreateUser}>Create User</NavItem>
                                 <NavItem eventKey={3} onClick={this.handleShowUsers}>View Users</NavItem>
                             </NavDropdown>

@@ -32,28 +32,6 @@ class userService {
     }
 
     /**************************************************************************************
-     * IN PROGRESS
-     * Calls the API and returns a JSON list of all requests for a higher tier account.
-     **************************************************************************************/
-    getAllRequests() {
-        return new Promise((resolve, reject) => {
-            const options = {
-                method: 'GET',
-                url: `${controllerUrl}/admindash`,
-                headers: {}
-            }
-            request(options, (err, response, body) => {
-                if (err || response.statusCode !== 200)
-                    return reject(err || response);
-                if (response.statusCode === 200) {
-                    this.userRequests = body; // saves the request response.
-                }
-                resolve(response);
-            });
-        });
-    }
-
-    /**************************************************************************************
      * Calls the API, registers a new user object, and assigns the user to teamName
      **************************************************************************************/
     addUser(teamName, firstName, lastName, email, phone, accesslevel, hashedPassword) {

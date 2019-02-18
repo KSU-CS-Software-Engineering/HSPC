@@ -12,6 +12,7 @@ router.post('/register', (req, res) => {
     const phone = req.body['phone'];
     const password = req.body['password'];
     const accesslevel = req.body['accessLevel'];
+    const requestlevel = req.body['requestLevel'];
 
     if (!(firstName && lastName && email && password)) return statusResponses.badRequest(res, "FirstName, LastName, Email, and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
@@ -23,7 +24,7 @@ router.post('/register', (req, res) => {
             if (data.length > 0) return statusResponses.conflict(res, `'${email}' could not be registered`);
             authService.generateHash(password)
                 .then((hashedPassword) => {
-                    userService.register(teamName, firstName, lastName, email, phone, accesslevel, hashedPassword)
+                    userService.register(teamName, firstName, lastName, email, phone, accesslevel, requestlevel, hashedPassword)
                         .then(() => {
                             statusResponses.created(res, `${email}' successfully registered!`);
                         })
