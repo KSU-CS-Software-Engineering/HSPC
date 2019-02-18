@@ -14,18 +14,18 @@ module.exports = {
         });
     },
     getLogin: (email) => {
-        console.log(email);
         return new Promise((resolve, reject) => {
             const query =
                 `SELECT U.UserID,
                 U.Email,
                 U.EncryptedPassword,
-                U.AccessLevel
+                U.AccessLevel,
+                U.TeamName
             FROM dbo.Users AS U
             WHERE Email = '${email}'`;
             mssql.query(query)
                 .then((data) => resolve(data))
-                .catch((err) => reject(err));
+                .catch((err) => {reject(err)});
         });
     },
     getAllUsers: () => {
@@ -43,4 +43,16 @@ module.exports = {
                 .catch((err) => reject(err));
         });
     },
+    assignToTeam: (teamName, email) => {
+        return new Promise((resolve, reject) => {
+            const query =
+            `UPDATE dbo.Users
+            set TeamName = '${teamName}'
+            where
+                Email = '${email}'`
+            mssql.query(query)
+                .then((data) => resolve(data))
+                .catch((err) => reject(err));
+        });
+    }
 }

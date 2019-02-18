@@ -57,6 +57,30 @@ class userService {
             });
         });
     }
+
+    /**************************************************************************************
+     * IN PROGRESS
+     * Calls the API, registers a new user object, and assigns the user to teamName
+     **************************************************************************************/
+    addToTeam(teamName, email) {
+        return new Promise((resolve, reject) => {
+            const options = {
+                method: 'PATCH',
+                url: `${controllerUrl}/adduser`,
+                headers: {},
+                json: true,
+                body: {
+                    teamName: teamName,
+                    email: email,
+                }
+            }
+            request(options, (err, response, body) => {
+                if (err || response.statusCode >= 500) return reject(err || response);
+                resolve(response);
+            });
+        });
+    }
+
 }
 
 export default new userService();

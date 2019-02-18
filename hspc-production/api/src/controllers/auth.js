@@ -43,7 +43,7 @@ router.post('/login', (req, res) => {
     const password = req.body['password'];
     if (!(email && password)) return statusResponses.badRequest(res, "Email and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
-    
+
     userService.getLogin(email)
         .then(data => {
             if (data.length === 0) return statusResponses.unauthorized(res, `'${email}' could not be logged in`);

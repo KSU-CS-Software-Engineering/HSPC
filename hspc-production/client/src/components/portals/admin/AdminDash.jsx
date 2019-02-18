@@ -10,10 +10,10 @@ import RegisterTeam from '../register/RegisterTeam.jsx';
 import Scoreboard from '../scoreboard/Scoreboard.jsx';
 import CreateEvent from '../events/CreateEvent';
 import AddUser from '../register/AddUser.jsx';
-import '../../portals/register/Register.css';
-import './AdminDash.css';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AcceptIcon from '@material-ui/icons/Done';
+import '../../portals/register/Register.css';
+import './AdminDash.css';
 
 var currentView = null;
 
@@ -33,6 +33,7 @@ export default class AdminDash extends Component {
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
+        this.currentView = null;
         this.state = {
             userTable: [],
             eventTable: [],
@@ -155,8 +156,7 @@ export default class AdminDash extends Component {
     handleAcceptRequest(email, level) {
         upgradeService.acceptUpgradeRequest(email, level).then((response) => {
             if (response.statusCode === 200) {
-                console.log("Account Updated");
-                this.forceUpdate();
+                this.handlePendingRequests();
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
@@ -169,8 +169,7 @@ export default class AdminDash extends Component {
     handleDenyRequest(email) {
         upgradeService.removeUpgradeRequest(email).then((response) => {
             if (response.statusCode === 200) {
-                console.log("Request Removed");
-                this.forceUpdate();
+                this.handlePendingRequests();
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
@@ -349,7 +348,7 @@ export default class AdminDash extends Component {
 
                             <NavDropdown title="Teams" id="basic-nav-dropdown">
                                 <NavItem eventKey={4} onClick={this.handleCreateTeam}>Create Team</NavItem>
-                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add Student</NavItem>
+                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add To Team</NavItem>
                                 <NavItem eventKey={6} onClick={this.handleShowTeams}>View Teams</NavItem>
                             </NavDropdown>
 

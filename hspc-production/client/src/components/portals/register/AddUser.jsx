@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
-import AuthService from '../../../_common/services/auth'
+import React, { Component } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import AuthService from '../../../_common/services/auth';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import userService from '../../../_common/services/user';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { white } from 'material-ui/styles/colors';
@@ -11,8 +13,10 @@ import './Register.css';
 export default class AddUser extends Component {
     constructor(props) {
         super(props)
+        this.handleClose = this.handleClose.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.updateTeamValue = this.updateTeamValue.bind(this);
         this.statusMessages = React.createRef();
-        this.refreshPage = this.refreshPage.bind(this);
         this.state = {
             firstName: '',
             lastName: '',
@@ -21,7 +25,38 @@ export default class AddUser extends Component {
             password: '',
             accessLevel: '1',
             teamName: this.props.teamName,
+            show: false
         }
+    }
+
+    /*************************************************************************************
+    * Closes the Modal Component.
+    *************************************************************************************/
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    /*************************************************************************************
+    * Renders the Modal component if there's a conflict in user registration.
+    *************************************************************************************/
+    handleShow() {
+        this.setState({ show: true });
+    }
+
+    /*************************************************************************************
+    * Adds the value of 'teamName' to the database to user with the value 'email'
+    *************************************************************************************/
+    updateTeamValue(){
+        userService.addToTeam(this.state.teamName, this.state.email)
+        .then((response) => {
+            if (response.statusCode === 201){
+                this.handleClose();
+                this.statusMessages.current.showSuccess("Account Successfully Updated!");
+            }
+        })
+        .catch((error) => {
+            this.statusMessages.current.showError('Something went wrong. Please try again.');
+        });
     }
 
     /*************************************************************************************
@@ -34,35 +69,24 @@ export default class AddUser extends Component {
             this.statusMessages.current.showError('Something went wrong. Please try again');
             return;
         }
-        if(this.state.teamName === '' || this.state.teamName === undefined ){
+        if (this.state.teamName === '' || this.state.teamName === undefined) {
             this.statusMessages.current.showError('Please Enter a Team Name.');
             return;
         }
 
-        AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel)
+        AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel, '')
             .then((response) => {
                 if (response.statusCode === 201)
                     this.statusMessages.current.showSuccess("Registration Successful!");
+                else if (response.statusCode === 409) {
+                    this.handleShow();
+                }
                 else
                     this.statusMessages.current.showError('Something went wrong. Please try again');
             })
             .catch((error) => {
                 this.statusMessages.current.showError('Something went wrong. Please try again.');
             });
-    }
-
-    /*************************************************************************************
-    * IN PROGRESS
-    * Refreshes the page and removes any error messages.
-    *************************************************************************************/
-    refreshPage() {
-        this.statusMessages.current.showError(null);
-        this.setState({
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: ''
-        });
     }
 
     /**************************************************************************************
@@ -137,6 +161,17 @@ export default class AddUser extends Component {
                         />
                     </div>
                 </MuiThemeProvider>
+
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Update Account</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>The account already exists, would you like to add this user to the team below?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
+                        <Button variant="primary" onClick={this.updateTeamValue}>Accept</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }

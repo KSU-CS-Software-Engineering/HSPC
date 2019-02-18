@@ -17,5 +17,29 @@ module.exports = {
                 .then((data) => resolve(data))
                 .catch((err) => reject(err));
         });
+    },
+    removeUpgradeRequest: (email) => {
+        return new Promise((resolve, reject) => {
+            const query =
+            `UPDATE dbo.Users
+            set AccessLevel = '1', RequestLevel = ''
+            where
+                Email = '${email}'`
+            mssql.query(query)
+                .then((data) => resolve(data))
+                .catch((err) => reject(err));
+        });
+    },
+    acceptUpgradeRequest: (requestlevel, email) => {
+        return new Promise((resolve, reject) => {
+            const query =
+                `UPDATE dbo.Users
+                set AccessLevel = '${requestlevel}', RequestLevel = ''
+                where
+                    Email = '${email}'`
+            mssql.query(query)
+                .then((data) => resolve(data))
+                .catch((err) => reject(err));
+        });
     }
 }
