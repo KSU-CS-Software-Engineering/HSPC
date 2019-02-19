@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import AuthService from '../../../_common/services/auth';
+import teamService from '../../../_common/services/team';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import userService from '../../../_common/services/user';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,6 +10,14 @@ import { white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './Register.css';
+import Select from 'react-select';
+
+const selectStyles = {
+    menu: base => ({
+      ...base,
+      zIndex: 100
+    })
+  };
 
 export default class AddUser extends Component {
     constructor(props) {
@@ -25,8 +34,32 @@ export default class AddUser extends Component {
             password: '',
             accessLevel: '1',
             teamName: this.props.teamName,
+            teamList: [],
             show: false
         }
+    }
+
+    /*************************************************************************************
+    * Loads the values of registered teams and populates the dropdown.
+    *************************************************************************************/
+    componentDidMount() {
+        teamService.getAllTeams().then((response) => {
+            if (response.statusCode === 200) {
+                let body = JSON.parse(response.body);
+                let teams = [];
+                for (let i = 0; i < body.length; i++) {
+                    teams.push({
+                        label: body[i].TeamName,
+                        value: body[i].TeamName
+                    });
+                }
+                this.setState({
+                    teamList: teams
+                });
+                console.log(teams);
+            }
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /*************************************************************************************
@@ -46,17 +79,17 @@ export default class AddUser extends Component {
     /*************************************************************************************
     * Adds the value of 'teamName' to the database to user with the value 'email'
     *************************************************************************************/
-    updateTeamValue(){
+    updateTeamValue() {
         userService.addToTeam(this.state.teamName, this.state.email)
-        .then((response) => {
-            if (response.statusCode === 201){
-                this.handleClose();
-                this.statusMessages.current.showSuccess("Account Successfully Updated!");
-            }
-        })
-        .catch((error) => {
-            this.statusMessages.current.showError('Something went wrong. Please try again.');
-        });
+            .then((response) => {
+                if (response.statusCode === 201) {
+                    this.handleClose();
+                    this.statusMessages.current.showSuccess("Account Successfully Updated!");
+                }
+            })
+            .catch((error) => {
+                this.statusMessages.current.showError('Something went wrong. Please try again.');
+            });
     }
 
     /*************************************************************************************
@@ -93,7 +126,6 @@ export default class AddUser extends Component {
     * Renders the component UI.
     **************************************************************************************/
     render() {
-        console.log(this.props.teamName);
         return (
             <div className="RegisterBox">
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
@@ -101,12 +133,14 @@ export default class AddUser extends Component {
                 <p><b>Please fill out the information below.</b></p>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
-                        <TextField
-                            hintText="Enter a Team Name"
-                            floatingLabelText="Team Name"
-                            defaultValue={this.props.teamName}
-                            onChange={(event, newValue) => this.setState({ teamName: newValue })}
-                        />
+                        <div id='search-list'>
+                            <Select
+                                styles={selectStyles}
+                                placeholder="Enter a Team Name"
+                                options={this.state.teamList}
+                                onChange={opt => this.setState({teamName: opt.label})}
+                            />
+                        </div>
                         <br />
                         <TextField
                             hintText="Enter the Student's First Name"

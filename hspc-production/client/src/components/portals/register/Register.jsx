@@ -9,7 +9,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import AuthService from '../../../_common/services/auth';
 import './Register.css';
-import 'react-responsive-ui/style.css'
 
 export default class Register extends Component {
   constructor(props) {
@@ -54,13 +53,6 @@ export default class Register extends Component {
     } else {
       this.statusMessages.current.showError("Please verify that you are a human.");
     }
-  }
-
-  /**************************************************************************************
-   * Handles switching between the Registration and Login pages.
-   **************************************************************************************/
-  handleSwitch() {
-    this.props.history.push('/login');
   }
 
   /**************************************************************************************
@@ -162,15 +154,6 @@ export default class Register extends Component {
               backgroundColor={'#00a655'}
               labelColor={white}
               onClick={(event) => this.handleRegister(event)}
-            />
-            <p><b>Already have an account?</b></p>
-            <RaisedButton
-              className="LoginButton"
-              label="Sign In"
-              style={{ margin: 15 }}
-              backgroundColor={'#350B4F'}
-              labelColor={white}
-              onClick={this.handleSwitch.bind(this)}
             />
           </div>
         </MuiThemeProvider>
