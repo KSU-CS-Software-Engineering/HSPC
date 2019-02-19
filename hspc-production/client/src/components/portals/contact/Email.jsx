@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import RaisedButton from 'material-ui/RaisedButton';
 import { white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+import userService from '../../../_common/services/user';
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import './Email.css'
 
@@ -17,8 +18,32 @@ export default class Email extends Component {
             emailAll: false,
             email: '',
             subject: '',
-            message: ''
+            message: '',
+            addresslist: []
         };
+    }
+
+    /*************************************************************************************
+    * Loads the values of registered email addresses.
+    *************************************************************************************/
+    componentDidMount() {
+        userService.getAllUsers().then((response) => {
+            if (response.statusCode === 200) {
+                let body = JSON.parse(response.body);
+
+                let users = [];
+                for (let i = 0; i < body.length; i++) {
+                    users.push(
+                        body[i].Email
+                    );
+                }
+                this.setState({
+                    addresslist: users
+                });
+                console.log(this.state.addresslist);
+            }
+            else console.log("An error has occurred, Please try again.");
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /**************************************************************************************
@@ -26,7 +51,15 @@ export default class Email extends Component {
     *  Calls the API and passes email information.
     **************************************************************************************/
     handleSubmit() {
-        alert("Did the thing!");
+        if (this.state.emailAll) {
+            console.log("Sent All");
+
+            
+        }
+        else {
+            console.log("Sent Once");
+            
+        }
     }
 
     /**************************************************************************************
@@ -63,7 +96,8 @@ export default class Email extends Component {
                                 className="form-control"
                                 aria-describedby="emailHelp"
                                 disabled={this.state.emailAll}
-                                onChange={(event, newValue) => this.setState({ email: newValue })}
+                                value={this.state.email}
+                                onChange={e => this.setState({ email: e.target.value })}
                             />
                         </div>
                         <div className="form-group">
@@ -72,7 +106,8 @@ export default class Email extends Component {
                                 id="subject"
                                 type="text"
                                 className="form-control"
-                                onChange={(event, newValue) => this.setState({ subject: newValue })}
+                                value={this.state.subject}
+                                onChange={e => this.setState({ subject: e.target.value })}
                             />
                         </div>
                         <div className="form-group">
@@ -81,12 +116,12 @@ export default class Email extends Component {
                                 id="message"
                                 className="form-control"
                                 rows="5"
-                                onChange={(event, newValue) => this.setState({ message: newValue })}>
+                                value={this.state.message}
+                                onChange={e => this.setState({ massage: e.target.value })}>
                             </textarea>
-
                         </div>
                         <div id="email-all">
-                            <p><span>Email All? </span>
+                            <p><span>Email All </span>
                                 <input
                                     type="checkbox"
                                     checked={this.state.emailAll}
