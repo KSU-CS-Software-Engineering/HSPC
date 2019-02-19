@@ -12,6 +12,7 @@ import CreateEvent from '../events/CreateEvent';
 import AddUser from '../register/AddUser.jsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AcceptIcon from '@material-ui/icons/Done';
+import Email from '../contact/Email';
 import '../../portals/register/Register.css';
 import './AdminDash.css';
 
@@ -31,6 +32,7 @@ export default class AdminDash extends Component {
         this.handleDenyRequest = this.handleDenyRequest.bind(this);
         this.handlePendingRequests = this.handlePendingRequests.bind(this);
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
+        this.handleCreateEmail = this.handleCreateEmail.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
         this.currentView = null;
@@ -84,6 +86,16 @@ export default class AdminDash extends Component {
     *************************************************************************************/
     handleShowScore() {
         currentView = <Scoreboard />
+        this.forceUpdate();
+    }
+
+    /*************************************************************************************
+    * IN PROGRESS
+    * Renders the Email.jsx component.
+    * Only available to users with an access level of >3 by default. 
+    *************************************************************************************/
+    handleCreateEmail() {
+        currentView = <Email />
         this.forceUpdate();
     }
 
@@ -358,6 +370,7 @@ export default class AdminDash extends Component {
                             </NavDropdown>
 
                             <NavItem eventKey={9} onClick={this.handleShowScore}>Scoreboard</NavItem>
+                            <NavItem eventKey={10} onClick={this.handleCreateEmail}>Contact</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
