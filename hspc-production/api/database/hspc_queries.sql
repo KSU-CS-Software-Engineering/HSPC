@@ -2,9 +2,9 @@ DROP DATABASE IF EXISTS hspc_database
 
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Teams;
+DROP TABLE IF EXISTS Competition;
 DROP TABLE IF EXISTS Questions;
 DROP TABLE IF EXISTS School;
-DROP TABLE IF EXISTS Competition;
 
 CREATE DATABASE hspc_database
 GO
@@ -13,12 +13,14 @@ USE hspc_database;
 
 CREATE TABLE Users(
 	UserID INTEGER PRIMARY KEY IDENTITY(1, 1),
-	TeamID INTEGER,
+	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
+	TeamName NVARCHAR(64),
 	Phone NVARCHAR(12),
 	FirstName NVARCHAR(45) NOT NULL,
 	LastName NVARCHAR(45) NOT NULL,
 	EncryptedPassword NVARCHAR(100) NOT NULL,
 	AccessLevel NVARCHAR(2),
+	RequestLevel NVARCHAR(2),
 	Email NVARCHAR(45) UNIQUE NOT NULL
 )
 
@@ -28,14 +30,22 @@ CREATE TABLE Teams(
 	SchoolName NVARCHAR(64),
 	SchoolAddress NVARCHAR(64),
 	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(12),
-	AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
-	SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
+	QuestionLevel NVARCHAR(2),
+	--AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
+	--SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
+)
+
+CREATE TABLE Competition(
+	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
+	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
+	EventLocation NVARCHAR(64),
+	EventDate NVARCHAR(64),
+	EventTime NVARCHAR(64)
 )
 
 CREATE TABLE Questions(
 	QuestionID INTEGER PRIMARY KEY IDENTITY(1,1),
-	QuestionDescription NOT NULL NVARCHAR(256)
+	QuestionDescription NVARCHAR(256) NOT NULL
 )
 
 CREATE TABLE School(
@@ -43,15 +53,6 @@ CREATE TABLE School(
 	Address NVARCHAR(128),
 	State NVARCHAR(32),
 	PostalCode INTEGER
-)
-
---Date and Time will be DateTimeOffsets. NVARCHAR used for testing.
-CREATE TABLE Competition(
-	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
-	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
-	EventLocation NVARCHAR(64),
-	EventDate NVARCHAR(64),
-	EventTime NVARCHAR(64)
 )
 
 /*
@@ -76,4 +77,6 @@ DELETE FROM Users WHERE FirstName != 'John';
 
 -- Delete Everything From Table
 TRUNCATE TABLE Teams
-*/          
+
+ALTER TABLE dbo.Users ADD RequestLevel NVARCHAR(2);
+*/
