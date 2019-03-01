@@ -3,7 +3,7 @@ import { Navbar, NavItem, Nav, Jumbotron } from 'react-bootstrap';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { white } from 'material-ui/styles/colors';
-import StatusMessages from '/home/hspc_admin/HSPC/hspc-production/client/src/_common/components/status-messages/status-messages.jsx';
+import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import './Competitions.css';
 
 var currentView = null;
@@ -20,7 +20,6 @@ export default class Competitions extends Component {
         // this.handleRegGuide = this.handleRegGuide.bind(this);
         // this.handleScorecards = this.handleScorecards.bind(this);
         // this.handleTransport = this.handleTransport.bind(this)
-
 
         this.statusMessages = React.createRef();
         this.state = {};

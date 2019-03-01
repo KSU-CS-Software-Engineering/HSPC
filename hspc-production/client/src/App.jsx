@@ -6,7 +6,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/portals/register/Register';
 import Navbar from './components/TopNavbar';
-import Competitions from './components/Competitions/Competitions.jsx';
+import Competitions from './components/portals/competitions/Competitions';
 
 import StudentDash from './components/portals/student/StudentDash';
 import VolunteerDash from './components/portals/volunteer/VolunteerDash';
