@@ -30,7 +30,7 @@ CREATE TABLE Teams(
 	SchoolName NVARCHAR(64),
 	SchoolAddress NVARCHAR(64),
 	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(2),
+	QuestionLevel NVARCHAR(12),
 	--AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
 	--SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
 )
@@ -54,6 +54,9 @@ CREATE TABLE School(
 	State NVARCHAR(32),
 	PostalCode INTEGER
 )
+
+--Date and Time will be DateTimeOffsets. NVARCHAR used for testing.
+
 
 /*
 -- Functions for Manipulating Data.
