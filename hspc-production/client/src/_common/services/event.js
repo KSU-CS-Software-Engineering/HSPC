@@ -10,7 +10,7 @@ class eventService {
     /**************************************************************************************
      * Calls the API and registers a new Event object in the database.
      **************************************************************************************/
-    createEvent(eventLocation, eventDate, eventTime) {
+    createEvent(eventLocation, eventDate, eventTime, eventDes) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -20,7 +20,8 @@ class eventService {
                 body: {
                     eventLocation: eventLocation,
                     eventDate: eventDate,
-                    eventTime: eventTime
+                    eventTime: eventTime,
+                    eventDes: eventDes
                 }
             }
             request(options, (err, response, body) => {

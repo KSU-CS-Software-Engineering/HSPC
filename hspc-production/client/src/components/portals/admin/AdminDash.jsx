@@ -240,6 +240,7 @@ export default class AdminDash extends Component {
                 <td>{event.EventLocation}</td>
                 <td>{event.EventDate}</td>
                 <td>{event.EventTime}</td>
+                <td>{event.EventDescription}</td>
             </tr>);
         });
         currentView = <Table striped bordered condensed hover>
@@ -249,6 +250,7 @@ export default class AdminDash extends Component {
                     <th>Location</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>

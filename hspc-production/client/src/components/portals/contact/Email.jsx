@@ -12,7 +12,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import userService from '../../../_common/services/user';
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
-import { Transport } from './Transport';
+//import { Transport } from './Transport';
 import './Email.css'
 
 export default class Email extends Component {

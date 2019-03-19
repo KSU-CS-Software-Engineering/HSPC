@@ -7,6 +7,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
 import ReCAPTCHA from 'react-recaptcha';
 import eventService from '../../../_common/services/event'
+import './CreateEvent.css';
 
 export default class CreateEvent extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ export default class CreateEvent extends Component {
             eventLocation: '',
             eventDate: '',
             eventTime: '',
+            description: '',
             isVerified: false
         }
     }
@@ -25,7 +27,7 @@ export default class CreateEvent extends Component {
     // TO DO: change date and time to datetimeoffsets.
     handleRegister(event) {
         if (this.state.isVerified) {
-            eventService.createEvent(this.state.eventLocation, this.state.eventDate, this.state.eventTime)
+            eventService.createEvent(this.state.eventLocation, this.state.eventDate, this.state.eventTime, this.state.description)
                 .then((response) => {
                     if (response.statusCode === 201) {
                         this.statusMessages.current.showSuccess("Event Scheduled Successfully!");
@@ -90,9 +92,18 @@ export default class CreateEvent extends Component {
                             defaultValue="Enter a Time"
                             onChange={(event, newValue) => this.setState({ eventTime: newValue })}
                         />
+                        <div className="text-field">
+                            <textarea
+                                placeholder="Descripton"
+                                id="message"
+                                className="form-control"
+                                rows="5"
+                                value={this.state.message}
+                                onChange={e => this.setState({ description: e.target.value })}>
+                            </textarea>
+                        </div>
                         <div align="center">
                             <ReCAPTCHA
-                                class="Captcha"
                                 sitekey="6LdB8YoUAAAAAL5OtI4zXys_QDLidEuqpkwd3sKN"
                                 render="explicit"
                                 onloadCallback={this.recaptchaLoaded}
