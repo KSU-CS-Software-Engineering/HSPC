@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron } from 'react-bootstrap';
+import './Scoreboard.css';
 
 /**************************************************************************************
 * Renders the component UI.
@@ -7,10 +7,8 @@ import { Jumbotron } from 'react-bootstrap';
 export default class Scoreboard extends Component {
     render() {
         return (
-            <div>
-                <Jumbotron>
-                    <p>Scoreboard Coming Soon.</p>
-                </Jumbotron>
+            <div className="board">
+                <h2 id="title">Leaderboard</h2>
             </div>
         )
     }

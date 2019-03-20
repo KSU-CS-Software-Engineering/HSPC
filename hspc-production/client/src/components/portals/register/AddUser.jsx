@@ -14,10 +14,10 @@ import Select from 'react-select';
 
 const selectStyles = {
     menu: base => ({
-      ...base,
-      zIndex: 100
+        ...base,
+        zIndex: 100
     })
-  };
+};
 
 export default class AddUser extends Component {
     constructor(props) {
@@ -138,7 +138,7 @@ export default class AddUser extends Component {
                                 styles={selectStyles}
                                 placeholder="Enter a Team Name"
                                 options={this.state.teamList}
-                                onChange={opt => this.setState({teamName: opt.label})}
+                                onChange={opt => this.setState({ teamName: opt.label })}
                             />
                         </div>
                         <br />

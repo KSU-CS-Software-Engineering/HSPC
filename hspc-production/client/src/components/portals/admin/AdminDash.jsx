@@ -8,6 +8,7 @@ import StatusMessages from '../../../_common/components/status-messages/status-m
 import Register from '../../portals/register/Register.jsx';
 import RegisterTeam from '../register/RegisterTeam.jsx';
 import Scoreboard from '../scoreboard/Scoreboard.jsx';
+import BoardSetup from '../scoreboard/BoardSetup.jsx';
 import CreateEvent from '../events/CreateEvent';
 import AddUser from '../register/AddUser.jsx';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -33,6 +34,7 @@ export default class AdminDash extends Component {
         this.handlePendingRequests = this.handlePendingRequests.bind(this);
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
         this.handleCreateEmail = this.handleCreateEmail.bind(this);
+        this.handleEditBoard = this.handleEditBoard.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
         this.currentView = null;
@@ -96,6 +98,16 @@ export default class AdminDash extends Component {
     *************************************************************************************/
     handleCreateEmail() {
         currentView = <Email />
+        this.forceUpdate();
+    }
+
+    /*************************************************************************************
+    * IN PROGRESS
+    * Renders the BoardSetup.jsx component.
+    * Only available to users with an access level of >=3 by default. 
+    *************************************************************************************/
+    handleEditBoard() {
+        currentView = <BoardSetup />
         this.forceUpdate();
     }
 
@@ -371,8 +383,12 @@ export default class AdminDash extends Component {
                                 <NavItem eventKey={8} onClick={this.handleShowEventHistory}>View Events</NavItem>
                             </NavDropdown>
 
-                            <NavItem eventKey={9} onClick={this.handleShowScore}>Scoreboard</NavItem>
-                            <NavItem eventKey={10} onClick={this.handleCreateEmail}>Contact</NavItem>
+                            <NavDropdown title="Scoreboard" id="basic-nav-dropdown">
+                                <NavItem eventKey={9} onClick={this.handleShowScore}>Preview</NavItem>
+                                <NavItem eventKey={10} onClick={this.handleEditBoard}>Edit</NavItem>
+                            </NavDropdown>
+
+                            <NavItem eventKey={11} onClick={this.handleCreateEmail}>Contact</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

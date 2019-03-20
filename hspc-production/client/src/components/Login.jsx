@@ -23,7 +23,6 @@ export default class Login extends Component {
 
     /*************************************************************************************
     * Checks for matching user credentials and redirects the user to the proper portal.
-    * @param {*} event 
     *************************************************************************************/
     handleClick(event) {
         authService.login(this.state.email, this.state.password).then((response) => {
