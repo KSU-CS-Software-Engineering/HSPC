@@ -3,7 +3,6 @@ import Select from 'react-select';
 import teamService from '../../_common/services/team';
 import eventService from '../../_common/services/event';
 import RaisedButton from 'material-ui/RaisedButton';
-import { white } from 'material-ui/styles/colors';
 import StatusMessages from '../../_common/components/status-messages/status-messages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -142,7 +141,7 @@ export default class BoardSetup extends Component {
                             label="Save Changes"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleSaveChanges(event)}
                         />
                     </div>

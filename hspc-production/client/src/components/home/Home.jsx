@@ -1,18 +1,61 @@
 import React, { Component } from 'react';
-import { Jumbotron } from 'react-bootstrap';
+import NewsService from '../../_common/services/news';
 import './Home.css';
 
+var news = null;
+
 export default class Home extends Component {
-    
+    constructor(props) {
+        super(props)
+        this.state = { newsTable: [] }
+    }
+
+    /*
+    * Pulls notification information upon loading the page.
+    */
+    componentDidMount() {
+        NewsService.getNewsHistory().then((response) => {
+            this.setState({ newsTable: JSON.parse(response.body) }, () => {
+                console.log(this.state.newsTable);
+                this.generateNewsTable(); // helper function
+            });
+        })
+            .catch((resErr) => console.log('Something went wrong. Please try again'));
+    }
+
+    /*
+    * Generates a table of notifications.
+    */
+    generateNewsTable() {
+        const notes = [];
+        console.log(this.state.newsTable);
+        this.state.newsTable.forEach((data, index) => {
+            notes.push(
+                <div key={index} className="news-article">
+                    <p>{data.ArticleDate}</p>
+                    <h1>{data.ArticleTitle}</h1>
+                    <h3>{data.ArticleSubHeading}</h3>
+                    <p>{data.ArticleMessage}</p>
+                </div>
+            );
+        });
+        news = notes;
+        this.forceUpdate();
+    }
+
     /*
     * Renders the component UI.
     */
     render() {
         return (
-            <Jumbotron>
-                <h2>Welcome to Kansas State University!</h2>
-                <p>Site Under Construction</p>
-            </Jumbotron>
+            <div className="home">
+                <div className="banner">
+                    <h1 id="logo">Welcome To Kansas State University</h1>
+                </div>
+                <div className="article-field">
+                    {news}
+                </div>
+            </div>
         )
     }
 }

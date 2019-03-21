@@ -10,6 +10,7 @@ import RegisterTeam from '../register/RegisterTeam.jsx';
 import Scoreboard from '../scoreboard/Scoreboard.jsx';
 import BoardSetup from '../scoreboard/BoardSetup.jsx';
 import CreateEvent from '../events/CreateEvent';
+import CreateNews from '../news/CreateNews';
 import AddUser from '../register/AddUser.jsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AcceptIcon from '@material-ui/icons/Done';
@@ -35,6 +36,7 @@ export default class AdminDash extends Component {
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
         this.handleCreateEmail = this.handleCreateEmail.bind(this);
         this.handleEditBoard = this.handleEditBoard.bind(this);
+        this.handleCreateNews = this.handleCreateNews.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.statusMessages = React.createRef();
         this.currentView = null;
@@ -101,6 +103,11 @@ export default class AdminDash extends Component {
     */
     handleEditBoard() {
         currentView = <BoardSetup />
+        this.forceUpdate();
+    }
+
+    handleCreateNews(){
+        currentView = <CreateNews />
         this.forceUpdate();
     }
 
@@ -375,6 +382,7 @@ export default class AdminDash extends Component {
                             </NavDropdown>
 
                             <NavItem eventKey={11} onClick={this.handleCreateEmail}>Contact</NavItem>
+                            <NavItem eventKey={12} onClick={this.handleCreateNews}>News</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

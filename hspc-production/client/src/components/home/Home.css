@@ -1,17 +1,28 @@
-.jumbotron{
-    margin-bottom: 4em;
-    height: 250px;
+.home{
+    height:1000px;
+    width:100%;
+    background-color: lightgray;
+}
+.banner{
+    height: 150px;
     text-align: center;
+    margin: 0px;
+    padding: 0px;
 }
-.person-wrapper{
-    margin-bottom: 2em;
+.article-field{
+    width: auto;
+    background-color: #C0C0C0;
+    width: 100%;
+    height: auto;
 }
-.profile-pic{
-    width: 50%;
+.news-article{
+    padding: 25px;
+    text-align: justify;
+    height: auto;
+    word-wrap: break-word;
 }
-h2{
-    font-size: 36px;
-}
-h3{
-    margin-bottom: 1em;
+#logo{
+    margin: 0px;
+    padding-top: 65px;
+    height: 200px;
 }

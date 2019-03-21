@@ -90,19 +90,17 @@ export default class Login extends Component {
                         />
                         <br />
                         <RaisedButton
-                            className="LoginButton"
+                            className="login-button"
                             label="Sign In"
-                            style={{ margin: 15 }}
-                            backgroundColor={'#350B4F'}
                             labelColor={'white'}
+                            backgroundColor={'#350B4F'}
                             onClick={(event) => this.handleClick(event)}
                         />
                         <RaisedButton
-                            className="RegisterButton"
+                            className="register-button"
                             label="Register an Account"
-                            style={{ margin: 15 }}
-                            backgroundColor={'#00a655'}
                             labelColor={'white'}
+                            backgroundColor={'#00a655'}
                             onClick={this.handleSwitch}
                         />
                         <br />

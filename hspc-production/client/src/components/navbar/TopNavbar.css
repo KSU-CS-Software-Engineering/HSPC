@@ -5,7 +5,9 @@ nav.navbar, .navbar-default{
 .navbar-default{
     background-image: none;
     border: none;
-    border-radius: 0; 
+    border-radius: 0;
+    min-width: 320px;
+    width: auto; 
 }
 
 .navbar-default .navbar-nav>li>a{

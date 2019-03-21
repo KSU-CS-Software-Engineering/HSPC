@@ -146,14 +146,13 @@ export default class Register extends Component {
                 verifyCallback={this.verifyCallback}
               />
             </div>
-            <RaisedButton
-              className="RegisterButton"
-              label="Create Account"
-              style={{ margin: 15 }}
-              backgroundColor={'#00a655'}
-              labelColor={'white'}
-              onClick={(event) => this.handleRegister(event)}
-            />
+              <RaisedButton
+                className="submit-button"
+                label="Create Account"
+                backgroundColor={'#00a655'}
+                labelColor={'white'}
+                onClick={(event) => this.handleRegister(event)}
+              />
           </div>
         </MuiThemeProvider>
       </div>
