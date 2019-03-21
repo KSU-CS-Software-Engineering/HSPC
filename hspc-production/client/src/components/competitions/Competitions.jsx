@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, Jumbotron } from 'react-bootstrap';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import { white } from 'material-ui/styles/colors';
-import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import StatusMessages from '../../_common/components/status-messages/status-messages';
 import './Competitions.css';
 
-var beginner2018 = require('../../../_common/assets/beginner2018.pdf');
-var advanced2018 = require('../../../_common/assets/advanced2018.pdf');
-var beginnerScore2018 = require('../../../_common/assets/beginnerScore2018.pdf');
-var advancedScore2018 = require('../../../_common/assets/advancedScore2018.pdf');
+var beginner2018 = require('../../_common/assets/beginner2018.pdf');
+var advanced2018 = require('../../_common/assets/advanced2018.pdf');
+var beginnerScore2018 = require('../../_common/assets/beginnerScore2018.pdf');
+var advancedScore2018 = require('../../_common/assets/advancedScore2018.pdf');
 var currentView = null;
 
 export default class Competitions extends Component {
@@ -38,7 +37,7 @@ export default class Competitions extends Component {
                             label="Beginning Problems and Solutions 2018"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleOpenFile(beginner2018)}
                         />
                         <br />
@@ -47,7 +46,7 @@ export default class Competitions extends Component {
                             label="Advanced Problems and Solutions 2018"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleOpenFile(advanced2018)}
                         />
                     </MuiThemeProvider>
@@ -85,7 +84,7 @@ export default class Competitions extends Component {
                             label="Fall 2018 Competition Scorecard - Beginning Teams"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleOpenFile(beginnerScore2018)}
                         />
                         <br />
@@ -94,7 +93,7 @@ export default class Competitions extends Component {
                             label="Fall 2018 Competition Scorecard - Advanced Teams"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleOpenFile(advancedScore2018)}
                         />
                     </MuiThemeProvider>

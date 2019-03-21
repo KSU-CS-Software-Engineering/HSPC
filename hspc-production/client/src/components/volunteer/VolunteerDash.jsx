@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, Table, Jumbotron } from 'react-bootstrap';
-import userService from '../../../_common/services/user';
-import teamService from '../../../_common/services/team';
-import eventService from '../../../_common/services/event';
-import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
-import Scoreboard from '../scoreboard/Scoreboard.jsx';
-import './JudgeDash.css';
+import userService from '../../_common/services/user';
+import teamService from '../../_common/services/team';
+import eventService from '../../_common/services/event';
+import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
+import './VolunteerDash.css';
 
 var currentView = null;
 
 export default class JudgeDash extends Component {
     constructor(props) {
         super(props)
-        this.handleShowScore = this.handleShowScore.bind(this);
         this.handleShowUsers = this.handleShowUsers.bind(this);
         this.handleShowTeams = this.handleShowTeams.bind(this);
         this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
@@ -25,19 +23,9 @@ export default class JudgeDash extends Component {
         };
     }
 
-    /*************************************************************************************
-    * Renders the Scoreboard.jsx component.
-    * Only available to users with an access level of >3 by default. 
-    *************************************************************************************/
-    handleShowScore() {
-        currentView = <Scoreboard />
-        this.forceUpdate();
-    }
-
-    /*************************************************************************************
-    * Returns a JSON message of all registered users.
-    * Helper function needed to generate this data as a table.
-    *************************************************************************************/
+    /*
+    * Returns a JSON message of all registered users. Helper function needed to generate this data as a table.
+    */
     handleShowUsers() {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
@@ -49,10 +37,9 @@ export default class JudgeDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*************************************************************************************
-    * Returns a JSON message of all registered teams.
-    * Helper function needed to generate this data as a table.
-    **************************************************************************************/
+    /*
+    * Returns a JSON message of all registered teams. Helper function needed to generate this data as a table.
+    */
     handleShowTeams() {
         teamService.getAllTeams().then((response) => {
             if (response.statusCode === 200) {
@@ -65,10 +52,9 @@ export default class JudgeDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
-    * Returns a JSON message of all scheduled events.
-    * Helper function needed to generate this data as a table.
-    **************************************************************************************/
+    /*
+    * Returns a JSON message of all scheduled events. Helper function needed to generate this data as a table.
+    */
     handleShowEventHistory() {
         eventService.getAllEvents().then((response) => {
             if (response.statusCode === 200) {
@@ -80,10 +66,10 @@ export default class JudgeDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
+    /*
     * IN PROGRESS
     * Helper function for handlePendingRequests. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateRequestTable() {
         const requests = [];
         this.state.requestTable.forEach((request, index) => {
@@ -110,9 +96,9 @@ export default class JudgeDash extends Component {
         this.forceUpdate();
     }
 
-    /**************************************************************************************
+    /*
     * Helper function for handleShowEvent. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateEventTable() {
         const events = [];
         console.log(this.state.eventTable);
@@ -140,9 +126,9 @@ export default class JudgeDash extends Component {
         this.forceUpdate();
     }
 
-    /**************************************************************************************
+    /*
     * Helper function for handleShowUsers. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateUserTable() {
         const users = [];
         this.state.userTable.forEach((user, index) => {
@@ -224,7 +210,7 @@ export default class JudgeDash extends Component {
                     <Navbar.Header>
                         <Navbar.Brand
                             onClick={this.clearAll}>
-                            Judge Portal
+                            Volunteer Portal
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
@@ -233,7 +219,6 @@ export default class JudgeDash extends Component {
                             <NavItem eventKey={1} onClick={this.handleShowUsers}>View Users</NavItem>
                             <NavItem eventKey={2} onClick={this.handleShowTeams}>View Teams</NavItem>
                             <NavItem eventKey={3} onClick={this.handleShowEventHistory}>View Events</NavItem>
-                            <NavItem eventKey={4} onClick={this.handleShowScore}>Scoreboard</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

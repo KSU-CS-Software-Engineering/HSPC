@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { white } from 'material-ui/styles/colors';
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
 import ReCAPTCHA from 'react-recaptcha';
-import eventService from '../../../_common/services/event'
+import eventService from '../../_common/services/event'
 import './CreateEvent.css';
 
 export default class CreateEvent extends Component {
@@ -115,7 +114,7 @@ export default class CreateEvent extends Component {
                             label="Register Event"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleRegister(event)}
                         />
                     </div>

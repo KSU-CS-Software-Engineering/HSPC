@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { SecureRoute } from 'react-route-guard';
 
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/portals/register/Register';
-import Navbar from './components/TopNavbar';
-import Competitions from './components/portals/competitions/Competitions';
+import Home from './components/home/Home';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
+import Navbar from './components/navbar/TopNavbar';
+import Competitions from './components/competitions/Competitions';
 
-import StudentDash from './components/portals/student/StudentDash';
-import VolunteerDash from './components/portals/volunteer/VolunteerDash';
-import JudgeDash from './components/portals/judge/JudgeDash';
-import AdvisorDash from './components/portals/advisor/AdvisorDash';
-import AdminDash from './components/portals/admin/AdminDash';
-import MasterDash from './components/portals/master/MasterDash';
-import Scoreboard from './components/portals/scoreboard/Scoreboard';
+import StudentDash from './components/student/StudentDash';
+import VolunteerDash from './components/volunteer/VolunteerDash';
+import JudgeDash from './components/judge/JudgeDash';
+import AdvisorDash from './components/advisor/AdvisorDash';
+import AdminDash from './components/admin/AdminDash';
+import MasterDash from './components/master/MasterDash';
+import Scoreboard from './components/scoreboard/Scoreboard';
 
 import StudentAuthGuard from './_common/guards/student';
 import VolunteerAuthGuard from './_common/guards/volunteer';
@@ -26,14 +26,14 @@ import MasterAuthGuard from './_common/guards/master';
 class App extends Component {
   render() {
     return (
-      <Router>
+      <BrowserRouter>
         <div>
-        <Navbar />
+          <Navbar />
           <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/register" component={Register}/>
-            <Route path="/Competitions" component={Competitions}/>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/Competitions" component={Competitions} />
             <SecureRoute path='/student/studentdash' component={StudentDash} routeGuard={StudentAuthGuard} redirectToPathWhenFail='/login' />
             <SecureRoute path='/volunteer/volunteerdash' component={VolunteerDash} routeGuard={VolunteerAuthGuard} redirectToPathWhenFail='/login' />
             <SecureRoute path='/judge/judgedash' component={JudgeDash} routeGuard={JudgeAuthGuard} redirectToPathWhenFail='/login' />
@@ -43,7 +43,7 @@ class App extends Component {
             <SecureRoute path='/scoreboard/scoreboard' component={Scoreboard} routeGuard={AdminAuthGuard} redirectToPathWhenFail='/login' />
           </Switch>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

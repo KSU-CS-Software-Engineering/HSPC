@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import teamService from '../../../_common/services/team';
-import eventService from '../../../_common/services/event';
+import teamService from '../../_common/services/team';
+import eventService from '../../_common/services/event';
 import RaisedButton from 'material-ui/RaisedButton';
 import { white } from 'material-ui/styles/colors';
-import StatusMessages from '../../../_common/components/status-messages/status-messages';
+import StatusMessages from '../../_common/components/status-messages/status-messages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
@@ -69,6 +69,47 @@ export default class BoardSetup extends Component {
         console.log("Changes Saved");
 
         // finish
+    }
+
+    /*
+    * In Progress
+    */
+    generateSetupTable() {
+        /*
+        const contestants = [];
+        this.state.requestTable.forEach((user, index) => {
+            contestants.push(<tr key={index}>
+                <td>{index + 1}</td>
+                <td>{user.TeamName}</td>
+                <td>{user.FirstName}</td>
+                <td>{user.LastName}</td>
+                <td>{user.Email}</td>
+                <td>{user.Phone}</td>
+                <td>{user.RequestLevel}</td>
+                <td>
+                    
+                </td>
+            </tr>);
+        });
+        currentView = <Table striped bordered condensed hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Requested Level</th>
+                    <th>Activate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {requests}
+            </tbody>
+        </Table>;
+        this.forceUpdate();
+        */
     }
 
     /*

@@ -6,12 +6,11 @@
 
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
-import { white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import userService from '../../../_common/services/user';
-import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
+import userService from '../../_common/services/user';
+import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
 //import { Transport } from './Transport';
 import './Email.css'
 
@@ -30,9 +29,9 @@ export default class Email extends Component {
         };
     }
 
-    /*************************************************************************************
+    /*
     * Loads the values of registered email addresses.
-    *************************************************************************************/
+    */
     componentDidMount() {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
@@ -53,10 +52,10 @@ export default class Email extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
+    /*
     *  IN PROGRESS
     *  Calls the API and passes email information.
-    **************************************************************************************/
+    */
     handleSubmit() {
         if (this.state.emailAll) {
             console.log("Sent All");
@@ -71,9 +70,9 @@ export default class Email extends Component {
         }
     }
 
-    /**************************************************************************************
-    *  Updates the state of emaillAll
-    **************************************************************************************/
+    /*
+    * Updates the state of emaillAll
+    */
     handleChange() {
         if (this.state.emailAll === true) {
             this.setState({ emailAll: false });
@@ -85,9 +84,9 @@ export default class Email extends Component {
         }
     }
 
-    /**************************************************************************************
-    *  Renders the component UI.
-    **************************************************************************************/
+    /*
+    * Renders the component UI.
+    */
     render() {
         return (
             <div>
@@ -143,7 +142,7 @@ export default class Email extends Component {
                             label="Send Email"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleSubmit(event)}
                         />
                     </Form>

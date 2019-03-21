@@ -3,11 +3,10 @@ import ReCAPTCHA from 'react-recaptcha';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { white } from 'material-ui/styles/colors';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../../../_common/components/status-messages/status-messages';
-import teamService from '../../../_common/services/team'
+import StatusMessages from '../../_common/components/status-messages/status-messages';
+import teamService from '../../_common/services/team'
 import AddUser from './AddUser';
 import './Register.css';
 
@@ -138,7 +137,7 @@ export default class RegisterTeam extends Component {
                                 label="Register Team"
                                 style={{ margin: 15 }}
                                 backgroundColor={'#00a655'}
-                                labelColor={white}
+                                labelColor={'white'}
                                 onClick={(event) => this.handleRegisterTeam(event)}
                             />
                         </div>

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import AuthService from '../../_common/services/auth';
+import StatusMessages from '../../_common/components/status-messages/status-messages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { white } from 'material-ui/styles/colors';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import ReCAPTCHA from 'react-recaptcha';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../../../_common/components/status-messages/status-messages';
-import AuthService from '../../../_common/services/auth';
 import './Register.css';
 
 export default class Register extends Component {
@@ -152,7 +151,7 @@ export default class Register extends Component {
               label="Create Account"
               style={{ margin: 15 }}
               backgroundColor={'#00a655'}
-              labelColor={white}
+              labelColor={'white'}
               onClick={(event) => this.handleRegister(event)}
             />
           </div>

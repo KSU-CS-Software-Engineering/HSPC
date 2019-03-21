@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './Scoreboard.css';
 
-/**************************************************************************************
+/*
 * Renders the component UI.
-**************************************************************************************/
+*/
 export default class Scoreboard extends Component {
     render() {
         return (

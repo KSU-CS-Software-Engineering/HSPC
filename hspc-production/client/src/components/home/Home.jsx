@@ -4,9 +4,9 @@ import './Home.css';
 
 export default class Home extends Component {
     
-    /*************************************************************************************
-     * Renders the component UI.
-    *************************************************************************************/
+    /*
+    * Renders the component UI.
+    */
     render() {
         return (
             <Jumbotron>

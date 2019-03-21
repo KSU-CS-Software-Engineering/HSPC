@@ -3,11 +3,10 @@ import { Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { white } from 'material-ui/styles/colors';
-import StatusMessages from '../_common/components/status-messages/status-messages';
-import authService from '../_common/services/auth';
+import StatusMessages from '../../_common/components/status-messages/status-messages';
+import AuthService from '../../_common/services/auth';
 import './Login.css';
-import './Home';
+import '../home/Home';
 
 export default class Login extends Component {
     constructor(props) {
@@ -21,14 +20,14 @@ export default class Login extends Component {
         }
     }
 
-    /*************************************************************************************
+    /*
     * Checks for matching user credentials and redirects the user to the proper portal.
-    *************************************************************************************/
+    */
     handleClick(event) {
-        authService.login(this.state.email, this.state.password).then((response) => {
+        AuthService.login(this.state.email, this.state.password).then((response) => {
             if (response.statusCode === 200) {
                 let loginRedirectPath;
-                switch (authService.authenticatedUser.accesslevel) {
+                switch (AuthService.authenticatedUser.accesslevel) {
                     case '1':
                         loginRedirectPath = '/student/studentdash'
                         break;
@@ -59,16 +58,16 @@ export default class Login extends Component {
         }).catch((resErr) => this.statusMessages.current.showError('Something went wrong. Please try again'));
     }
 
-    /*************************************************************************************
+    /*
     * Handles switching between the Registration and Login pages.
-    *************************************************************************************/
+    */
     handleSwitch = () => {
         this.props.history.push('/Register');
     }
 
-    /*************************************************************************************
+    /*
     * Renders the component UI.
-    *************************************************************************************/
+    */
     render() {
         return (
             <div className="LoginBox">
@@ -95,7 +94,7 @@ export default class Login extends Component {
                             label="Sign In"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleClick(event)}
                         />
                         <RaisedButton
@@ -103,7 +102,7 @@ export default class Login extends Component {
                             label="Register an Account"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={this.handleSwitch}
                         />
                         <br />

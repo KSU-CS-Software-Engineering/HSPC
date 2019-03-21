@@ -3,9 +3,9 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './TopNavbar.css';
 
-/*************************************************************************************
- * Creates and renders the navbar. This is viewable across all views.
- *************************************************************************************/
+/*
+* Creates and renders the navbar. This is viewable across all views.
+*/
 export default class TopNavbar extends Component {
     render(){
         return(

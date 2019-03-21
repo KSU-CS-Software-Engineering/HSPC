@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
-import userService from '../../../_common/services/user';
-import teamService from '../../../_common/services/team';
-import upgradeService from '../../../_common/services/upgrade';
-import eventService from '../../../_common/services/event';
-import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
-import Register from '../../portals/register/Register.jsx';
+import userService from '../../_common/services/user';
+import teamService from '../../_common/services/team';
+import upgradeService from '../../_common/services/upgrade';
+import eventService from '../../_common/services/event';
+import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
+import Register from '../register/Register.jsx';
 import RegisterTeam from '../register/RegisterTeam.jsx';
 import Scoreboard from '../scoreboard/Scoreboard.jsx';
 import BoardSetup from '../scoreboard/BoardSetup.jsx';
@@ -13,8 +13,8 @@ import CreateEvent from '../events/CreateEvent';
 import AddUser from '../register/AddUser.jsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AcceptIcon from '@material-ui/icons/Done';
-import Email from '../contact/Email';
-import '../../portals/register/Register.css';
+import Email from '../email/Email';
+import '../register/Register.css';
 import './AdminDash.css';
 
 var currentView = null;
@@ -46,75 +46,67 @@ export default class AdminDash extends Component {
         };
     }
 
-    /*************************************************************************************
-    * Renders the Register.jsx component.
-    * Prompts the user to create a new user and saves the information to the database.
-    *************************************************************************************/
+    /*
+    * Renders the Register.jsx component. Prompts the user to create a new user.
+    */
     handleCreateUser() {
         currentView = <Register />;
         this.forceUpdate();
     }
 
-    /*************************************************************************************
-    * Renders the RegisterTeam.jsx component.
-    * Prompts the user to create a new team and saves the information to the database.
-    *************************************************************************************/
+    /*
+    * Renders the RegisterTeam.jsx component. Prompts the user to create a new team.
+    */
     handleCreateTeam() {
         currentView = <RegisterTeam />
         this.forceUpdate();
     }
 
-    /*************************************************************************************
-    * Renders the AddUser.jsx component.
-    * Prompts the user to a new team member and updates the information to the database.
-    *************************************************************************************/
+    /*
+    * Renders the AddUser.jsx component. Prompts the user to a new team member or update their information.
+    */
     handleAddToTeam() {
         currentView = <AddUser />
         this.forceUpdate();
     }
 
-    /*************************************************************************************
-    * Renders the CreateEvent.jsx component.
-    * Prompts the user to create a new event and saves the information to the database.
-    *************************************************************************************/
+    /*
+    * Renders the CreateEvent.jsx component. Prompts the user to create a new event.
+    */
     handleCreateEvent() {
         currentView = <CreateEvent />
         this.forceUpdate();
     }
 
-    /*************************************************************************************
-    * Renders the Scoreboard.jsx component.
-    * Only available to users with an access level of >3 by default. 
-    *************************************************************************************/
+    /*
+    * Renders the Scoreboard.jsx component. Only available to users with an access level of >3 by default. 
+    */
     handleShowScore() {
         currentView = <Scoreboard />
         this.forceUpdate();
     }
 
-    /*************************************************************************************
+    /*
     * IN PROGRESS
-    * Renders the Email.jsx component.
-    * Only available to users with an access level of >3 by default. 
-    *************************************************************************************/
+    * Renders the Email.jsx component. Only available to users with an access level of >3 by default. 
+    */
     handleCreateEmail() {
         currentView = <Email />
         this.forceUpdate();
     }
 
-    /*************************************************************************************
+    /*
     * IN PROGRESS
-    * Renders the BoardSetup.jsx component.
-    * Only available to users with an access level of >=3 by default. 
-    *************************************************************************************/
+    * Renders the BoardSetup.jsx component. Only available to users with an access level of >=3 by default. 
+    */
     handleEditBoard() {
         currentView = <BoardSetup />
         this.forceUpdate();
     }
 
-    /*************************************************************************************
-    * IN PROGRESS
+    /*
     * Shows outstanding requests for a higher level accounts.
-    *************************************************************************************/
+    */
     handlePendingRequests() {
         upgradeService.getAllUpgrades().then((response) => {
             console.log(JSON.parse(response.body));
@@ -127,10 +119,9 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*************************************************************************************
-    * Returns a JSON message of all registered users.
-    * Helper function needed to generate this data as a table.
-    *************************************************************************************/
+    /*
+    * Returns a JSON message of all registered users. Helper function needed to generate this data as a table.
+    */
     handleShowUsers() {
         userService.getAllUsers().then((response) => {
             if (response.statusCode === 200) {
@@ -142,10 +133,9 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /*************************************************************************************
-    * Returns a JSON message of all registered teams.
-    * Helper function needed to generate this data as a table.
-    **************************************************************************************/
+    /*
+    * Returns a JSON message of all registered teams. Helper function needed to generate this data as a table.
+    */
     handleShowTeams() {
         teamService.getAllTeams().then((response) => {
             if (response.statusCode === 200) {
@@ -158,10 +148,9 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
-    * Returns a JSON message of all scheduled events.
-    * Helper function needed to generate this data as a table.
-    **************************************************************************************/
+    /*
+    * Returns a JSON message of all scheduled events. Helper function needed to generate this data as a table.
+    */
     handleShowEventHistory() {
         eventService.getAllEvents().then((response) => {
             if (response.statusCode === 200) {
@@ -173,10 +162,9 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
-    * IN PROGRESS
+    /*
     * Helper function for generateRequestTable. Updates the users AccessLevel.
-    **************************************************************************************/
+    */
     handleAcceptRequest(email, level) {
         upgradeService.acceptUpgradeRequest(email, level).then((response) => {
             if (response.statusCode === 200) {
@@ -186,10 +174,9 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
-    * IN PROGRESS
+    /*
     * Helper function for generateRequestTable. Deletes the user from the database.
-    **************************************************************************************/
+    */
     handleDenyRequest(email) {
         upgradeService.removeUpgradeRequest(email).then((response) => {
             if (response.statusCode === 200) {
@@ -199,9 +186,9 @@ export default class AdminDash extends Component {
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
-    /**************************************************************************************
+    /*
     * Helper function for handlePendingRequests. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateRequestTable() {
         const requests = [];
         this.state.requestTable.forEach((request, index) => {
@@ -239,10 +226,9 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
-    /**************************************************************************************
-    * IN PROGRESS
+    /*
     * Helper function for handleShowEvent. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateEventTable() {
         const events = [];
         console.log(this.state.eventTable);
@@ -272,9 +258,9 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
-    /**************************************************************************************
+    /*
     * Helper function for handleShowUsers. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateUserTable() {
         const users = [];
         this.state.userTable.forEach((user, index) => {
@@ -307,9 +293,9 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
-    /**************************************************************************************
+    /*
     * Helper function for handleShowTeams. Generates the data as a table.
-    **************************************************************************************/
+    */
     generateTeamTable() {
         const teams = [];
         this.state.teamTable.forEach((team, index) => {
@@ -342,17 +328,17 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
-    /*************************************************************************************
+    /*
     * Resets the currentView property to null and clears the screen.
-    *************************************************************************************/
+    */
     clearAll() {
         currentView = null;
         this.forceUpdate();
     }
 
-    /**************************************************************************************
-     *  Renders the component UI.
-    **************************************************************************************/
+    /*
+    *  Renders the component UI.
+    */
     render() {
         return (
             <div>
@@ -392,7 +378,6 @@ export default class AdminDash extends Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-
                 <Jumbotron className="page-body">
                     <StatusMessages ref={this.statusMessages}></StatusMessages>
                     {currentView}

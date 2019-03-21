@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import AuthService from '../../../_common/services/auth';
-import teamService from '../../../_common/services/team';
+import AuthService from '../../_common/services/auth';
+import TeamService from '../../_common/services/team';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import userService from '../../../_common/services/user';
+import UserService from '../../_common/services/user';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { white } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import StatusMessages from '../../../_common/components/status-messages/status-messages';
-import './Register.css';
+import StatusMessages from '../../_common/components/status-messages/status-messages';
 import Select from 'react-select';
+import './Register.css';
 
 const selectStyles = {
-    menu: base => ({
+    menu: base => ({ 
         ...base,
         zIndex: 100
     })
@@ -43,7 +42,7 @@ export default class AddUser extends Component {
     * Loads the values of registered teams and populates the dropdown.
     *************************************************************************************/
     componentDidMount() {
-        teamService.getAllTeams().then((response) => {
+        TeamService.getAllTeams().then((response) => {
             if (response.statusCode === 200) {
                 let body = JSON.parse(response.body);
                 let teams = [];
@@ -80,7 +79,7 @@ export default class AddUser extends Component {
     * Adds the value of 'teamName' to the database to user with the value 'email'
     *************************************************************************************/
     updateTeamValue() {
-        userService.addToTeam(this.state.teamName, this.state.email)
+        UserService.addToTeam(this.state.teamName, this.state.email)
             .then((response) => {
                 if (response.statusCode === 201) {
                     this.handleClose();
@@ -180,7 +179,7 @@ export default class AddUser extends Component {
                             label="Add to Team"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={(event) => this.handleRegister(event)}
                         />
 
@@ -190,7 +189,7 @@ export default class AddUser extends Component {
                             label="Next Student"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={white}
+                            labelColor={'white'}
                             onClick={this.refreshPage}
                         />
                     </div>

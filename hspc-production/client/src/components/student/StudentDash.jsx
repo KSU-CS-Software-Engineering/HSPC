@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, Jumbotron } from 'react-bootstrap';
-import StatusMessages from '../../../_common/components/status-messages/status-messages.jsx';
+import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
 import './StudentDash.css';
 
 var currentView = null;
@@ -13,17 +13,17 @@ export default class StudentDash extends Component {
         this.state = {};
     }
 
-    /*************************************************************************************
+    /*
     * Resets the currentView property to null and clears the screen.
-    *************************************************************************************/
+    */
     clearAll() {
         currentView = null;
         this.forceUpdate();
     }
 
-    /**************************************************************************************
-     *  Renders the component UI.
-    **************************************************************************************/
+    /*
+    * Renders the component UI.
+    */
     render() {
         return (
             <div>
