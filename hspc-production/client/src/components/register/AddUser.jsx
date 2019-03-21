@@ -120,6 +120,22 @@ export default class AddUser extends Component {
                 this.statusMessages.current.showError('Something went wrong. Please try again.');
             });
     }
+    
+    /**************************************************************************************
+     * Generates an alpna-numeric, pseudo-random string for new users passwords. 
+     * Inspired by: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+     *************************************************************************************/
+    generatePassword(){
+        var password = "";
+        var alphaNumerics = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      
+        for (var i = 0; i < 8; i++)
+        {
+            password += alphaNumerics.charAt(Math.floor(Math.random() * alphaNumerics.length));
+        }
+      
+        return password;
+    }   
 
     /**************************************************************************************
     * Renders the component UI.
@@ -167,11 +183,23 @@ export default class AddUser extends Component {
                             onChange={(event, newValue) => this.setState({ phone: newValue })}
                         />
                         <br />
-                        <TextField
-                            type="password"
-                            hintText="Enter a Password"
-                            floatingLabelText="Password"
-                            onChange={(event, newValue) => this.setState({ password: newValue })}
+                        {/*
+                            Generate a password here and set the state. 
+                            Previous code:
+                            <TextField
+                                type="password"
+                                hintText="Enter a Password"
+                                floatingLabelText="Password"
+                                //onChange={(event, newValue) => this.setState({ password: newValue })}
+                            />                            
+                        */}
+                        <RaisedButton
+                           className="GeneratePasswordButton"
+                            label="Generate Password"
+                            style={{ margin: 15 }}
+                            backgroundColor={'#00a655'}
+                            labelColor={'white'}
+                            onClick={(event) => this.setState({ password: generatePassword()})}
                         />
                         <br />
                         <RaisedButton
