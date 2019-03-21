@@ -122,7 +122,8 @@ export default class AddUser extends Component {
     }
     
     /**************************************************************************************
-     * Generates an alpna-numeric, pseudo-random string for new users passwords. 
+     * Generates an alpna-numeric, pseudo-random string for new users passwords.
+     * A seed will need to be implemented in the future. 
      * Inspired by: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
      *************************************************************************************/
     generatePassword(){
