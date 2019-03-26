@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { SecureRoute } from 'react-route-guard';
 
-import Home from './components/home/Home';
-import Login from './components/login/Login';
-import Register from './components/register/Register';
-import Navbar from './components/navbar/TopNavbar';
-import Competitions from './components/competitions/Competitions';
+import Home from './components/public-homepage';
+import Login from './components/public-login';
+import Register from './components/register-user';
+import Navbar from './components/public-navbar';
+import Competitions from './components/public-competitions';
+import Scoreboard from './components/scoreboard';
 
-import StudentDash from './components/student/StudentDash';
-import VolunteerDash from './components/volunteer/VolunteerDash';
-import JudgeDash from './components/judge/JudgeDash';
-import AdvisorDash from './components/advisor/AdvisorDash';
-import AdminDash from './components/admin/AdminDash';
-import MasterDash from './components/master/MasterDash';
-import Scoreboard from './components/scoreboard/Scoreboard';
+import StudentDash from './components/dashboard-student';
+import VolunteerDash from './components/dashboard-volunteer';
+import JudgeDash from './components/dashboard-judge';
+import AdvisorDash from './components/dashboard-advisor';
+import AdminDash from './components/dashboard-admin';
+import MasterDash from './components/dashboard-master';
 
 import StudentAuthGuard from './_common/guards/student';
 import VolunteerAuthGuard from './_common/guards/volunteer';
