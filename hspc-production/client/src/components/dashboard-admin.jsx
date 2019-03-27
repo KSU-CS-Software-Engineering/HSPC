@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
-import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
+import { Navbar, NavItem, Nav, NavDropdown, Jumbotron } from 'react-bootstrap';
 import StatusMessages from '../_common/components/status-messages/status-messages.jsx';
-import UserService from '../_common/services/user';
-import TeamService from '../_common/services/team';
-import UpgradeService from '../_common/services/upgrade';
-import EventService from '../_common/services/event';
-import Register from './register-user.jsx';
-import RegisterTeam from './register-team.jsx';
-import Scoreboard from './scoreboard.jsx';
+
+import AddEventTeam from './add-event-team';
 import BoardSetup from './create-scoreboard.jsx';
-import CreateEvent from './create-event';
+import Email from './create-email';
+import EventSignIn from './event-signin';
+import CreateEvent from './event-create';
 import CreateNews from './create-news';
+import ViewEvents from './view-events';
+import ViewUsers from './view-users';
+import ViewTeams from './view-teams';
+import UpgradeRequests from './view-upgrade-requests';
 import AddUser from './create-user.jsx';
 import PublishPractice from './publish-practice.jsx';
 import PublishScores from './publish-scores.jsx';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AcceptIcon from '@material-ui/icons/Done';
-import Email from './create-email';
+import Register from './register-user.jsx';
+import RegisterTeam from './register-team.jsx';
+import Scoreboard from './scoreboard.jsx';
 
 import '../_common/assets/css/register-user.css';
 import '../_common/assets/css/dashboard-admin.css';
@@ -30,9 +31,7 @@ export default class AdminDash extends Component {
         this.currentView = null;
         this.state = {
             userTable: [],
-            eventTable: [],
-            teamTable: [],
-            requestTable: [],
+            eventTable: []
         };
     }
 
@@ -57,6 +56,14 @@ export default class AdminDash extends Component {
     */
     handleAddToTeam = () => {
         currentView = <AddUser />
+        this.forceUpdate();
+    }
+
+    /*
+    * Returns a JSON message of all registered teams. Helper function needed to generate this data as a table.
+    */
+    handleShowTeams = () => {
+        currentView = <ViewTeams />
         this.forceUpdate();
     }
 
@@ -94,6 +101,9 @@ export default class AdminDash extends Component {
         this.forceUpdate();
     }
 
+    /*
+    * Publishes a new newsletter component to the home page.
+    */
     handleCreateNews = () => {
         currentView = <CreateNews />
         this.forceUpdate();
@@ -116,226 +126,42 @@ export default class AdminDash extends Component {
     }
 
     /*
+    * Shows a table of all teams and allows the user to mark whether the team is present.
+    */
+    handleEventSignIn = () => {
+        currentView = <EventSignIn />
+        this.forceUpdate();
+    }
+
+    /*
     * Shows outstanding requests for a higher level accounts.
     */
     handlePendingRequests = () => {
-        UpgradeService.getAllUpgrades().then((response) => {
-            console.log(JSON.parse(response.body));
-            if (response.statusCode === 200) {
-                this.setState({ requestTable: JSON.parse(response.body) }, () => {
-                    this.generateRequestTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+        currentView = <UpgradeRequests />
+        this.forceUpdate();
     }
 
     /*
     * Returns a JSON message of all registered users. Helper function needed to generate this data as a table.
     */
     handleShowUsers = () => {
-        UserService.getAllUsers().then((response) => {
-            if (response.statusCode === 200) {
-                this.setState({ userTable: JSON.parse(response.body) }, () => {
-                    this.generateUserTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
-    }
-
-    /*
-    * Returns a JSON message of all registered teams. Helper function needed to generate this data as a table.
-    */
-    handleShowTeams = () => {
-        TeamService.getAllTeams().then((response) => {
-            if (response.statusCode === 200) {
-                console.log(JSON.parse(response.body));
-                this.setState({ teamTable: JSON.parse(response.body) }, () => {
-                    this.generateTeamTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+        currentView = <ViewUsers />
+        this.forceUpdate();
     }
 
     /*
     * Returns a JSON message of all scheduled events. Helper function needed to generate this data as a table.
     */
     handleShowEventHistory = () => {
-        EventService.getAllEvents().then((response) => {
-            if (response.statusCode === 200) {
-                this.setState({ eventTable: JSON.parse(response.body) }, () => {
-                    this.generateEventTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
-    }
-
-    /*
-    * Helper function for generateRequestTable. Updates the users AccessLevel.
-    */
-    handleAcceptRequest = (email, level) => {
-        UpgradeService.acceptUpgradeRequest(email, level).then((response) => {
-            if (response.statusCode === 200) {
-                this.handlePendingRequests();
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
-    }
-
-    /*
-    * Helper function for generateRequestTable. Deletes the user from the database.
-    */
-    handleDenyRequest = (email) => {
-        UpgradeService.removeUpgradeRequest(email).then((response) => {
-            if (response.statusCode === 200) {
-                this.handlePendingRequests();
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
-    }
-
-    /*
-    * Helper function for handlePendingRequests. Generates the data as a table.
-    */
-    generateRequestTable() {
-        const requests = [];
-        this.state.requestTable.forEach((request, index) => {
-            requests.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{request.TeamName}</td>
-                <td>{request.FirstName}</td>
-                <td>{request.LastName}</td>
-                <td>{request.Email}</td>
-                <td>{request.Phone}</td>
-                <td>{request.RequestLevel}</td>
-                <td>
-                    <AcceptIcon onClick={() => this.handleAcceptRequest(request.Email, request.RequestLevel)} />
-                    <DeleteIcon onClick={() => this.handleDenyRequest(request.Email)} />
-                </td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Team Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Requested Level</th>
-                    <th>Activate</th>
-                </tr>
-            </thead>
-            <tbody>
-                {requests}
-            </tbody>
-        </Table>;
+        currentView = <ViewEvents />
         this.forceUpdate();
     }
 
     /*
-    * Helper function for handleShowEvent. Generates the data as a table.
+    * Allows the user to register specific teams to scheduled events.
     */
-    generateEventTable() {
-        const events = [];
-        console.log(this.state.eventTable);
-        this.state.eventTable.forEach((event, index) => {
-            events.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{event.EventLocation}</td>
-                <td>{event.EventDate}</td>
-                <td>{event.EventTime}</td>
-                <td>{event.EventDescription}</td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Location</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {events}
-            </tbody>
-        </Table>;
-        this.forceUpdate();
-    }
-
-    /*
-    * Helper function for handleShowUsers. Generates the data as a table.
-    */
-    generateUserTable() {
-        const users = [];
-        this.state.userTable.forEach((user, index) => {
-            users.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{user.TeamName}</td>
-                <td>{user.FirstName}</td>
-                <td>{user.LastName}</td>
-                <td>{user.Email}</td>
-                <td>{user.Phone}</td>
-                <td>{user.AccessLevel}</td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Team Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Account Level</th>
-                </tr>
-            </thead>
-            <tbody>
-                {users}
-            </tbody>
-        </Table>;
-        this.forceUpdate();
-    }
-
-    /*
-    * Helper function for handleShowTeams. Generates the data as a table.
-    */
-    generateTeamTable() {
-        const teams = [];
-        this.state.teamTable.forEach((team, index) => {
-            teams.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{team.TeamName}</td>
-                <td>{team.SchoolName}</td>
-                <td>{team.SchoolAddress}</td>
-                <td>{team.StateCode}</td>
-                <td>{team.QuestionLevel}</td>
-                <td>{team.AdvisorID}</td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Team Name</th>
-                    <th>School</th>
-                    <th>Address</th>
-                    <th>State</th>
-                    <th>Level</th>
-                    <th>Advisor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {teams}
-            </tbody>
-        </Table>;
+    handleAddTeamToEvent = () => {
+        currentView = <AddEventTeam />
         this.forceUpdate();
     }
 
@@ -371,25 +197,27 @@ export default class AdminDash extends Component {
 
                             <NavDropdown title="Teams" id="basic-nav-dropdown">
                                 <NavItem eventKey={4} onClick={this.handleCreateTeam}>Create Team</NavItem>
-                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add To Team</NavItem>
+                                <NavItem eventKey={5} onClick={this.handleAddToTeam}>Add User</NavItem>
                                 <NavItem eventKey={6} onClick={this.handleShowTeams}>View Teams</NavItem>
                             </NavDropdown>
 
                             <NavDropdown title="Events" id="basic-nav-dropdown">
-                                <NavItem eventKey={7} onClick={this.handleCreateEvent}>Schedule Event</NavItem>
-                                <NavItem eventKey={8} onClick={this.handleShowEventHistory}>View Events</NavItem>
+                                <NavItem eventKey={7} onClick={this.handleEventSignIn}>Day of Registration</NavItem>
+                                <NavItem eventKey={8} onClick={this.handleAddTeamToEvent}>Add Team</NavItem>
+                                <NavItem eventKey={9} onClick={this.handleCreateEvent}>Schedule Event</NavItem>
+                                <NavItem eventKey={10} onClick={this.handleShowEventHistory}>View Events</NavItem>
                             </NavDropdown>
 
                             <NavDropdown title="Scoreboard" id="basic-nav-dropdown">
-                                <NavItem eventKey={9} onClick={this.handleShowScore}>Preview</NavItem>
-                                <NavItem eventKey={10} onClick={this.handleEditBoard}>Edit</NavItem>
+                                <NavItem eventKey={11} onClick={this.handleShowScore}>Board Preview</NavItem>
+                                <NavItem eventKey={12} onClick={this.handleEditBoard}>Edit Board</NavItem>
                             </NavDropdown>
 
                             <NavDropdown title="Resources" id="basic-nav-dropdown">
-                            <NavItem eventKey={11} onClick={this.handlePublishPractice}>Publish Practice Questions</NavItem>
-                                <NavItem eventKey={12} onClick={this.handlePublishScores}>Publish Scorecards</NavItem>
-                                <NavItem eventKey={13} onClick={this.handleCreateEmail}>Create Email Alert</NavItem>
-                                <NavItem eventKey={14} onClick={this.handleCreateNews}>Update Newsfeed</NavItem>
+                                <NavItem eventKey={13} onClick={this.handlePublishPractice}>Publish Practice Questions</NavItem>
+                                <NavItem eventKey={14} onClick={this.handlePublishScores}>Publish Scorecards</NavItem>
+                                <NavItem eventKey={15} onClick={this.handleCreateEmail}>Create Email Alert</NavItem>
+                                <NavItem eventKey={16} onClick={this.handleCreateNews}>Update Newsfeed</NavItem>
                             </NavDropdown>
 
                         </Nav>

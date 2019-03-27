@@ -9,7 +9,7 @@ import Register from './register-user.jsx';
 import RegisterTeam from './register-team.jsx';
 import Scoreboard from './scoreboard.jsx';
 import BoardSetup from './create-scoreboard.jsx';
-import CreateEvent from './create-event';
+import CreateEvent from './event-create';
 import CreateNews from './create-news';
 import AddUser from './create-user.jsx';
 import PublishPractice from './publish-practice.jsx';

@@ -1,0 +1,17 @@
+#sub-nav{
+    width: auto;
+    background-color: lightgray;
+}
+#sub-nav-item{
+    margin: 0px;
+    display: inline-block;
+    width: auto;
+    padding: 2.5px;
+}
+#dropdown{
+    display: inline-block;
+    width: 200px;
+    margin: 5px;
+    padding-left: 2.5px;
+    padding-right: 2.5px;
+}
