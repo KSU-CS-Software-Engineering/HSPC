@@ -5,7 +5,7 @@ import eventService from '../_common/services/event';
 import RaisedButton from 'material-ui/RaisedButton';
 import StatusMessages from '../_common/components/status-messages/status-messages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const selectStyles = {
     menu: base => ({

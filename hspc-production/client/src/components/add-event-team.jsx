@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
+import Select from 'react-select';
 import StatusMessages from '../_common/components/status-messages/status-messages.jsx';
 import TeamService from '../_common/services/team';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AcceptIcon from '@material-ui/icons/Done';
+import EventService from '../_common/services/event';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+//import participantService from '../_common/services/participant';
 
 var currentView = null;
+var selected = [];
+
+const selectStyles = {
+    menu: base => ({
+        ...base,
+        zIndex: 100
+    })
+};
 
 export default class AddEventTeam extends Component {
     constructor(props) {
         super(props);
         this.statusMessages = React.createRef();
         this.state = {
-            teamTable: []
+            teamTable: [],
+            userTable: [],
+            eventList: []
         };
     }
 
@@ -21,30 +35,63 @@ export default class AddEventTeam extends Component {
     */
     componentDidMount = () => {
         TeamService.getAllTeams().then((response) => {
+            console.log(JSON.parse(response.body));
             if (response.statusCode === 200) {
-                console.log(JSON.parse(response.body));
                 this.setState({ teamTable: JSON.parse(response.body) }, () => {
                     this.generateTeamTable(); // helper function
                 });
             }
             else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+
+            EventService.getAllEvents().then((response) => {
+                if (response.statusCode === 200) {
+                    let body = JSON.parse(response.body);
+                    let events = [];
+                    for (let i = 0; i < body.length; i++)
+                        events.push({
+                            label: body[i].EventDate,
+                            value: body[i].EventDate
+                        });
+                    this.setState({ eventList: events });
+                }
+                else console.log("An error has occurred, Please try again.");
+
+                // populates the selected array with false values
+                for (let i = 0; i < this.state.teamTable.length; i++) selected.push(false);
+
+            }).catch(() => console.log('Something went wrong. Please try again'));
+        }).catch(() => console.log('Something went wrong. Please try again'));
     }
 
     /*
     * Binds a registered team to a specific event date.
     */
-    handleAddTeamToEvent = () => {
-        console.log("team added");
-        // finish
+    handleChange = (event) => {
+        let index = event.target.getAttribute('data-index');
+
+        if (selected[index] === false) {
+            selected[index] = true
+            console.log("team arrived");
+        }
+        else {
+            selected[index] = false;
+            console.log("team left");
+        }
     }
 
     /*
-    * Removes a registered team from a specific event date.
+    * Saves the information and updates the values in the database.
     */
-    handleRemoveTeamFromEvent = () => {
-        console.log("team removed");
-        // finish
+    handleSaveChanges = () => {
+        console.log(selected);
+        let eventTeams = [];
+        for (let i = 0; i < selected.length; i++) {
+            if (selected[i] === true) {
+                eventTeams.push(this.state.teamTable[i]);
+            }
+        }
+        //console.log(eventTeams);
+        //participantService.addParticipant();
     }
 
     /*
@@ -62,9 +109,8 @@ export default class AddEventTeam extends Component {
                 <td>{team.StateCode}</td>
                 <td>{team.QuestionLevel}</td>
                 <td>{team.AdvisorID}</td>
-                <td>
-                    <AcceptIcon onClick={() => this.handleAddTeamToEvent()} />
-                    <DeleteIcon onClick={() => this.handleRemoveTeamFromEvent()} />
+                <td key={index}>
+                    <input type="checkbox" onClick={this.handleChange} data-index={index} />
                 </td>
             </tr>);
         });
@@ -78,7 +124,7 @@ export default class AddEventTeam extends Component {
                     <th>State</th>
                     <th>Level</th>
                     <th>Advisor</th>
-                    <th>Arrived</th>
+                    <th>Add Team</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,11 +134,35 @@ export default class AddEventTeam extends Component {
         this.forceUpdate();
     }
 
+    /*
+    * Renders the component UI.
+    */
     render() {
         return (
             <div>
+                <div id="sub-nav">
+                    <h4 id="sub-nav-item">Event Date</h4>
+                    <Select
+                        id="dropdown"
+                        styles={selectStyles}
+                        placeholder="Select an Event Date"
+                        options={this.state.eventList}
+                        onChange={opt => this.setState({ teamName: opt.label })}
+                    />
+                </div>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
                 {currentView}
+                <MuiThemeProvider muiTheme={getMuiTheme()}>
+                    <div>
+                        <RaisedButton
+                            className="register-button"
+                            label="Save Changes"
+                            backgroundColor={'#00a655'}
+                            labelColor={'white'}
+                            onClick={() => this.handleSaveChanges()}
+                        />
+                    </div>
+                </MuiThemeProvider>
             </div>
         );
     }

@@ -5,10 +5,14 @@ import Select from 'react-select';
 import TeamService from '../_common/services/team';
 import EventService from '../_common/services/event';
 import StatusMessages from '../_common/components/status-messages/status-messages.jsx';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import '../_common/assets/css/event-signin.css';
 
-
 var currentView = null;
+var selected = [];
 
 const selectStyles = {
     menu: base => ({
@@ -23,7 +27,7 @@ export default class EventSignIn extends Component {
         this.statusMessages = React.createRef();
         this.state = {
             teamTable: [],
-            eventList: [],
+            eventList: []
         }
     }
 
@@ -52,6 +56,10 @@ export default class EventSignIn extends Component {
                     this.setState({ eventList: events });
                 }
                 else console.log("An error has occurred, Please try again.");
+
+                // populates the selected array with false values
+                for (let i = 0; i < this.state.teamTable.length; i++) selected.push(false);
+
             }).catch((resErr) => console.log('Something went wrong. Please try again'));
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
@@ -59,9 +67,31 @@ export default class EventSignIn extends Component {
     /*
     * Marks that a team has arrived.
     */
-    handleChange = (index) => {
-        console.log(this.state.teamTable);
-        console.log("Arrived");
+    handleChange = (event) => {
+        let index = event.target.getAttribute('data-index');
+
+        if (selected[index] === false) {
+            selected[index] = true
+            console.log("team added");
+        }
+        else{
+            selected[index] = false;
+            console.log("team removed");
+        }
+    }
+
+    /*
+    * Saves the information and updates the values in the database.
+    */
+    handleSaveChanges = () => {
+        let presentTeams = [];
+        for(let i = 0; i < selected.length; i++){
+            if(selected[i] === true){
+                presentTeams.push(this.state.teamTable[i]);
+            }
+        }
+        console.log(presentTeams);
+        // push presentTeams to the database when registration is complete.
     }
 
     /*
@@ -77,11 +107,8 @@ export default class EventSignIn extends Component {
                 <td>{team.StateCode}</td>
                 <td>{team.QuestionLevel}</td>
                 <td>{team.AdvisorID}</td>
-                <td>
-                    <input
-                        type="checkbox"
-                        onChange={this.handleChange(team.TeamName)}
-                    />
+                <td key={index}>
+                    <input type="checkbox" onClick={this.handleChange} data-index={index} />
                 </td>
             </tr>);
         });
@@ -122,6 +149,17 @@ export default class EventSignIn extends Component {
                 </div>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
                 {currentView}
+                <MuiThemeProvider muiTheme={getMuiTheme()}>
+                    <div>
+                        <RaisedButton
+                            className="register-button"
+                            label="Save Changes"
+                            backgroundColor={'#00a655'}
+                            labelColor={'white'}
+                            onClick={() => this.handleSaveChanges()}
+                        />
+                    </div>
+                </MuiThemeProvider>
             </div>
         );
     }
