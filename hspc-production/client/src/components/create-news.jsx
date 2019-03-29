@@ -27,7 +27,6 @@ export default class CreateNews extends Component {
     * Publishes the information to the homescreen.
     */
     handlePublisUpdate() {
-        console.log("Newsletter updated");
         NewsService.createNews(this.state.title, this.state.subheading, this.state.message, this.state.date)
             .then((response) => {
                 if (response.statusCode === 201) 

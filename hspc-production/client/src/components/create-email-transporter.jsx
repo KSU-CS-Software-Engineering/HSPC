@@ -2,9 +2,9 @@ const nodemailer = require("nodemailer");
 
 export default async function Transport(){
 
-  /***********************************************************
+  /*
   * pass prop information for transporter
-  ***********************************************************/
+  */
 
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing

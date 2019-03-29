@@ -29,18 +29,16 @@ CREATE TABLE Users(
 CREATE TABLE Participants(
 	UserID INTEGER PRIMARY KEY IDENTITY(1, 1),
 	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
-	EventDate NVARCHAR(64),
-	TeamName NVARCHAR(64),
-	FirstName NVARCHAR(45) NOT NULL,
-	LastName NVARCHAR(45) NOT NULL,
+	EventDate NVARCHAR(32) NOT NULL,
+	TeamName NVARCHAR(64) NOT NULL,
+	QuestionLevel NVARCHAR(32) NOT NULL,
 	SchoolName NVARCHAR(64),
-	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(12)
+	StateCode NVARCHAR(32)
 )
 
 CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
-	TeamName NVARCHAR(64),
+	TeamName UNINVARCHAR(64),
 	SchoolName NVARCHAR(64),
 	SchoolAddress NVARCHAR(64),
 	StateCode NVARCHAR(64),
@@ -117,7 +115,8 @@ where
 DELETE FROM Users WHERE FirstName != 'John';
 
 -- Delete Everything From Table
-TRUNCATE TABLE Teams
+TRUNCATE TABLE Participants
 
 ALTER TABLE dbo.Users ADD RequestLevel NVARCHAR(2);
 */
+

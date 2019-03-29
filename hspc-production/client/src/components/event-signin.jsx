@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import Select from 'react-select';
-import TeamService from '../_common/services/team';
+import ParticipantService from '../_common/services/participant';
 import EventService from '../_common/services/event';
 import StatusMessages from '../_common/components/status-messages/status-messages.jsx';
 
@@ -13,6 +13,8 @@ import '../_common/assets/css/event-signin.css';
 
 var currentView = null;
 var selected = [];
+var teamData = [];
+var eventDate = '';
 
 const selectStyles = {
     menu: base => ({
@@ -26,80 +28,61 @@ export default class EventSignIn extends Component {
         super(props)
         this.statusMessages = React.createRef();
         this.state = {
-            teamTable: [],
             eventList: []
         }
     }
 
     /*
-    * Returns a list of all teams when the component is rendered.
+    * Returns a list of all events when the component is rendered.
     */
     componentDidMount = () => {
-        TeamService.getAllTeams().then((response) => {
-            console.log(JSON.parse(response.body));
+        eventDate = '';
+        EventService.getAllEvents().then((response) => {
             if (response.statusCode === 200) {
-                this.setState({ teamTable: JSON.parse(response.body) }, () => {
-                    this.generateSignInTable(); // helper function
-                });
+                let body = JSON.parse(response.body);
+                let events = [];
+                for (let i = 0; i < body.length; i++)
+                    events.push({
+                        label: body[i].EventDate,
+                        value: body[i].EventDate
+                    });
+                this.setState({ eventList: events });
             }
             else console.log("An error has occurred, Please try again.");
-
-            EventService.getAllEvents().then((response) => {
-                if (response.statusCode === 200) {
-                    let body = JSON.parse(response.body);
-                    let events = [];
-                    for (let i = 0; i < body.length; i++)
-                        events.push({
-                            label: body[i].EventDate,
-                            value: body[i].EventDate
-                        });
-                    this.setState({ eventList: events });
-                }
-                else console.log("An error has occurred, Please try again.");
-
-                // populates the selected array with false values
-                for (let i = 0; i < this.state.teamTable.length; i++) selected.push(false);
-
-            }).catch((resErr) => console.log('Something went wrong. Please try again'));
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /*
-    * Marks that a team has arrived.
+    * Returns a list of teams matching the selected event date.
     */
-    handleChange = (event) => {
-        let index = event.target.getAttribute('data-index');
-
-        if (selected[index] === false) {
-            selected[index] = true
-            console.log("team added");
-        }
-        else{
-            selected[index] = false;
-            console.log("team removed");
-        }
-    }
-
-    /*
-    * Saves the information and updates the values in the database.
-    */
-    handleSaveChanges = () => {
-        let presentTeams = [];
-        for(let i = 0; i < selected.length; i++){
-            if(selected[i] === true){
-                presentTeams.push(this.state.teamTable[i]);
+    showRegisteredTeams = (date) => {
+        eventDate = date;
+        selected = [];
+        ParticipantService.getAllParticipants().then((response) => {
+            if (response.statusCode === 200) {
+                let body = JSON.parse(response.body);
+                let participants = [];
+                for (let i = 0; i < body.length; i++) {
+                    if (body[i].EventDate === eventDate) {
+                        participants.push(
+                            body[i]
+                        );
+                    }
+                }
+                teamData = participants;
+                // populates the selected array with false values
+                for (let i = 0; i < teamData.length; i++) selected.push(false);
+                this.generateSignInTable(teamData);
             }
-        }
-        console.log(presentTeams);
-        // push presentTeams to the database when registration is complete.
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /*
-    * Helper function for handleShowTeams. Generates the data as a table.
+    * Helper function for showRegisteredTeams. Generates the data as a table.
     */
-    generateSignInTable() {
+    generateSignInTable(data) {
         const teams = [];
-        this.state.teamTable.forEach((team, index) => {
+        data.forEach((team, index) => {
             teams.push(<tr key={index}>
                 <td>{index + 1}</td>
                 <td>{team.TeamName}</td>
@@ -108,7 +91,7 @@ export default class EventSignIn extends Component {
                 <td>{team.QuestionLevel}</td>
                 <td>{team.AdvisorID}</td>
                 <td key={index}>
-                    <input type="checkbox" onClick={this.handleChange} data-index={index} />
+                    <input type="checkbox" onClick={this.handleCheckboxClick} data-index={index} />
                 </td>
             </tr>);
         });
@@ -132,6 +115,29 @@ export default class EventSignIn extends Component {
     }
 
     /*
+    * Marks that a team has arrived.
+    */
+    handleCheckboxClick = (event) => {
+        let index = event.target.getAttribute('data-index');
+        if (selected[index] === false) selected[index] = true;
+        else selected[index] = false;
+        event.key = event.key + 1;
+    }
+
+    /*
+    * Saves the information and updates the values in the database.
+    */
+    handleSaveChanges = () => {
+        let presentTeams = [];
+        for (let i = 0; i < selected.length; i++) {
+            if (selected[i] === true) {
+                presentTeams.push(teamData[i]);
+            }
+        }
+        console.log(presentTeams); // use data to populate a scoreboard.
+    }
+
+    /*
     * Render the component UI
     */
     render() {
@@ -144,7 +150,7 @@ export default class EventSignIn extends Component {
                         styles={selectStyles}
                         placeholder="Select an Event Date"
                         options={this.state.eventList}
-                        onChange={opt => this.setState({ teamName: opt.label })}
+                        onChange={(e) => (this.showRegisteredTeams(e.label))}
                     />
                 </div>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>

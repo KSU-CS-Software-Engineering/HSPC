@@ -10,7 +10,7 @@ class participantService {
     /*
     * Calls the API and registers a new Event object in the database.
     */
-    addParticipant(TeamName, FirstName, LastName, SchoolName, StateCode, EventDate) {
+    addParticipant(TeamName, SchoolName, StateCode, QuestionLevel, EventDate) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -19,11 +19,10 @@ class participantService {
                 json: true,
                 body: {
                     TeamName: TeamName,
-                    FirstName: FirstName,
-                    LastName: LastName,
                     SchoolName: SchoolName,
                     StateCode: StateCode,
-                    EventDate: EventDate
+                    EventDate: EventDate,
+                    QuestionLevel: QuestionLevel
                 }
             }
             request(options, (err, response, body) => {

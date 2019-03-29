@@ -30,12 +30,10 @@ export default class CreateEvent extends Component {
         if (this.state.isVerified) {
             eventService.createEvent(this.state.eventLocation, this.state.eventDate, this.state.eventTime, this.state.description)
                 .then((response) => {
-                    if (response.statusCode === 201) {
+                    if (response.statusCode === 201)
                         this.statusMessages.current.showSuccess("Event Scheduled Successfully!");
-                    }
-                    else {
+                    else 
                         this.statusMessages.current.showError('Something went wrong. Please try again');
-                    }
                 })
                 .catch((error) => {
                     this.statusMessages.current.showError('Something went wrong. Please try again.');

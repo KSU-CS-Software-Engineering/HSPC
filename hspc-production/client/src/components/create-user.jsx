@@ -52,10 +52,7 @@ export default class AddUser extends Component {
                         value: body[i].TeamName
                     });
                 }
-                this.setState({
-                    teamList: teams
-                });
-                console.log(teams);
+                this.setState({ teamList: teams });
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
@@ -96,12 +93,10 @@ export default class AddUser extends Component {
     */
     handleRegister(event) {
         let value = this.generatePassword();
-        console.log(value);
         // email value to user
 
         this.setState({ password: value })
             .then(() => {
-                console.log(this.state.firstName, this.state.lastName, this.state.email, this.state.password, this.state.teamName);
                 if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
                     this.statusMessages.current.showError('Something went wrong. Please try again');
                     return;

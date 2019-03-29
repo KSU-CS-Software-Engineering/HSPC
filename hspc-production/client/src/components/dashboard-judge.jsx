@@ -76,7 +76,6 @@ export default class JudgeDash extends Component {
     */
     generateEventTable() {
         const events = [];
-        console.log(this.state.eventTable);
         this.state.eventTable.forEach((event, index) => {
             events.push(<tr key={index}>
                 <td>{index + 1}</td>

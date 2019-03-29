@@ -10,9 +10,9 @@ class userService {
         this.userRequests = null;
     }
 
-    /**************************************************************************************
-     * Calls the API and returns a JSON list of all registered users.
-     **************************************************************************************/
+    /*
+    * Calls the API and returns a JSON list of all registered users.
+    */
     getAllUsers() {
         return new Promise((resolve, reject) => {
             const options = {
@@ -31,9 +31,9 @@ class userService {
         });
     }
 
-    /**************************************************************************************
-     * Calls the API, registers a new user object, and assigns the user to teamName
-     **************************************************************************************/
+    /*
+    * Calls the API, registers a new user object, and assigns the user to teamName
+    */
     addUser(teamName, firstName, lastName, email, phone, accesslevel, hashedPassword) {
         return new Promise((resolve, reject) => {
             const options = {
@@ -58,10 +58,9 @@ class userService {
         });
     }
 
-    /**************************************************************************************
-     * IN PROGRESS
-     * Calls the API, registers a new user object, and assigns the user to teamName
-     **************************************************************************************/
+    /*
+    * Calls the API, registers a new user object, and assigns the user to teamName
+    */
     addToTeam(teamName, email) {
         return new Promise((resolve, reject) => {
             const options = {

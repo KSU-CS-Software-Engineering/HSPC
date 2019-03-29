@@ -5,8 +5,6 @@ class AdvisorAuthGuard {
         return new Promise((resolve, reject) => {
             authService.isAuthenticated()
                 .then((success) => {
-                    console.log(authService.authenticatedUser);
-                    console.log(authService.authenticatedUser.accesslevel);
                     if (authService.authenticatedUser.accesslevel !== '4') success = false;
                     resolve(success);
                 })

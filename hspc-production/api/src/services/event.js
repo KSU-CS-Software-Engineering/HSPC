@@ -2,7 +2,6 @@ const mssql = getHelper('db-mssql');
 
 module.exports = {
     createEvent: (eventLocation, eventDate, eventTime, eventDes) => {
-        console.log(eventLocation, eventDate, eventTime);
         return new Promise((resolve, reject) => {
             const query =
                 `INSERT INTO dbo.Competition

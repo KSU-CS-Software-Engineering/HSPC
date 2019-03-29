@@ -7,9 +7,9 @@ class upgradeService {
         this.userRequests = null;
     }
 
-    /**************************************************************************************
-     * Calls the API and returns a JSON list of all requests for a higher tier account.
-     **************************************************************************************/
+    /*
+    * Calls the API and returns a JSON list of all requests for a higher tier account.
+    */
     getAllUpgrades() {
         return new Promise((resolve, reject) => {
             const options = {
@@ -28,10 +28,9 @@ class upgradeService {
         });
     }
 
-    /**************************************************************************************
-     * IN PROGRESS - Work on API side
-     * Calls the API and sets the AccessLevel value to the value of RequestLevel.
-     **************************************************************************************/
+    /*
+    * Calls the API and sets the AccessLevel value to the value of RequestLevel.
+    */
     acceptUpgradeRequest(email, level) {
         return new Promise((resolve, reject) => {
             const options = {
@@ -51,10 +50,9 @@ class upgradeService {
         });
     }
 
-    /**************************************************************************************
-     * IN PROGRESS - Work on API side
-     * Calls the API and sets the RequestLevel value to ''.
-     **************************************************************************************/
+    /*
+    * Calls the API and sets the RequestLevel value to ''.
+    */
     removeUpgradeRequest(email) {
         return new Promise((resolve, reject) => {
             const options = {

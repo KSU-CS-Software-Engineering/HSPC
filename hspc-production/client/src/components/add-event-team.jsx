@@ -7,10 +7,11 @@ import EventService from '../_common/services/event';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-//import participantService from '../_common/services/participant';
+import participantService from '../_common/services/participant';
 
 var currentView = null;
 var selected = [];
+var eventDate = '';
 
 const selectStyles = {
     menu: base => ({
@@ -34,8 +35,8 @@ export default class AddEventTeam extends Component {
     * Returns a list of all registered teams and events when the component is rendered.
     */
     componentDidMount = () => {
+        eventDate = '';
         TeamService.getAllTeams().then((response) => {
-            console.log(JSON.parse(response.body));
             if (response.statusCode === 200) {
                 this.setState({ teamTable: JSON.parse(response.body) }, () => {
                     this.generateTeamTable(); // helper function
@@ -66,32 +67,41 @@ export default class AddEventTeam extends Component {
     /*
     * Binds a registered team to a specific event date.
     */
-    handleChange = (event) => {
+    handleCheckboxClick = (event) => {
         let index = event.target.getAttribute('data-index');
-
-        if (selected[index] === false) {
-            selected[index] = true
-            console.log("team arrived");
-        }
-        else {
-            selected[index] = false;
-            console.log("team left");
-        }
+        if (selected[index] === false) selected[index] = true;
+        else selected[index] = false;
+        event.key = event.key + 1;
     }
 
     /*
     * Saves the information and updates the values in the database.
     */
-    handleSaveChanges = () => {
-        console.log(selected);
+    async handleSaveChanges() {
         let eventTeams = [];
-        for (let i = 0; i < selected.length; i++) {
-            if (selected[i] === true) {
-                eventTeams.push(this.state.teamTable[i]);
-            }
-        }
-        //console.log(eventTeams);
-        //participantService.addParticipant();
+        for (let i = 0; i < selected.length; i++)
+            if (selected[i] === true) eventTeams.push(this.state.teamTable[i]);
+        
+        // data checks
+        if (eventDate === '') return this.statusMessages.current.showError("Event Date Required");
+        if (eventTeams.length < 1) return this.statusMessages.current.showError("No Teams Selected");
+
+        for (let i = 0; i < eventTeams.length; i++) {
+            await participantService.addParticipant(
+                eventTeams[i].TeamName, 
+                eventTeams[i].SchoolName, 
+                eventTeams[i].StateCode, 
+                eventTeams[i].QuestionLevel, 
+                eventDate
+            )
+            .then((response) => {
+                if(response.statusCode === 201) return this.statusMessages.current.showSuccess("Teams Successfully Added To Event!");
+                else return this.statusMessages.current.showError('Something went wrong. Teams Selected May Already Be Added.');
+            })
+            .catch(() => {
+                this.statusMessages.current.showError('Something went wrong. Teams Selected May Already Be Added.');
+            });
+        } 
     }
 
     /*
@@ -99,7 +109,6 @@ export default class AddEventTeam extends Component {
     */
     generateTeamTable() {
         const teams = [];
-        console.log(this.state.teamTable);
         this.state.teamTable.forEach((team, index) => {
             teams.push(<tr key={index}>
                 <td>{index + 1}</td>
@@ -110,7 +119,7 @@ export default class AddEventTeam extends Component {
                 <td>{team.QuestionLevel}</td>
                 <td>{team.AdvisorID}</td>
                 <td key={index}>
-                    <input type="checkbox" onClick={this.handleChange} data-index={index} />
+                    <input type="checkbox" onClick={this.handleCheckboxClick} data-index={index} />
                 </td>
             </tr>);
         });
@@ -147,7 +156,7 @@ export default class AddEventTeam extends Component {
                         styles={selectStyles}
                         placeholder="Select an Event Date"
                         options={this.state.eventList}
-                        onChange={opt => this.setState({ teamName: opt.label })}
+                        onChange={(e) => (eventDate = e.label)}
                     />
                 </div>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>

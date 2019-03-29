@@ -1,23 +1,23 @@
 const mssql = getHelper('db-mssql');
 
 module.exports = {
-    createNews: (articleTitle, articleSubHeading, articleMessage, articleDate) => {
+    addParticipant: (TeamName, SchoolName, StateCode, QuestionLevel, EventDate) => {
         return new Promise((resolve, reject) => {
             const query =
-                `INSERT INTO dbo.Article
-                (ArticleTitle, ArticleSubHeading, ArticleMessage, ArticleDate)
-            VALUES('${articleTitle}', '${articleSubHeading}', '${articleMessage}', '${articleDate}')`;
+                `INSERT INTO dbo.Participants
+                (TeamName, SchoolName, StateCode, QuestionLevel, EventDate)
+            VALUES('${TeamName}', '${SchoolName}', '${StateCode}', '${QuestionLevel}', '${EventDate}')`;
             mssql.query(query)
                 .then((data) => resolve(data))
                 .catch((err) => reject(err));
         });
     },
-    getNewsHistory: () => {
+    getAllParticipants: () => {
         return new Promise((resolve, reject) => {
             const query =
                 `SELECT 
-                A.ArticleTitle, A.ArticleSubHeading, A.ArticleMessage, A.ArticleDate 
-                FROM dbo.Article AS A`;
+                P.TeamName, P.SchoolName, P.StateCode, P.QuestionLevel, P.EventDate
+                FROM dbo.Participants AS P`;
             mssql.query(query)
                 .then((data) => resolve(data))
                 .catch((err) => reject(err));

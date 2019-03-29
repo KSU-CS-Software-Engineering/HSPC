@@ -28,17 +28,15 @@ export default class Register extends Component {
     }
   }
 
-  /**************************************************************************************
-   * Handles the registration of users and adds the user information to the SQL database.
-   * @param {*} event button event that handles submission of user information.
-   **************************************************************************************/
+  /*
+  * Handles the registration of users and adds the user information to the SQL database.
+  */
   handleRegister(event) {
     if (this.state.isVerified) {
       if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
         this.statusMessages.current.showError('Something went wrong. Please try again');
         return;
       }
-
       AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel, this.state.requestLevel)
         .then((response) => {
           if (response.statusCode === 201)
@@ -54,9 +52,9 @@ export default class Register extends Component {
     }
   }
 
-  /**************************************************************************************
+  /*
   * Handle the changing of access level.
-  **************************************************************************************/
+  */
   handleChange = (value, event) => {
     this.setState({ accessLevel: value }, () => {
       console.log("Access level changed.");
@@ -68,28 +66,26 @@ export default class Register extends Component {
     });
   }
 
-  /**************************************************************************************
+  /*
   * Indicates successful loading of the captcha for debugging purposes
-  **************************************************************************************/
+  */
   recaptchaLoaded() {
     console.log('captcha successfully loaded.');
   }
 
-  /**************************************************************************************
+  /*
   * Changes the verfied state to true following a verified captcha result.
-  **************************************************************************************/
+  */
   verifyCallback(response) {
-    if (response) {
+    if (response) 
       this.setState({ isVerified: true })
-    }
-    else {
+    else
       this.setState({ isVerified: false })
-    }
   }
 
-  /**************************************************************************************
-   *  Renders the component UI.
-  **************************************************************************************/
+  /*
+  * Renders the component UI.
+  */
   render() {
     return (
       <div className="RegisterBox">

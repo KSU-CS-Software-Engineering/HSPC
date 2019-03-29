@@ -34,7 +34,6 @@ router.post('/adduser', (req, res) => {
     const phone = req.body['phone'];
     const password = req.body['password'];
     const accesslevel = req.body['accessLevel'];
-    console.log(teamName, firstName, lastName, email, password, accesslevel);
 
     userService.register(teamName, firstName, lastName, email, phone, accesslevel, password)
         .then(data => {

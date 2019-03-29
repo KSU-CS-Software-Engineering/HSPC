@@ -5,7 +5,6 @@ class AdminAuthGuard {
         return new Promise((resolve, reject) => {
             authService.isAuthenticated()
                 .then((success) => {
-                    console.log(authService.authenticatedUser);
                     if (authService.authenticatedUser.accesslevel !== '5') success = false;
                     resolve(success);
                 })
