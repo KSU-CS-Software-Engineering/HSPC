@@ -9,10 +9,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import participantService from '../_common/services/participant';
 
-var currentView = null;
-var selected = [];
-var eventDate = '';
-
 const selectStyles = {
     menu: base => ({
         ...base,
@@ -24,6 +20,9 @@ export default class AddEventTeam extends Component {
     constructor(props) {
         super(props);
         this.statusMessages = React.createRef();
+        this.currentView = null;
+        this.eventDate = '';
+        this.selected = [];
         this.state = {
             teamTable: [],
             userTable: [],
@@ -35,7 +34,7 @@ export default class AddEventTeam extends Component {
     * Returns a list of all registered teams and events when the component is rendered.
     */
     componentDidMount = () => {
-        eventDate = '';
+        this.eventDate = '';
         TeamService.getAllTeams().then((response) => {
             if (response.statusCode === 200) {
                 this.setState({ teamTable: JSON.parse(response.body) }, () => {
@@ -58,7 +57,7 @@ export default class AddEventTeam extends Component {
                 else console.log("An error has occurred, Please try again.");
 
                 // populates the selected array with false values
-                for (let i = 0; i < this.state.teamTable.length; i++) selected.push(false);
+                for (let i = 0; i < this.state.teamTable.length; i++) this.selected.push(false);
 
             }).catch(() => console.log('Something went wrong. Please try again'));
         }).catch(() => console.log('Something went wrong. Please try again'));
@@ -69,8 +68,8 @@ export default class AddEventTeam extends Component {
     */
     handleCheckboxClick = (event) => {
         let index = event.target.getAttribute('data-index');
-        if (selected[index] === false) selected[index] = true;
-        else selected[index] = false;
+        if (this.selected[index] === false) this.selected[index] = true;
+        else this.selected[index] = false;
         event.key = event.key + 1;
     }
 
@@ -79,29 +78,29 @@ export default class AddEventTeam extends Component {
     */
     async handleSaveChanges() {
         let eventTeams = [];
-        for (let i = 0; i < selected.length; i++)
-            if (selected[i] === true) eventTeams.push(this.state.teamTable[i]);
-        
+        for (let i = 0; i < this.selected.length; i++)
+            if (this.selected[i] === true) eventTeams.push(this.state.teamTable[i]);
+
         // data checks
-        if (eventDate === '') return this.statusMessages.current.showError("Event Date Required");
+        if (this.eventDate === '') return this.statusMessages.current.showError("Event Date Required");
         if (eventTeams.length < 1) return this.statusMessages.current.showError("No Teams Selected");
 
         for (let i = 0; i < eventTeams.length; i++) {
             await participantService.addParticipant(
-                eventTeams[i].TeamName, 
-                eventTeams[i].SchoolName, 
-                eventTeams[i].StateCode, 
-                eventTeams[i].QuestionLevel, 
-                eventDate
+                eventTeams[i].TeamName,
+                eventTeams[i].SchoolName,
+                eventTeams[i].StateCode,
+                eventTeams[i].QuestionLevel,
+                this.eventDate
             )
-            .then((response) => {
-                if(response.statusCode === 201) return this.statusMessages.current.showSuccess("Teams Successfully Added To Event!");
-                else return this.statusMessages.current.showError('Something went wrong. Teams Selected May Already Be Added.');
-            })
-            .catch(() => {
-                this.statusMessages.current.showError('Something went wrong. Teams Selected May Already Be Added.');
-            });
-        } 
+                .then((response) => {
+                    if (response.statusCode === 201) return this.statusMessages.current.showSuccess("Teams Successfully Added To Event!");
+                    else return this.statusMessages.current.showError('Something went wrong. Teams Selected May Already Be Added.');
+                })
+                .catch(() => {
+                    this.statusMessages.current.showError('Something went wrong. Teams Selected May Already Be Added.');
+                });
+        }
     }
 
     /*
@@ -123,7 +122,7 @@ export default class AddEventTeam extends Component {
                 </td>
             </tr>);
         });
-        currentView = <Table striped bordered condensed hover>
+        this.currentView = <Table striped bordered condensed hover>
             <thead>
                 <tr>
                     <th>#</th>
@@ -149,18 +148,20 @@ export default class AddEventTeam extends Component {
     render() {
         return (
             <div>
+                <h2>Add Teams</h2>
+                <p><b>Please fill out the information below.</b></p>
                 <div id="sub-nav">
-                    <h4 id="sub-nav-item">Event Date</h4>
+                    <p id="sub-nav-item"><b>Event Date</b></p>
                     <Select
                         id="dropdown"
                         styles={selectStyles}
-                        placeholder="Select an Event Date"
+                        placeholder="Select a Date"
                         options={this.state.eventList}
-                        onChange={(e) => (eventDate = e.label)}
+                        onChange={(e) => (this.eventDate = e.label)}
                     />
                 </div>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
-                {currentView}
+                {this.currentView}
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
                         <RaisedButton
