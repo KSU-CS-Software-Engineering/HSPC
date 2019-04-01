@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory from 'react-bootstrap-table2-editor';
+import { Button } from 'react-bootstrap';
+//import cellEditFactory from 'react-bootstrap-table2-editor';
 import RaisedButton from 'material-ui/RaisedButton';
 import StatusMessages from '../_common/components/status-messages/status-messages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -15,16 +16,20 @@ export default class BoardSetup extends Component {
         this.statusMessages = React.createRef();
         this.row = null;
         this.columns = null;
-        this.subrows = [];
-        this.subcols = [];
+        //this.subrows = [];
+        //this.subcols = [];
         this.currentRow = '';
         this.currentCell = '';
+        this.rawData = '';
+
+        this.questionData = [];
         this.questionAmount = 5;
+        this.buttons = null;
+
         this.state = {
             teamList: [],
             eventList: [],
-            expanded: [],
-            questionData: []
+            expanded: []
         }
     }
 
@@ -32,10 +37,10 @@ export default class BoardSetup extends Component {
     * Parses table data as soon as the information arrives.
     */
     handleParseTableData = () => {
-        var rawData = this.props.presentTeams;
+        this.rawData = this.props.presentTeams;
         var parsedRows = [];
         var index = 1;
-        rawData.forEach((row) => {
+        this.rawData.forEach((row) => {
             parsedRows.push({
                 index: index,
                 team: row.TeamName,
@@ -82,15 +87,51 @@ export default class BoardSetup extends Component {
     * Dynamically sets the number of questions.
     */
     handleSetQuestions = () => {
+        var numTeams = this.rawData.length;
         var rows = [];
-        for (let index = 1; index <= this.questionAmount; index++)
-            rows.push({ index: index, answer: "false" })
-        
-        this.subrows.push(rows);
-        this.subcols.push(
-            { dataField: 'index', text: 'Question' },
-            { dataField: 'answer', text: 'Answer' }
-        );
+        for (let i = 0; i < numTeams; i++) {
+            for (let j = 1; j <= this.questionAmount; j++) {
+                rows.push({
+                    teamID: i,
+                    question: j,
+                    answer: "incorrect"
+                });
+            }
+        }
+        this.questionData = rows;
+    }
+
+    /*
+    * Generates the Correct/Incorrect buttons within the expanded rows.
+    */
+    generateButtons = (index) => {
+        var rowButtons = [];
+        this.buttons = '';
+        for (let i = 0; i < this.questionAmount; i++) {
+            rowButtons.push(
+                <Button
+                    variant="success"
+                    key={i}
+                    id="buttons"
+                    onClick={() => this.handleUpdateData(index, i)}
+                >Q{i + 1} {this.questionData[index * i].answer}</Button>);
+        }
+        this.buttons = rowButtons;
+    }
+
+    /*
+    * Helper function for generate buttons
+    */
+    handleUpdateData = (index, subindex) => {
+        let x = subindex, y = (index-1) * this.questionAmount;
+
+        if (this.questionData[x+y].answer === "incorrect") {
+            this.questionData[x+y].answer = "correct";
+        }
+        else {
+            this.questionData[x+y].answer = "incorrect";
+        }
+        console.log(this.questionData);
     }
 
     /*
@@ -100,16 +141,9 @@ export default class BoardSetup extends Component {
         const expandRow = {
             renderer: row => (
                 <div>
-                    <BootstrapTable
-                        keyField='index'
-                        data={this.subrows}
-                        columns={this.subcols}
-                        cellEdit={cellEditFactory({
-                            mode: 'click',
-                            blurToSave: true,
-                            nonEditableRows: () => [0]
-                        })}
-                    />
+                    {this.generateButtons(row.index)}
+                    {this.buttons}
+
                 </div>
             ),
             expanded: this.state.expanded,
