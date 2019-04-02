@@ -129,7 +129,6 @@ export default class EventSignIn extends Component {
         for (let i = 0; i < this.selected.length; i++) {
             if (this.selected[i] === true) this.presentTeams.push(this.allTeams[i]);
         }
-        console.log(this.presentTeams.length);
         if(this.presentTeams.length >= 1){
             this.setState({redirect: true});
         }
