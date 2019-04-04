@@ -20,6 +20,7 @@
     "morgan": "^1.9.1",
     "mssql": "^4.2.3",
     "nodejs": "0.0.0",
+    "socket.io": "^2.2.0",
     "validator": "^10.9.0"
   }
 }

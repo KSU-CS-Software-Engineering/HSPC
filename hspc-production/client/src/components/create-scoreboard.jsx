@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import '../_common/assets/css/create-scoreboard.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import openSocket from 'socket.io-client';
 
 const columns = [
     { dataField: 'index', text: 'ID' },
@@ -26,7 +27,8 @@ export default class BoardSetup extends Component {
         this.questionAmount = 5;
         this.buttons = null;
         this.state = {
-            expanded: []
+            expanded: [],
+            socket: openSocket('http://localhost:8000')
         }
         this.handleParseTableData();
     }
@@ -40,6 +42,10 @@ export default class BoardSetup extends Component {
             scores.push(this.rows[i].points);
             console.log(this.rows[i].points);
         }
+
+        // pass data to scoreboard
+        console.log(this.state.socket.id);
+        this.state.socket.emit('click', scores);
     }
 
     /*
