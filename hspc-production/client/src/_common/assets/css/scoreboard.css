@@ -13,6 +13,13 @@ body{
     width: auto;
     min-width: 320px;
 }
+.grid{
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 #dropdown{
     display: inline-block;
     width: 200px;
@@ -23,3 +30,12 @@ body{
     margin-top: -5px;
     padding-top: 5px;
 }
+#tiles{
+    text-align: center;
+    height: auto;
+    width: auto;
+    padding: 50px;
+    border: solid black 1px;
+    box-shadow: 2px;
+}
+

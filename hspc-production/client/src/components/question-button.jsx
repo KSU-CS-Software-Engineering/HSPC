@@ -40,7 +40,8 @@ export default class QuestionButton extends Component {
         this.setState({
             type: type
         }, () => {
-            this.props.onAnswerUpdate(this.rowNum, this.state.type.pointsAdded);
+            // keep track of questions coorect?
+            this.props.onAnswerUpdate(this.rowNum, this.timesClicked, this.questionNum, this.state.type.pointsAdded);
         });
     }
 

@@ -26,6 +26,10 @@ export default class BoardSetup extends Component {
         this.rawData = '';
         this.questionAmount = 5;
         this.buttons = null;
+
+        //scoreboard data
+        this.scoreboard = [];
+
         this.state = {
             expanded: [],
             socket: openSocket('http://localhost:8000')
@@ -37,15 +41,15 @@ export default class BoardSetup extends Component {
     * Updates the team scores and pushes the changes to the 'Live Preview' tab.
     */
     handleSaveChanges() {
+        console.log(this.state.socket.id);
         var scores = [];
         for (let i = 0; i < this.rows.length; i++) {
             scores.push(this.rows[i].points);
             console.log(this.rows[i].points);
         }
-
         // pass data to scoreboard
-        console.log(this.state.socket.id);
-        this.state.socket.emit('click', scores);
+        console.log("Sent:", this.scoreboard);
+        this.state.socket.emit('click', this.scoreboard);
     }
 
     /*
@@ -88,23 +92,47 @@ export default class BoardSetup extends Component {
                     questionNum={i + 1}
                     rowNum={index}
                     isCorrect={false}
-                    onAnswerUpdate={(rowNum, pointsAdded) => this.updateRowPoints(rowNum, pointsAdded)}
+                    onAnswerUpdate={(rowNum, timesClicked, questionNum, pointsAdded) => this.updateRowPoints(rowNum, timesClicked, questionNum, pointsAdded)}
                 />
             );
         }
         this.buttons = rowButtons;
+        this.setDefaultScoreboard();
+
     }
+
+    /*
+    * Sets the default scoreboard values to zero;
+    */
+    setDefaultScoreboard = () => {
+        var arr = [];
+        for (let i = 0; i < this.rows.length; i++)
+            for (let j = 0; j < this.buttons.length; j++) {
+                arr.push({
+                    teamID: i,
+                    questionNum: j,
+                    timesClicked: 0,
+                    pointsAdded: 0 
+                });
+            }
+        this.scoreboard = arr
+    }
+
 
     /*
     * Updates the value of points for the given team.
     */
-    updateRowPoints = (rowNum, pointsAdded) => {
+    updateRowPoints = (rowNum, timesClicked, questionNum, pointsAdded) => {
         let curPoints = this.rows[rowNum].points + pointsAdded;
-        if (curPoints < 0) 
+        if (curPoints < 0) {
             curPoints = 0;
-        else if (curPoints > this.buttons.length) 
+        }
+        else if (curPoints > this.buttons.length) {
             curPoints = this.buttons.length;
+        }
         this.rows[rowNum].points = curPoints;
+        this.scoreboard[(rowNum*this.questionAmount)+(questionNum)-1].timesClicked = timesClicked;
+        this.scoreboard[(rowNum*this.questionAmount)+(questionNum)-1].pointsAdded = (timesClicked*0.5);
     }
 
     /*

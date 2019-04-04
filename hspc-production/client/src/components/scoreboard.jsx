@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import '../_common/assets/css/scoreboard.css';
+import React, { Component } from 'react';
 import StatusMessages from '../_common/components/status-messages/status-messages.jsx';
+import ScoreboardTile from './scoreboard-tile';
 import '../_common/assets/css/scoreboard.css';
 import io from 'socket.io-client';
 
@@ -11,19 +11,38 @@ var currentView = null;
 var socket = io('http://localhost:8000');
 
 export default class Scoreboard extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             data: []
         }
     }
 
-    handleShowData = () => {
-        socket.on('broadcast', function (data) {
-            currentView = data;
-            //this.setState({ data: data });
+    /*
+    * Retrieves data from the scoreboard controller socket and sets its values to this.state.data.
+    * NOTE: Currently resets all to 0 if tab closes.
+    */
+    componentWillMount = () => {
+        socket.on('broadcast', (data) => {
+            console.log("Recieved:", data);
+            this.setState({ data: data });
         });
+    }
 
+    generateBoard = () => {
+        var tiles = [];
+        this.state.data.forEach((team, index) => {
+            tiles.push(
+                <ScoreboardTile
+                    key={index}
+                    questionNum={team.questionNum}
+                    teamID={team.teamID}
+                    timesClicked={team.timesClicked}
+                    pointsAdded={team.pointsAdded}
+                />);
+        });
+        currentView = tiles;
+        console.log(currentView);
     }
 
     /*
@@ -32,11 +51,12 @@ export default class Scoreboard extends Component {
     render() {
         return (
             <div>
-                <h2>Scoreboard Coming Soon</h2>
+                <h2>Scoreboard</h2>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
-                {this.handleShowData()}
-                {currentView}
-
+                {this.generateBoard()}
+                <div className="grid">
+                    {currentView}
+                </div>
             </div>
         );
     };
