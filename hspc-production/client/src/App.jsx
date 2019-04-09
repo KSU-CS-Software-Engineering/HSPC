@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { SecureRoute } from 'react-route-guard';
 
-import Home from './components/public-homepage';
-import Login from './components/public-login';
-import Register from './components/register-user';
-import Navbar from './components/public-navbar';
-import Competitions from './components/public-competitions';
-import Scoreboard from './components/scoreboard';
+import Home from './components/public/homepage';
+import Login from './components/public/login';
+import Register from './components/registration/create/user';
+import Navbar from './components/public/top-navbar';
+import Competitions from './components/public/competitions';
+import Scoreboard from './components/scoring/scoreboard';
 
-import StudentDash from './components/dashboard-student';
-import VolunteerDash from './components/dashboard-volunteer';
-import JudgeDash from './components/dashboard-judge';
-import AdvisorDash from './components/dashboard-advisor';
-import AdminDash from './components/dashboard-admin';
-import MasterDash from './components/dashboard-master';
+import StudentDash from './components/dashboards/student';
+import VolunteerDash from './components/dashboards/volunteer';
+import JudgeDash from './components/dashboards/judge';
+import AdvisorDash from './components/dashboards/advisor';
+import AdminDash from './components/dashboards/admin';
+import MasterDash from './components/dashboards/master';
 
 import StudentAuthGuard from './_common/guards/student';
 import VolunteerAuthGuard from './_common/guards/volunteer';
@@ -33,7 +33,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/Competitions" component={Competitions} />
+            <Route path="/competitions" component={Competitions} />
             <SecureRoute path='/student/studentdash' component={StudentDash} routeGuard={StudentAuthGuard} redirectToPathWhenFail='/login' />
             <SecureRoute path='/volunteer/volunteerdash' component={VolunteerDash} routeGuard={VolunteerAuthGuard} redirectToPathWhenFail='/login' />
             <SecureRoute path='/judge/judgedash' component={JudgeDash} routeGuard={JudgeAuthGuard} redirectToPathWhenFail='/login' />

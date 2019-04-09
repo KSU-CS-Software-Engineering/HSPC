@@ -38,4 +38,7 @@ body{
     border: solid black 1px;
     box-shadow: 2px;
 }
+#no-event{
+    text-align: center;
+}
 
