@@ -92,10 +92,10 @@ export default class AddUser extends Component {
     * Handles the registration of users and adds the user information to the database.
     */
     handleRegister(event) {
-        let value = this.generatePassword();
+        //let value = this.generatePassword();
         // email value to user
 
-        this.setState({ password: value })
+        /*this.setState({ password: value })
             .then(() => {
                 if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
                     this.statusMessages.current.showError('Something went wrong. Please try again');
@@ -104,21 +104,17 @@ export default class AddUser extends Component {
                 if (this.state.teamName === '' || this.state.teamName === undefined) {
                     this.statusMessages.current.showError('Please Enter a Team Name.');
                     return;
-                }
+                }*/
 
-                AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel, '')
-                    .then((response) => {
-                        if (response.statusCode === 201)
-                            this.statusMessages.current.showSuccess("Registration Successful!");
-                        else if (response.statusCode === 409) {
-                            this.handleShow();
-                        }
-                        else
-                            this.statusMessages.current.showError('Something went wrong. Please try again');
-                    })
-                    .catch((error) => {
-                        this.statusMessages.current.showError('Something went wrong. Please try again.');
-                    });
+        AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel, '')
+            .then((response) => {
+                if (response.statusCode === 201)
+                    this.statusMessages.current.showSuccess("Registration Successful!");
+                else if (response.statusCode === 409) {
+                    this.handleShow();
+                }
+                else
+                    this.statusMessages.current.showError('Something went wrong. Please try again');
             })
             .catch((error) => {
                 this.statusMessages.current.showError('Something went wrong. Please try again.');
@@ -184,16 +180,13 @@ export default class AddUser extends Component {
                             onChange={(event, newValue) => this.setState({ phone: newValue })}
                         />
                         <br />
-                        {/*
-                            Generate a password here and set the state. 
-                            Previous code:
-                            <TextField
-                                type="password"
-                                hintText="Enter a Password"
-                                floatingLabelText="Password"
-                                //onChange={(event, newValue) => this.setState({ password: newValue })}
-                            />                            
-                        */}
+                        <TextField
+                            type="password"
+                            hintText="Enter a Password"
+                            floatingLabelText="Password"
+                            onChange={(event, newValue) => this.setState({ password: newValue })}
+                        />
+                        <br />
                         <RaisedButton
                             className="RegisterButton"
                             label="Add to Team"

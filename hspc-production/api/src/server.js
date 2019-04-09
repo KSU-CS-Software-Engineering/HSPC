@@ -65,9 +65,16 @@ io.on('connection', function (socket) {
         console.log(socket.id, 'Disconnected');
     });
     socket.on('click', function (data) {
-        console.log(data);
-        io.sockets.emit('broadcast', data);
+        //console.log(data);
+        //io.sockets.emit('broadcast', data);
+        socket.broadcast.to(1).emit('broadcast', data);
     });
+    socket.on('scoreboard', function() {
+        socket.join(1);
+    });
+    socket.on('exit scoreboard', function(){
+        socket.leave(1);
+    })
 });
 
 const port = 8000;

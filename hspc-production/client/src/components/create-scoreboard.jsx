@@ -26,10 +26,7 @@ export default class BoardSetup extends Component {
         this.rawData = '';
         this.questionAmount = 5;
         this.buttons = null;
-
-        //scoreboard data
         this.scoreboard = [];
-
         this.state = {
             expanded: [],
             socket: openSocket('http://localhost:8000')

@@ -7,7 +7,6 @@ import io from 'socket.io-client';
 /*
 * Renders the component UI.
 */
-var currentView = null;
 var socket = io('http://localhost:8000');
 
 export default class Scoreboard extends Component {
@@ -16,17 +15,26 @@ export default class Scoreboard extends Component {
         this.state = {
             data: []
         }
+        socket.on('broadcast', (data) => {
+            console.log("Recieved:", data);
+            this.setState({ data: data });
+        });
     }
 
     /*
     * Retrieves data from the scoreboard controller socket and sets its values to this.state.data.
     * NOTE: Currently resets all to 0 if tab closes.
     */
-    componentWillMount = () => {
-        socket.on('broadcast', (data) => {
-            console.log("Recieved:", data);
-            this.setState({ data: data });
-        });
+    componentDidMount = () => {
+        socket.emit('scoreboard', {});
+    }
+
+    componentWillReceiveProps = () => {
+        socket.emit('scoreboard', {});
+    }
+
+    componentWillUnmount = () => {
+        socket.emit('exit scoreboard', {});
     }
 
     generateBoard = () => {
@@ -41,8 +49,7 @@ export default class Scoreboard extends Component {
                     pointsAdded={team.pointsAdded}
                 />);
         });
-        currentView = tiles;
-        console.log(currentView);
+        return tiles;
     }
 
     /*
@@ -53,9 +60,9 @@ export default class Scoreboard extends Component {
             <div>
                 <h2>Scoreboard</h2>
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
-                {this.generateBoard()}
+
                 <div className="grid">
-                    {currentView}
+                    {this.generateBoard()}
                 </div>
             </div>
         );
