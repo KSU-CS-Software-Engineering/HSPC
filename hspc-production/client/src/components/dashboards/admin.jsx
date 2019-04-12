@@ -18,20 +18,49 @@ import RegisterTeam from '../registration/create/team';
 import Scoreboard from '../scoring/scoreboard.jsx';
 import PublishPractice from '../publish/practice';
 import PublishScores from '../publish/scores';
+import UserService from '../../_common/services/user';
 import '../../_common/assets/css/register-user.css';
 import '../../_common/assets/css/dashboard-admin.css';
 
-var currentView = null;
+var currentView = '';
 
 export default class AdminDash extends Component {
     constructor(props) {
         super(props);
         this.statusMessages = React.createRef();
         this.currentView = null;
+        this.currentUser = this.props.location.state;
+        this.currentUserName = {};
         this.state = {
             userTable: [],
             eventTable: []
         };
+    }
+
+    /*
+    * Finds the name of the current user and displays it.
+    */
+    componentDidMount = () => {
+        UserService.getAllUsers()
+            .then((response) => {
+                let body = JSON.parse(response.body);
+                if (response.statusCode === 200) {
+                    let user = {};
+                    for (let i = 0; i < body.length; i++) {
+                        if (body[i].Email === this.currentUser) {
+                            user = {
+                                FirstName: body[i].FirstName,
+                                LastName: body[i].LastName
+                            };
+                        }
+                    }
+                    this.currentUserName = user;
+                    this.handleShowDefault();
+                }
+            })
+            .catch((resErr) => {
+                console.log('Something went wrong. Please try again');
+            });
     }
 
     /* 
@@ -165,10 +194,10 @@ export default class AdminDash extends Component {
     }
 
     /*
-    * Resets the currentView property to null and clears the screen.
+    * Resets the currentView property to the default.
     */
-    clearAll = () => {
-        currentView = null;
+    handleShowDefault = () => {
+        currentView = <h2 id="welcome">Welcome {this.currentUserName.FirstName} {this.currentUserName.LastName}!</h2>;
         this.forceUpdate();
     }
 
@@ -181,7 +210,7 @@ export default class AdminDash extends Component {
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand
-                            onClick={this.clearAll}>
+                            onClick={this.handleShowDefault}>
                             Admin Portal
                         </Navbar.Brand>
                         <Navbar.Toggle />

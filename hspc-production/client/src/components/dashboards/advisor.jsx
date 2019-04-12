@@ -19,6 +19,7 @@ export default class AdvisorDash extends Component {
         this.currentView = null;
         this.advisors = null;
         this.currentUser = this.props.location.state;
+        this.currentUserName = '';
         this.state = {
             userTable: [],
             eventTable: []
@@ -41,8 +42,15 @@ export default class AdvisorDash extends Component {
                             LastName: user.LastName
                         });
                     }
+                    if (user.Email === this.currentUser) {
+                        this.currentUserName = {
+                            FirstName: user.FirstName,
+                            LastName: user.LastName
+                        };
+                    }
                 });
                 this.advisors = users;
+                this.handleShowDefault();
             })
             .catch(() => {
                 console.log("No users fonund");
@@ -90,12 +98,12 @@ export default class AdvisorDash extends Component {
     }
 
     /*
-    * Resets the currentView property to null and clears the screen.
+    * Resets the currentView property to the default.
     */
-    clearAll = () => {
-        currentView = null;
-        this.forceUpdate();
-    }
+   handleShowDefault = () => {
+    currentView = <h2 id="welcome">Welcome {this.currentUserName.FirstName} {this.currentUserName.LastName}!</h2>;
+    this.forceUpdate();
+}
 
     /*
     *  Renders the component UI.
@@ -106,7 +114,7 @@ export default class AdvisorDash extends Component {
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand
-                            onClick={this.clearAll}>
+                            onClick={this.handleShowDefault}>
                             Advisor Portal
                         </Navbar.Brand>
                         <Navbar.Toggle />
