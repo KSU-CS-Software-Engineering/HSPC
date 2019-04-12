@@ -21,9 +21,6 @@ const selectStyles = {
 export default class AddUser extends Component {
     constructor(props) {
         super(props)
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.updateTeamValue = this.updateTeamValue.bind(this);
         this.statusMessages = React.createRef();
         this.state = {
             firstName: '',
@@ -32,6 +29,7 @@ export default class AddUser extends Component {
             phone: '',
             password: '',
             accessLevel: '1',
+            advisorEmail: this.props.advisor,
             teamName: this.props.teamName,
             teamList: [],
             show: false
@@ -41,41 +39,54 @@ export default class AddUser extends Component {
     /*
     * Loads the values of registered teams and populates the dropdown.
     */
-    componentDidMount() {
-        TeamService.getAllTeams().then((response) => {
-            if (response.statusCode === 200) {
+    componentDidMount = () => {
+        TeamService.getAllTeams()
+            .then((response) => {
                 let body = JSON.parse(response.body);
                 let teams = [];
-                for (let i = 0; i < body.length; i++) {
-                    teams.push({
-                        label: body[i].TeamName,
-                        value: body[i].TeamName
-                    });
+                if (response.statusCode === 200 && this.state.advisorEmail === undefined) {
+                    for (let i = 0; i < body.length; i++) {
+                        teams.push({
+                            label: body[i].TeamName,
+                            value: body[i].TeamName
+                        });
+                    }
+                }
+                else if (response.statusCode === 200) {
+                    for (let i = 0; i < body.length; i++) {
+                        if (body[i].AdvisorEmail === this.state.advisorEmail) {
+                            teams.push({
+                                label: body[i].TeamName,
+                                value: body[i].TeamName
+                            });
+                        }
+                    }
+                }
+                else {
+                    console.log("An error has occurred, Please try again.");
                 }
                 this.setState({ teamList: teams });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+            }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /*
     * Closes the Modal Component.
     */
-    handleClose() {
+    handleClose = () => {
         this.setState({ show: false });
     }
 
     /*
     * Renders the Modal component if there's a conflict in user registration.
     */
-    handleShow() {
+    handleShow = () => {
         this.setState({ show: true });
     }
 
     /*
     * Adds the value of 'teamName' to the database to user with the value 'email'
     */
-    updateTeamValue() {
+    updateTeamValue = () => {
         UserService.addToTeam(this.state.teamName, this.state.email)
             .then((response) => {
                 if (response.statusCode === 201) {
@@ -83,7 +94,7 @@ export default class AddUser extends Component {
                     this.statusMessages.current.showSuccess("Account Successfully Updated!");
                 }
             })
-            .catch((error) => {
+            .catch(() => {
                 this.statusMessages.current.showError('Something went wrong. Please try again.');
             });
     }
@@ -91,21 +102,7 @@ export default class AddUser extends Component {
     /*
     * Handles the registration of users and adds the user information to the database.
     */
-    handleRegister(event) {
-        //let value = this.generatePassword();
-        // email value to user
-
-        /*this.setState({ password: value })
-            .then(() => {
-                if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
-                    this.statusMessages.current.showError('Something went wrong. Please try again');
-                    return;
-                }
-                if (this.state.teamName === '' || this.state.teamName === undefined) {
-                    this.statusMessages.current.showError('Please Enter a Team Name.');
-                    return;
-                }*/
-
+    handleRegister() {
         AuthService.register(this.state.teamName, this.state.firstName, this.state.lastName, this.state.email, this.state.phone, this.state.password, this.state.accessLevel, '')
             .then((response) => {
                 if (response.statusCode === 201)

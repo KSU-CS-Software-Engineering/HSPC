@@ -8,8 +8,10 @@ router.post('/registerteam', (req, res) => {
     const schoolAddress = req.body['schoolAddress'];
     const stateCode = req.body['stateCode'];
     const questionLevel = req.body['questionLevel'];
+    const advisor = req.body['advisor'];
+    const advisorEmail = req.body['advisorEmail'];
 
-    teamService.registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel)
+    teamService.registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel, advisor, advisorEmail)
         .then(() => {
             statusResponses.created(res, `Team Successfully Created!`);
         })

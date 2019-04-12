@@ -1,149 +1,104 @@
 import React, { Component } from 'react';
-import { Navbar, NavItem, Nav, Table, NavDropdown, Jumbotron } from 'react-bootstrap';
-import teamService from '../../_common/services/team';
+import { Navbar, NavItem, Nav, NavDropdown, Jumbotron } from 'react-bootstrap';
 import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
-import RegisterTeam from '../registration/create/team';
+import UserService from '../../_common/services/user';
+import ViewUsers from '../registration/view/users';
+import ViewTeams from '../registration/view/teams';
 import AddUser from '../registration/create/add-team-member';
-import EventService from '../../_common/services/event';
+import RegisterTeam from '../registration/create/team';
+import Scoreboard from '../scoring/scoreboard.jsx';
 import '../../_common/assets/css/register-user.css';
-import '../../_common/assets/css/dashboard-advisor.css';
+import '../../_common/assets/css/dashboard-admin.css';
 
 var currentView = null;
 
-export default class AdminDash extends Component {
+export default class AdvisorDash extends Component {
     constructor(props) {
-        super(props)
-        this.handleCreateTeam = this.handleCreateTeam.bind(this);
-        this.handleAddToTeam = this.handleAddToTeam.bind(this);
-        this.handleShowTeams = this.handleShowTeams.bind(this);
-        this.handleShowEventHistory = this.handleShowEventHistory.bind(this);
-        this.clearAll = this.clearAll.bind(this);
+        super(props);
         this.statusMessages = React.createRef();
+        this.currentView = null;
+        this.advisors = null;
+        this.currentUser = this.props.location.state;
         this.state = {
-            teamTable: []
+            userTable: [],
+            eventTable: []
         };
+    }
+
+    /*
+    * Returns the first name and last name of the current user.
+    */
+    componentDidMount = () => {
+        var users = [];
+        UserService.getAllUsers()
+            .then((response) => {
+                let data = JSON.parse(response.body);
+                data.forEach((user, index) => {
+                    if (user.AccessLevel === '4') {
+                        users.push({
+                            id: index,
+                            FirstName: user.FirstName,
+                            LastName: user.LastName
+                        });
+                    }
+                });
+                this.advisors = users;
+            })
+            .catch(() => {
+                console.log("No users fonund");
+            })
     }
 
     /*
     * Renders the RegisterTeam.jsx component. Prompts the user to create a new team.
     */
-    handleCreateTeam() {
-        currentView = <RegisterTeam />
+    handleCreateTeam = () => {
+        currentView = <RegisterTeam advisor={this.currentUser}/>
         this.forceUpdate();
     }
 
     /*
-    * Renders the AddUser.jsx component. Prompts the user to a new team member or updates their information.
+    * Renders the AddUser.jsx component. Prompts the user to a new team member or update their information.
     */
-    handleAddToTeam() {
-        currentView = <AddUser />
+    handleAddToTeam = () => {
+        currentView = <AddUser advisor={this.currentUser}/>
         this.forceUpdate();
     }
 
     /*
     * Returns a JSON message of all registered teams. Helper function needed to generate this data as a table.
     */
-    handleShowTeams() {
-        teamService.getAllTeams().then((response) => {
-            if (response.statusCode === 200) {
-                console.log(JSON.parse(response.body));
-                this.setState({ teamTable: JSON.parse(response.body) }, () => {
-                    this.generateTeamTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
-    }
-
-    /*
-    * Returns a JSON message of all scheduled events. Helper function needed to generate this data as a table.
-    */
-    handleShowEventHistory() {
-        EventService.getAllEvents().then((response) => {
-            if (response.statusCode === 200) {
-                this.setState({ eventTable: JSON.parse(response.body) }, () => {
-                    this.generateEventTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
-    }
-
-    /*
-    * Helper function for handleShowEvent. Generates the data as a table.
-    */
-    generateEventTable() {
-        const events = [];
-        console.log(this.state.eventTable);
-        this.state.eventTable.forEach((event, index) => {
-            events.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{event.EventLocation}</td>
-                <td>{event.EventDate}</td>
-                <td>{event.EventTime}</td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Location</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {events}
-            </tbody>
-        </Table>;
+    handleShowTeams = () => {
+        currentView = <ViewTeams advisor={this.currentUser}/>
         this.forceUpdate();
     }
 
     /*
-    * Helper function for handleShowTeams. Generates the data as a table.
+    * Renders the Scoreboard.jsx component. Only available to users with an access level of >3 by default. 
     */
-    generateTeamTable() {
-        const teams = [];
-        this.state.teamTable.forEach((team, index) => {
-            teams.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{team.TeamName}</td>
-                <td>{team.SchoolName}</td>
-                <td>{team.SchoolAddress}</td>
-                <td>{team.StateCode}</td>
-                <td>{team.QuestionLevel}</td>
-                <td>{team.AdvisorID}</td>
-            </tr>);
-        });
-        currentView = <Table striped bordered condensed hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Team Name</th>
-                    <th>School</th>
-                    <th>Address</th>
-                    <th>State</th>
-                    <th>Level</th>
-                    <th>Advisor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {teams}
-            </tbody>
-        </Table>;
+    handleShowScore = () => {
+        currentView = <Scoreboard />
+        this.forceUpdate();
+    }
+
+    /*
+    * Returns a JSON message of all registered users. Helper function needed to generate this data as a table.
+    */
+    handleShowUsers = () => {
+        currentView = <ViewUsers />
         this.forceUpdate();
     }
 
     /*
     * Resets the currentView property to null and clears the screen.
     */
-    clearAll() {
+    clearAll = () => {
         currentView = null;
         this.forceUpdate();
     }
 
     /*
-     *  Renders the component UI.
+    *  Renders the component UI.
     */
     render() {
         return (
@@ -159,11 +114,11 @@ export default class AdminDash extends Component {
                     <Navbar.Collapse>
                         <Nav>
                             <NavDropdown title="Teams" id="basic-nav-dropdown">
-                                <NavItem eventKey={1} onClick={this.handleCreateTeam}>Create Team</NavItem>
-                                <NavItem eventKey={2} onClick={this.handleAddToTeam}>Add Student</NavItem>
+                                <NavItem eventKey={1} onClick={this.handleCreateTeam}>Register Team</NavItem>
+                                <NavItem eventKey={2} onClick={this.handleAddToTeam}>Add User</NavItem>
                                 <NavItem eventKey={3} onClick={this.handleShowTeams}>View Teams</NavItem>
                             </NavDropdown>
-                            <NavItem eventKey={4} onClick={this.handleShowEventHistory}>View Events</NavItem>
+                            <NavItem eventKey={4} onClick={this.handleShowScore}>View Board</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

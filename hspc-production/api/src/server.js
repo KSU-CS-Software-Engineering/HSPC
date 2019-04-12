@@ -79,4 +79,4 @@ io.on('connection', function (socket) {
 
 const port = 8000;
 io.listen(port);
-console.log('Websocket listening on port ', port);
+console.log('Websocket listening on port', port);

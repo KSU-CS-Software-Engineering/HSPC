@@ -8,37 +8,55 @@ import TextField from 'material-ui/TextField';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AddUser from './add-team-member';
 import teamService from '../../../_common/services/team';
+import UserService from '../../../_common/services/user';
 import '../../../_common/assets/css/register-user.css';
 
 export default class RegisterTeam extends Component {
     constructor(props) {
         super(props)
         this.statusMessages = React.createRef();
-        this.recaptchaLoaded = this.recaptchaLoaded.bind(this);
-        this.verifyCallback = this.verifyCallback.bind(this);
-        this.handleRegisterTeam = this.handleRegisterTeam.bind(this);
         this.state = {
             teamName: ' ',
             schoolName: ' ',
             schoolAddress: ' ',
             stateCode: ' ',
             questionLevel: 'Beginner',
+            advisor: '',
+            advisorEmail: this.props.advisor,
             isVerified: false,
             redirect: false
         }
     }
 
     /*
+    * Retrieves the First and Last name of the advisor given the user's email address.
+    */
+    componentDidMount = () => {
+        UserService.getAllUsers()
+            .then((response) => {
+                let data = JSON.parse(response.body);
+                data.forEach((user) => {
+                    if (user.Email === this.props.advisor) {
+                        let name = (user.FirstName + " " + user.LastName);
+                        this.setState({ advisor: name });
+                    }
+                });
+            })
+            .catch(() => {
+                console.log("No users fonund");
+            });
+    }
+
+    /*
     * Handles the registration of teams and adds the team information to the SQL database.
     */
-    handleRegisterTeam(event) {
+    handleRegisterTeam = () => {
         if (this.state.isVerified) {
-            console.log(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel);
             if (this.state.teamName === '' || this.state.schoolName === '' || this.state.schoolAddress === '' || this.state.stateCode === '') {
                 this.statusMessages.current.showError('Something went wrong. Please try again');
                 return;
             }
-            teamService.registerTeam(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel)
+            teamService.registerTeam(this.state.teamName, this.state.schoolName, this.state.schoolAddress, this.state.stateCode, this.state.questionLevel, this.state.advisor, this.state.advisorEmail)
                 .then((response) => {
                     if (response.statusCode === 201) {
                         this.statusMessages.current.showSuccess("Registration Complete!");
@@ -59,21 +77,21 @@ export default class RegisterTeam extends Component {
     /*
     * Handle the changing of access level.
     */
-    handleChange = (value, event) => {
+    handleChange = (value) => {
         this.setState({ questionLevel: value });
     }
 
     /*
     * Indicates successful loading of the captcha for debugging purposes
     */
-    recaptchaLoaded() {
+    recaptchaLoaded = () => {
         console.log('captcha successfully loaded.');
     }
 
     /*
     * Changes the verfied state to true following a verified captcha result.
     */
-    verifyCallback(response) {
+    verifyCallback = (response) => {
         if (response)
             this.setState({ isVerified: true })
         else
@@ -83,8 +101,8 @@ export default class RegisterTeam extends Component {
     /*
     * Auto-Redirect to the Add Users Page. By default, this renders the registration box. 
     */
-    renderRedirect() {
-        if (this.state.redirect === false) {
+    renderRedirect = () => {
+        if (!this.state.redirect) {
             return (
                 <div className="RegisterBox" >
                     <StatusMessages ref={this.statusMessages}></StatusMessages>

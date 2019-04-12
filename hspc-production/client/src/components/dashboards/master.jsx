@@ -23,7 +23,7 @@ import '../../_common/assets/css/dashboard-admin.css';
 
 var currentView = null;
 
-export default class AdminDash extends Component {
+export default class MasterDash extends Component {
     constructor(props) {
         super(props);
         this.statusMessages = React.createRef();

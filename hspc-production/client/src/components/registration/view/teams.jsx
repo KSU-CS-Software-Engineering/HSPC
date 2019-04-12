@@ -9,6 +9,7 @@ export default class ViewTeams extends Component {
     constructor(props) {
         super(props);
         this.statusMessages = React.createRef();
+        this.advisor = this.props.advisor;
         this.state = {
             teamTable: []
         };
@@ -16,17 +17,38 @@ export default class ViewTeams extends Component {
 
     /*
     * Returns a list of all registered teams when the component is rendered.
+    * If an advisor is logged in, the list of teams registered with that advisor is returned.
     */
     componentDidMount = () => {
-        TeamService.getAllTeams().then((response) => {
-            if (response.statusCode === 200) {
-                console.log(JSON.parse(response.body));
-                this.setState({ teamTable: JSON.parse(response.body) }, () => {
-                    this.generateTeamTable(); // helper function
-                });
-            }
-            else console.log("An error has occurred, Please try again.");
-        }).catch((resErr) => console.log('Something went wrong. Please try again'));
+        TeamService.getAllTeams()
+            .then((response) => {
+                var data = JSON.parse(response.body);
+                if (response.statusCode === 200 && this.advisor === undefined) {
+                    this.setState({ teamTable: data }, () => {
+                        this.generateTeamTable(); // helper function
+                    });
+                }
+                else if (response.statusCode === 200) {
+                    var registeredTeams = [];
+                    data.forEach((team, index) => {
+                        if (team.AdvisorEmail === this.advisor) {
+                            registeredTeams.push({
+                                ID: index,
+                                TeamName: team.TeamName,
+                                SchoolName: team.SchoolName,
+                                SchoolAddress: team.SchoolAddress,
+                                StateCode: team.StateCode,
+                                QuestionLevel: team.QuestionLevel,
+                                AdvisorName: team.AdvisorName
+                            });
+                        }
+                    });
+                    this.setState({ teamTable: registeredTeams }, () => {
+                        this.generateTeamTable(); // helper function
+                    });
+                }
+                else console.log("An error has occurred, Please try again.");
+            }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /*
@@ -42,7 +64,7 @@ export default class ViewTeams extends Component {
                 <td>{team.SchoolAddress}</td>
                 <td>{team.StateCode}</td>
                 <td>{team.QuestionLevel}</td>
-                <td>{team.AdvisorID}</td>
+                <td>{team.AdvisorName}</td>
             </tr>);
         });
         currentView = <Table striped bordered condensed hover>

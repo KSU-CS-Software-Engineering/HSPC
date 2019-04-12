@@ -106,7 +106,10 @@ export default class Login extends Component {
                         <br />
                     </div>
                 </MuiThemeProvider>
-                {(this.state.loggedIn) ? <Redirect to={this.state.loginRedirectPath} /> : null}
+                {(this.state.loggedIn) ? <Redirect to={{ 
+                    pathname: this.state.loginRedirectPath, 
+                    state: this.state.email
+                    }} /> : null}
             </div>
         )
     }
