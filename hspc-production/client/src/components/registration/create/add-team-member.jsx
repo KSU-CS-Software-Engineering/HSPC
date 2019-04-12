@@ -110,10 +110,11 @@ export default class AddUser extends Component {
                 else if (response.statusCode === 409) {
                     this.handleShow();
                 }
-                else
-                    this.statusMessages.current.showError('Something went wrong. Please try again');
+                else{
+                    this.statusMessages.current.showError(response.body.message);
+                }
             })
-            .catch((error) => {
+            .catch(() => {
                 this.statusMessages.current.showError('Something went wrong. Please try again.');
             });
     }

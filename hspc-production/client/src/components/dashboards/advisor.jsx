@@ -4,6 +4,7 @@ import StatusMessages from '../../_common/components/status-messages/status-mess
 import UserService from '../../_common/services/user';
 import ViewUsers from '../registration/view/users';
 import ViewTeams from '../registration/view/teams';
+import ViewEvents from '../registration/view/events';
 import AddUser from '../registration/create/add-team-member';
 import RegisterTeam from '../registration/create/team';
 import Scoreboard from '../scoring/scoreboard.jsx';
@@ -61,7 +62,7 @@ export default class AdvisorDash extends Component {
     * Renders the RegisterTeam.jsx component. Prompts the user to create a new team.
     */
     handleCreateTeam = () => {
-        currentView = <RegisterTeam advisor={this.currentUser}/>
+        currentView = <RegisterTeam advisor={this.currentUser} />
         this.forceUpdate();
     }
 
@@ -69,7 +70,7 @@ export default class AdvisorDash extends Component {
     * Renders the AddUser.jsx component. Prompts the user to a new team member or update their information.
     */
     handleAddToTeam = () => {
-        currentView = <AddUser advisor={this.currentUser}/>
+        currentView = <AddUser advisor={this.currentUser} />
         this.forceUpdate();
     }
 
@@ -77,7 +78,7 @@ export default class AdvisorDash extends Component {
     * Returns a JSON message of all registered teams. Helper function needed to generate this data as a table.
     */
     handleShowTeams = () => {
-        currentView = <ViewTeams advisor={this.currentUser}/>
+        currentView = <ViewTeams advisor={this.currentUser} />
         this.forceUpdate();
     }
 
@@ -100,10 +101,27 @@ export default class AdvisorDash extends Component {
     /*
     * Resets the currentView property to the default.
     */
-   handleShowDefault = () => {
-    currentView = <h2 id="welcome">Welcome {this.currentUserName.FirstName} {this.currentUserName.LastName}!</h2>;
-    this.forceUpdate();
-}
+    handleShowDefault = () => {
+        currentView = <h2 id="welcome">Welcome {this.currentUserName.FirstName} {this.currentUserName.LastName}!</h2>;
+        this.forceUpdate();
+    }
+
+    /*
+    * Binds a registered team to a specific event.
+    */
+    handleAddTeamToEvent = () => {
+        console.log("Add Team");
+
+        // finish
+    }
+
+    /*
+    * Returns a JSON message of all scheduled events. Helper function needed to generate this data as a table.
+    */
+    handleShowEventHistory = () => {
+        currentView = <ViewEvents />
+        this.forceUpdate();
+    }
 
     /*
     *  Renders the component UI.
@@ -126,7 +144,11 @@ export default class AdvisorDash extends Component {
                                 <NavItem eventKey={2} onClick={this.handleAddToTeam}>Add User</NavItem>
                                 <NavItem eventKey={3} onClick={this.handleShowTeams}>View Teams</NavItem>
                             </NavDropdown>
-                            <NavItem eventKey={4} onClick={this.handleShowScore}>View Board</NavItem>
+                            <NavDropdown title="Events" id="basic-nav-dropdown">
+                                <NavItem eventKey={4} onClick={this.handleAddTeamToEvent}>Add Team</NavItem>
+                                <NavItem eventKey={5} onClick={this.handleShowEventHistory}>View Schedule</NavItem>
+                            </NavDropdown>
+                            <NavItem eventKey={6} onClick={this.handleShowScore}>View Board</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

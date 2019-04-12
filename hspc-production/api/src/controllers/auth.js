@@ -17,6 +17,7 @@ router.post('/register', (req, res) => {
     if (!(firstName && lastName && email && password)) return statusResponses.badRequest(res, "FirstName, LastName, Email, and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
     if (password.length < 8) return statusResponses.badRequest(res, 'Password must be at least 8 characters');
+    if (teamName === undefined) return statusResponses.badRequest(res, 'Team Name Required');
 
     // checks for unique email and encrypts.
     userService.getLogin(email)

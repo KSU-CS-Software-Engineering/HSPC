@@ -55,7 +55,6 @@ export default class Scoreboard extends Component {
                     pointsAdded={team.pointsAdded}
                 />);
         });
-        console.log(tiles);
         if(tiles.length > 0) 
             this.eventLive = true;
         return tiles;
