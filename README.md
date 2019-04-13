@@ -6,11 +6,10 @@ This project was created fusing the [React-Bootstrap Libraries](https://react-bo
 The intended audience includes High school Students, Advisors, and KSU Computer Science Administration.
 
 # Environment
-**Ubuntu Linux Distribution v.18.04**  
+**Ubuntu Linux Distribution v.19.04**  
 **Node v.11.1.0**  
 **React v.16.6.1**  
 **React-Boostrap v.0.32.4**  
-**Axios v.0.18.0**  
 
 ## PREREQUSITE: Install Docker
 1. sudo apt get install docker. NOTE: If docker is not found, execute the command below.
@@ -21,7 +20,7 @@ The intended audience includes High school Students, Advisors, and KSU Computer 
 
 1. sudo docker pull mcr.microsoft.com/mssql/server:2017-latest
 
-2. sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=hspc2018!" -p 1433:1433 --name=hspc_database -d mcr.microsoft.com/mssql/server:2017-latest
+2. sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=<PASSWORD>" -p 1433:1433 --name=hspc_database -d mcr.microsoft.com/mssql/server:2017-latest
 
 ### CONNECTING TO MSSQL
 
@@ -42,6 +41,8 @@ The intended audience includes High school Students, Advisors, and KSU Computer 
 4. Remove Database Instance: (Only while database is inactive):	docker rm HCI_database
 
 5. Run Docker on startup: sudo systemctl enable docker
+
+6. Auto restart docker container on startup: docker update --restart=always <CONTAINER ID>
 
 *********************************************************************************************************
 
