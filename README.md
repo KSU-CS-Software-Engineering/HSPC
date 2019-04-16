@@ -4,8 +4,7 @@
 
 This project was created fusing the [React-Bootstrap Libraries](https://react-bootstrap.github.io/).  
 The intended audience includes High school Students, Advisors, and KSU Computer Science Administration.
-  
-This README was created by following the README-Template.md found [here](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
+
 =======
 # Environment
 **Ubuntu Linux Distribution v.19.04**  
