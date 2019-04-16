@@ -5,7 +5,6 @@
 This project was created fusing the [React-Bootstrap Libraries](https://react-bootstrap.github.io/).  
 The intended audience includes High school Students, Advisors, and KSU Computer Science Administration.
 
-=======
 # Environment
 **Ubuntu Linux Distribution v.19.04**  
 **Node v.11.1.0**  
