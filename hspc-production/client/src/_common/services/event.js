@@ -7,10 +7,10 @@ class eventService {
         this.event = null;
     }
 
-    /**************************************************************************************
-     * Calls the API and registers a new Event object in the database.
-     **************************************************************************************/
-    createEvent(eventLocation, eventDate, eventTime) {
+    /*
+    * Calls the API and registers a new Event object in the database.
+    */
+    createEvent(eventLocation, eventDate, eventTime, eventDes) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -20,7 +20,8 @@ class eventService {
                 body: {
                     eventLocation: eventLocation,
                     eventDate: eventDate,
-                    eventTime: eventTime
+                    eventTime: eventTime,
+                    eventDes: eventDes
                 }
             }
             request(options, (err, response, body) => {
@@ -30,9 +31,9 @@ class eventService {
         });
     }
 
-    /**************************************************************************************
-     * Calls the API and returns a JSON list of all registered events.
-     **************************************************************************************/
+    /*
+    * Calls the API and returns a JSON list of all registered events.
+    */
     getAllEvents() {
         return new Promise((resolve, reject) => {
             const options = {
@@ -43,9 +44,8 @@ class eventService {
             request(options, (err, response, body) => {
                 if (err || response.statusCode !== 200)
                     return reject(err || response);
-                if (response.statusCode === 200) {
+                if (response.statusCode === 200)
                     this.events = body; // saves the request response.
-                }
                 resolve(response);
             });
         });

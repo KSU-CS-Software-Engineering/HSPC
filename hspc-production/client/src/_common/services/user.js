@@ -10,9 +10,9 @@ class userService {
         this.userRequests = null;
     }
 
-    /**************************************************************************************
-     * Calls the API and returns a JSON list of all registered users.
-     **************************************************************************************/
+    /*
+    * Calls the API and returns a JSON list of all registered users.
+    */
     getAllUsers() {
         return new Promise((resolve, reject) => {
             const options = {
@@ -31,32 +31,10 @@ class userService {
         });
     }
 
-    /**************************************************************************************
-     * IN PROGRESS
-     * Calls the API and returns a JSON list of all requests for a higher tier account.
-     **************************************************************************************/
-    getAllRequests() {
-        return new Promise((resolve, reject) => {
-            const options = {
-                method: 'GET',
-                url: `${controllerUrl}/admindash`,
-                headers: {}
-            }
-            request(options, (err, response, body) => {
-                if (err || response.statusCode !== 200)
-                    return reject(err || response);
-                if (response.statusCode === 200) {
-                    this.userRequests = body; // saves the request response.
-                }
-                resolve(response);
-            });
-        });
-    }
-
-    /**************************************************************************************
-     * Calls the API, registers a new user object, and assigns the user to teamName
-     **************************************************************************************/
-    addUser(teamName, firstName, lastName, email, accesslevel, hashedPassword) {
+    /*
+    * Calls the API, registers a new user object, and assigns the user to teamName
+    */
+    addUser(teamName, firstName, lastName, email, phone, accesslevel, hashedPassword) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -68,6 +46,7 @@ class userService {
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
+                    phone: phone,
                     password: hashedPassword,
                     accessLevel: accesslevel,
                 }
@@ -78,6 +57,29 @@ class userService {
             });
         });
     }
+
+    /*
+    * Calls the API, registers a new user object, and assigns the user to teamName
+    */
+    addToTeam(teamName, email) {
+        return new Promise((resolve, reject) => {
+            const options = {
+                method: 'PATCH',
+                url: `${controllerUrl}/adduser`,
+                headers: {},
+                json: true,
+                body: {
+                    teamName: teamName,
+                    email: email,
+                }
+            }
+            request(options, (err, response, body) => {
+                if (err || response.statusCode >= 500) return reject(err || response);
+                resolve(response);
+            });
+        });
+    }
+
 }
 
 export default new userService();

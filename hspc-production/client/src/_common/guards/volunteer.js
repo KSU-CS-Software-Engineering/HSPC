@@ -1,6 +1,6 @@
 import authService from '../services/auth';
 
-class AdminAuthGuard {
+class VolunteerAuthGuard {
     shouldRoute() {
         return new Promise((resolve, reject) => {
             authService.isAuthenticated()
@@ -15,4 +15,4 @@ class AdminAuthGuard {
     }
 }
 
-export default new AdminAuthGuard();
+export default new VolunteerAuthGuard();

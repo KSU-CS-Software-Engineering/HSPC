@@ -9,12 +9,15 @@ router.post('/register', (req, res) => {
     const firstName = req.body['firstName'];
     const lastName = req.body['lastName'];
     const email = req.body['email'];
+    const phone = req.body['phone'];
     const password = req.body['password'];
     const accesslevel = req.body['accessLevel'];
+    const requestlevel = req.body['requestLevel'];
 
     if (!(firstName && lastName && email && password)) return statusResponses.badRequest(res, "FirstName, LastName, Email, and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
     if (password.length < 8) return statusResponses.badRequest(res, 'Password must be at least 8 characters');
+    if (teamName === undefined) return statusResponses.badRequest(res, 'Team Name Required');
 
     // checks for unique email and encrypts.
     userService.getLogin(email)
@@ -22,7 +25,7 @@ router.post('/register', (req, res) => {
             if (data.length > 0) return statusResponses.conflict(res, `'${email}' could not be registered`);
             authService.generateHash(password)
                 .then((hashedPassword) => {
-                    userService.register(teamName, firstName, lastName, email, accesslevel, hashedPassword)
+                    userService.register(teamName, firstName, lastName, email, phone, accesslevel, requestlevel, hashedPassword)
                         .then(() => {
                             statusResponses.created(res, `${email}' successfully registered!`);
                         })
@@ -41,7 +44,7 @@ router.post('/login', (req, res) => {
     const password = req.body['password'];
     if (!(email && password)) return statusResponses.badRequest(res, "Email and Password are required");
     if (!validator.isEmail(email)) return statusResponses.badRequest(res, 'Email must be a properly formatted email address');
-    
+
     userService.getLogin(email)
         .then(data => {
             if (data.length === 0) return statusResponses.unauthorized(res, `'${email}' could not be logged in`);

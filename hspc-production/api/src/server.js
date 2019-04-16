@@ -41,7 +41,7 @@ api.use(session({
 }));
 api.use((req, res, next) => {
     if (req.cookies.user_sid && !req.session.user) {
-        res.clearCookie('user_sid');      
+        res.clearCookie('user_sid');
     }
     next();
 });
@@ -53,5 +53,30 @@ require('fs').readdirSync(controllerDirectory).forEach((controller) => {
 
 // Start API Listener
 const server = api.listen(process.env.PORT || 3001, () => {
-    console.log('API running on port ' + server.address().port);
+    console.log('API running on port ' + server.address().port + "\n");
 });
+
+// Web Socket
+const io = require('socket.io')();
+
+io.on('connection', function (socket) {
+    console.log(socket.id, 'Connected');
+    socket.on('disconnect', function () {
+        console.log(socket.id, 'Disconnected');
+    });
+    socket.on('click', function (data) {
+        //console.log(data);
+        //io.sockets.emit('broadcast', data);
+        socket.broadcast.to(1).emit('broadcast', data);
+    });
+    socket.on('scoreboard', function() {
+        socket.join(1);
+    });
+    socket.on('exit scoreboard', function(){
+        socket.leave(1);
+    })
+});
+
+const port = 8000;
+io.listen(port);
+console.log('Websocket listening on port', port);

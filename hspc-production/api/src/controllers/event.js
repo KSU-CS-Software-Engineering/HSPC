@@ -6,8 +6,9 @@ router.post('/admindash', (req, res) => {
     const eventLocation = req.body['eventLocation'];
     const eventDate = req.body['eventDate'];
     const eventTime = req.body['eventTime'];
+    const eventDes = req.body['eventDes'];
 
-    eventService.createEvent(eventLocation, eventDate, eventTime)
+    eventService.createEvent(eventLocation, eventDate, eventTime, eventDes)
         .then(() => {
             statusResponses.created(res, `Event Scheduled Successfully!`);
         })

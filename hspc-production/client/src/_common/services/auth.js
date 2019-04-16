@@ -7,9 +7,9 @@ class AuthService {
         this.authenticatedUser = null;
     }
 
-    /**************************************************************************************
-     * Calls the API and verifies the users login credentials.
-     **************************************************************************************/
+    /*
+    * Calls the API and verifies the users login credentials.
+    */
     isAuthenticated() {
         return new Promise((resolve, reject) => {
             if (this.authenticatedUser) return resolve(true);
@@ -18,10 +18,10 @@ class AuthService {
         });
     }
 
-    /**************************************************************************************
-     * Calls the API and registers a new user object in the database.
-     **************************************************************************************/
-    register(teamName, firstName, lastName, email, password, accessLevel) {
+    /*
+    * Calls the API and registers a new user object in the database.
+    */
+    register(teamName, firstName, lastName, email, phone, password, accessLevel, requestLevel) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -33,8 +33,10 @@ class AuthService {
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
+                    phone: phone,
                     password: password,
-                    accessLevel: accessLevel
+                    accessLevel: accessLevel,
+                    requestLevel: requestLevel
                 }
             }
             request(options, (err, response, body) => {
@@ -44,9 +46,9 @@ class AuthService {
         });
     }
 
-    /**************************************************************************************
-     * Calls the API and registers a new Event object in the database.
-     **************************************************************************************/
+    /*
+    * Calls the API and registers a new Event object in the database.
+    */
     login(email, password) {
         return new Promise((resolve, reject) => {
             const options = {
@@ -69,9 +71,9 @@ class AuthService {
         });
     }
 
-    /**************************************************************************************
-     * Helper function for isAuthenticated.
-     **************************************************************************************/
+    /*
+    * Helper function for isAuthenticated.
+    */
     validate() {
         return new Promise((resolve, reject) => {
             const options = {

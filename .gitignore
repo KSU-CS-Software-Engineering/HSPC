@@ -10,6 +10,7 @@
 
 # dependencies
 /node_modules
+node_modules
 /bower_components
 
 # IDEs and editors
@@ -31,5 +32,6 @@ testem.log
 #System Files
 .DS_Store
 
+node_modules
 
 # End of https://www.gitignore.io/api/angular

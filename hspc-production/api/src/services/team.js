@@ -1,13 +1,12 @@
 const mssql = getHelper('db-mssql');
 
 module.exports = {
-    registerTeam: (teamName, schoolName, schoolAddress, stateCode, questionLevel) => {
-        console.log(teamName, schoolName, schoolAddress, stateCode, questionLevel);
+    registerTeam: (teamName, schoolName, schoolAddress, stateCode, questionLevel, advisor, advisorEmail) => {
         return new Promise((resolve, reject) => {
             const query =
                 `INSERT INTO dbo.Teams
-                (TeamName, SchoolName, SchoolAddress, StateCode, QuestionLevel)
-            VALUES('${teamName}', '${schoolName}', '${schoolAddress}', '${stateCode}', '${questionLevel}')`;
+                (TeamName, SchoolName, SchoolAddress, StateCode, QuestionLevel, AdvisorName, AdvisorEmail)
+            VALUES('${teamName}', '${schoolName}', '${schoolAddress}', '${stateCode}', '${questionLevel}', '${advisor}', '${advisorEmail}')`;
             mssql.query(query)
                 .then(() => resolve())
                 .catch((err) => reject(err));
@@ -20,7 +19,9 @@ module.exports = {
             T.SchoolName, 
             T.SchoolAddress, 
             T.StateCode, 
-            T.QuestionLevel
+            T.QuestionLevel,
+            T.AdvisorName,
+            T.AdvisorEmail
             FROM dbo.Teams as T`
             mssql.query(query)
                 .then((data) => resolve(data))

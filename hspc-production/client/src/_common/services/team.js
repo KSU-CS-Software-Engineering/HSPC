@@ -7,10 +7,10 @@ class teamService {
         this.teams = null;
     }
 
-    /**************************************************************************************
-     * Passes team information to the API and registers a new team object in the database.
-     **************************************************************************************/
-    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel) {
+    /*
+    * Passes team information to the API and registers a new team object in the database.
+    */
+    registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel, advisor, advisorEmail) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -22,7 +22,9 @@ class teamService {
                     schoolName: schoolName,
                     schoolAddress: schoolAddress,
                     stateCode: stateCode,
-                    questionLevel: questionLevel
+                    questionLevel: questionLevel,
+                    advisor: advisor,
+                    advisorEmail: advisorEmail
                 }
             }
             request(options, (err, response, body) => {
@@ -32,9 +34,9 @@ class teamService {
         });
     }
 
-    /**************************************************************************************
-     * Calls the API and returns a JSON list of all registered teams.
-     **************************************************************************************/
+    /*
+    * Calls the API and returns a JSON list of all registered teams.
+    */
     getAllTeams() {
         return new Promise((resolve, reject) => {
             const options = {

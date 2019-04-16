@@ -1,13 +1,12 @@
 const mssql = getHelper('db-mssql');
 
 module.exports = {
-    createEvent: (eventLocation, eventDate, eventTime) => {
-        console.log(eventLocation, eventDate, eventTime);
+    createEvent: (eventLocation, eventDate, eventTime, eventDes) => {
         return new Promise((resolve, reject) => {
             const query =
                 `INSERT INTO dbo.Competition
-                (EventLocation, EventDate, EventTime)
-            VALUES('${eventLocation}', '${eventDate}', '${eventTime}')`;
+                (EventLocation, EventDate, EventTime, EventDescription)
+            VALUES('${eventLocation}', '${eventDate}', '${eventTime}', '${eventDes}')`;
             mssql.query(query)
                 .then((data) => resolve(data))
                 .catch((err) => reject(err));
@@ -17,7 +16,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const query =
                 `SELECT 
-                C.CompetitionID, C.EventLocation, C.EventDate, C.EventTime 
+                C.CompetitionID, C.EventLocation, C.EventDate, C.EventTime, C.EventDescription 
                 FROM dbo.Competition AS C`;
             mssql.query(query)
                 .then((data) => resolve(data))
