@@ -17,11 +17,9 @@ export default class Home extends Component {
     componentDidMount() {
         NewsService.getNewsHistory().then((response) => {
             this.setState({ newsTable: JSON.parse(response.body) }, () => {
-                console.log(this.state.newsTable);
                 this.generateNewsTable(); // helper function
             });
-        })
-            .catch((resErr) => console.log('Something went wrong. Please try again'));
+        }).catch((resErr) => console.log('Something went wrong. Please try again'));
     }
 
     /*
@@ -29,7 +27,6 @@ export default class Home extends Component {
     */
     generateNewsTable() {
         const notes = [];
-        console.log(this.state.newsTable);
         this.state.newsTable.forEach((data, index) => {
             notes.push(
                 <div key={index} id="news-article">

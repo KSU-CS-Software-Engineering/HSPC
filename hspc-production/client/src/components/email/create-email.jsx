@@ -136,7 +136,7 @@ export default class Email extends Component {
                             label="Send Email"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={(event) => this.handleSubmit(event)}
                         />
                     </Form>

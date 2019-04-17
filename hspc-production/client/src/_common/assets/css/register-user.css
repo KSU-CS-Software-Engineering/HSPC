@@ -1,10 +1,10 @@
 .RegisterBox{
     margin: 0 auto;
     align-content: center;
-    background-color: white;
+    background-color: #ffffff;
 }
 #submit-button{
-    color: white;
+    color: #ffffff;
     margin: 35px;
     width: 200px;
 }

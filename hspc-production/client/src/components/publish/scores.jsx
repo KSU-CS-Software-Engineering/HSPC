@@ -40,7 +40,7 @@ export default class PublishScores extends Component {
                             className="publish-button"
                             label="Publish Scorecard"
                             backgroundColor={'#00a655'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={(event) => this.handlePublish(event)}
                         />
                     </div>

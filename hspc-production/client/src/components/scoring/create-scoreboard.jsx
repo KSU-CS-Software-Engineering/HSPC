@@ -162,7 +162,7 @@ export default class BoardSetup extends Component {
                             className="register-button"
                             label="Save Changes"
                             backgroundColor={'#00a655'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={(event) => this.handleSaveChanges(event)}
                         />
                     </div>

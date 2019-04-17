@@ -11,19 +11,19 @@ nav.navbar, .navbar-default{
 }
 
 .navbar-default .navbar-nav>li>a{
-    color: white;
+    color: #ffffff;
     margin: 0%;
 }
 .navbar-default .navbar-brand{
-    color: white;
+    color: #ffffff;
 }
 
 .navbar-default .navbar-toggle{
-    border-color: white;
+    border-color: #ffffff;
 }
 
 .navbar-default .navbar-toggle .icon-bar{
-    background-color: white;
+    background-color: #ffffff;
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
@@ -31,12 +31,12 @@ nav.navbar, .navbar-default{
 }
 
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover{
-    color: white;
+    color: #ffffff;
     background-color: transparent;
 }
 
 .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover{
-    color: white;
+    color: #ffffff;
     background-color: black;
 }
 

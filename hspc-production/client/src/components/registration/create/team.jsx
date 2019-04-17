@@ -154,7 +154,7 @@ export default class RegisterTeam extends Component {
                                 label="Register Team"
                                 style={{ margin: 15 }}
                                 backgroundColor={'#00a655'}
-                                labelColor={'white'}
+                                labelColor={'#ffffff'}
                                 onClick={(event) => this.handleRegisterTeam(event)}
                             />
                         </div>

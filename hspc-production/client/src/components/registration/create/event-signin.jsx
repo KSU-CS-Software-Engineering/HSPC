@@ -162,7 +162,7 @@ export default class EventSignIn extends Component {
                                 className="register-button"
                                 label="Begin Event"
                                 backgroundColor={'#00a655'}
-                                labelColor={'white'}
+                                labelColor={'#ffffff'}
                                 onClick={() => this.handleSaveChanges()}
                             />
                         </div>

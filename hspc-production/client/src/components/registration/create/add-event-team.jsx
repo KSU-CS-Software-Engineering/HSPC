@@ -23,6 +23,7 @@ export default class AddEventTeam extends Component {
         this.currentView = null;
         this.eventDate = '';
         this.selected = [];
+        this.AdvisorEmail = this.props.advisor;
         this.state = {
             teamTable: [],
             userTable: [],
@@ -108,19 +109,37 @@ export default class AddEventTeam extends Component {
     */
     generateTeamTable() {
         const teams = [];
+        let count = 1;
         this.state.teamTable.forEach((team, index) => {
-            teams.push(<tr key={index}>
-                <td>{index + 1}</td>
-                <td>{team.TeamName}</td>
-                <td>{team.SchoolName}</td>
-                <td>{team.SchoolAddress}</td>
-                <td>{team.StateCode}</td>
-                <td>{team.QuestionLevel}</td>
-                <td>{team.AdvisorID}</td>
-                <td key={index}>
-                    <input type="checkbox" onClick={this.handleCheckboxClick} data-index={index} />
-                </td>
-            </tr>);
+            if (this.AdvisorEmail === undefined) {
+                teams.push(<tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{team.TeamName}</td>
+                    <td>{team.SchoolName}</td>
+                    <td>{team.SchoolAddress}</td>
+                    <td>{team.StateCode}</td>
+                    <td>{team.QuestionLevel}</td>
+                    <td>{team.AdvisorName}</td>
+                    <td key={index}>
+                        <input type="checkbox" onClick={this.handleCheckboxClick} data-index={index} />
+                    </td>
+                </tr>);
+            }
+            else if (team.AdvisorEmail === this.AdvisorEmail) {
+                teams.push(<tr key={index}>
+                    <td>{count}</td>
+                    <td>{team.TeamName}</td>
+                    <td>{team.SchoolName}</td>
+                    <td>{team.SchoolAddress}</td>
+                    <td>{team.StateCode}</td>
+                    <td>{team.QuestionLevel}</td>
+                    <td>{team.AdvisorName}</td>
+                    <td key={index}>
+                        <input type="checkbox" onClick={this.handleCheckboxClick} data-index={index} />
+                    </td>
+                </tr>);
+                count++;
+            }
         });
         this.currentView = <Table striped bordered condensed hover>
             <thead>
@@ -168,7 +187,7 @@ export default class AddEventTeam extends Component {
                             className="register-button"
                             label="Save Changes"
                             backgroundColor={'#00a655'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={() => this.handleSaveChanges()}
                         />
                     </div>

@@ -112,7 +112,7 @@ export default class CreateEvent extends Component {
                             label="Register Event"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={(event) => this.handleRegister(event)}
                         />
                     </div>

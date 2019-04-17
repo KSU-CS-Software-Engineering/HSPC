@@ -147,7 +147,7 @@ export default class Register extends Component {
                 id="submit-button"
                 label="Create Account"
                 backgroundColor={'#00a655'}
-                labelColor={'white'}
+                labelColor={'#ffffff'}
                 onClick={(event) => this.handleRegister(event)}
               />
             </div>

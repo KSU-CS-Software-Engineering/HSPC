@@ -1,10 +1,10 @@
 html{
-    background-color: white;
+    background-color: #ffffff;
     min-width: 320px;
     width: auto;
 }
 .submit-button{
-    color: white;
+    color: #ffffff;
     margin: 15px;
     width: 100px;
 }

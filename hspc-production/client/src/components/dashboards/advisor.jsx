@@ -6,6 +6,7 @@ import ViewUsers from '../registration/view/users';
 import ViewTeams from '../registration/view/teams';
 import ViewEvents from '../registration/view/events';
 import AddUser from '../registration/create/add-team-member';
+import AddEventTeam from '../registration/create/add-event-team';
 import RegisterTeam from '../registration/create/team';
 import Scoreboard from '../scoring/scoreboard.jsx';
 import '../../_common/assets/css/register-user.css';
@@ -110,9 +111,8 @@ export default class AdvisorDash extends Component {
     * Binds a registered team to a specific event.
     */
     handleAddTeamToEvent = () => {
-        console.log("Add Team");
-
-        // finish
+        currentView = <AddEventTeam advisor={this.currentUser}/>
+        this.forceUpdate();
     }
 
     /*

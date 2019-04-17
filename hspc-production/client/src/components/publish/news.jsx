@@ -110,7 +110,7 @@ export default class CreateNews extends Component {
                         <RaisedButton
                             className="submit-button"
                             label="Publish"
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             backgroundColor={'#00a655'}
                             onClick={(event) => this.handlePublisUpdate(event)}
                         />

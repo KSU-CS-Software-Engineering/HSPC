@@ -190,7 +190,7 @@ export default class AddUser extends Component {
                             label="Add to Team"
                             style={{ margin: 15 }}
                             backgroundColor={'#00a655'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={(event) => this.handleRegister(event)}
                         />
 
@@ -200,7 +200,7 @@ export default class AddUser extends Component {
                             label="Next Student"
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
-                            labelColor={'white'}
+                            labelColor={'#ffffff'}
                             onClick={this.refreshPage}
                         />
                     </div>
