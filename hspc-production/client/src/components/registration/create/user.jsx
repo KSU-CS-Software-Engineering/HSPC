@@ -128,10 +128,10 @@ export default class Register extends Component {
             <br />
             <p><br />Please select an account type.</p>
             <ToggleButtonGroup className="RoleSelect" type="radio" name="options" defaultValue={1}>
-              <ToggleButton value={1} onChange={this.handleChange.bind(this, 1)}>Student</ToggleButton>
-              <ToggleButton value={2} onChange={this.handleChange.bind(this, 2)}>Volunteer</ToggleButton>
-              <ToggleButton value={3} onChange={this.handleChange.bind(this, 3)}>Judge</ToggleButton>
-              <ToggleButton value={4} onChange={this.handleChange.bind(this, 4)}>Advisor</ToggleButton>
+              <ToggleButton value={1} onClick={() => this.handleChange(1)}>Student</ToggleButton>
+              <ToggleButton value={2} onClick={() => this.handleChange(2)}>Volunteer</ToggleButton>
+              <ToggleButton value={3} onClick={() => this.handleChange(3)}>Judge</ToggleButton>
+              <ToggleButton value={4} onClick={() => this.handleChange(4)}>Advisor</ToggleButton>
             </ToggleButtonGroup>
             <br /><br />
             <div align="center">

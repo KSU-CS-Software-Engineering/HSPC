@@ -21,7 +21,6 @@ export default class UpgradeRequests extends Component {
     */
     componentDidMount = () => {
         UpgradeService.getAllUpgrades().then((response) => {
-            console.log(JSON.parse(response.body));
             if (response.statusCode === 200) {
                 this.setState({ requestTable: JSON.parse(response.body) }, () => {
                     this.generateRequestTable(); // helper function
@@ -37,7 +36,7 @@ export default class UpgradeRequests extends Component {
     handleAcceptRequest = (email, level) => {
         UpgradeService.acceptUpgradeRequest(email, level).then((response) => {
             if (response.statusCode === 200) {
-                this.handlePendingRequests();
+                this.componentDidMount();
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
@@ -49,7 +48,7 @@ export default class UpgradeRequests extends Component {
     handleDenyRequest = (email) => {
         UpgradeService.removeUpgradeRequest(email).then((response) => {
             if (response.statusCode === 200) {
-                this.handlePendingRequests();
+                this.componentDidMount();
             }
             else console.log("An error has occurred, Please try again.");
         }).catch((resErr) => console.log('Something went wrong. Please try again'));
