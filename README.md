@@ -6,16 +6,14 @@ This project was created using the [React-Bootstrap Libraries](https://react-boo
 The intended audience includes High school Students, Advisors, and KSU Computer Science Administration.
 
 # Environment
-**Ubuntu Linux Distribution v.18.04**  
-**Node v.11.1.0**  
+**Ubuntu Linux v.19.04**  
+**Node v.10.15.3**
+**NPM v.6.9.0**
 **React v.16.6.1**  
 **React-Boostrap v.0.32.4**  
-**Axios v.0.18.0**  
 
 ## PREREQUSITE: Install Docker
-1. sudo apt get install docker. NOTE: If docker is not found, execute the command below.
-
-2. sudo curl -sSL https://get.docker.com/ | sh
+1. sudo curl -sSL https://get.docker.com/ | sh
 
 ### INSTALLING MSSQL CONTAINER
 
