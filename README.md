@@ -6,9 +6,9 @@ This project was created using the [React-Bootstrap Libraries](https://react-boo
 The intended audience includes High school Students, Advisors, and KSU Computer Science Administration.
 
 # Environment
-**Ubuntu Linux v.19.04**  
-**Node v.10.15.3**
-**NPM v.6.9.0**
+**Ubuntu Linux v.19.04**
+**Node v.10.15.3**         
+**NPM v.6.9.0**        
 **React v.16.6.1**  
 **React-Boostrap v.0.32.4**  
 
