@@ -1,4 +1,5 @@
-DROP DATABASE IF EXISTS hspc_database
+DROP DATABASE IF EXISTS hspc_database;
+CREATE DATABASE hspc_database;
 
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Teams;
@@ -7,10 +8,6 @@ DROP TABLE IF EXISTS Questions;
 DROP TABLE IF EXISTS School;
 DROP TABLE IF EXISTS Article;
 DROP TABLE IF EXISTS Participants;
-
-CREATE DATABASE hspc_database
-GO
-USE hspc_database;
 
 CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
@@ -43,6 +40,7 @@ CREATE TABLE Participants(
 	SchoolName NVARCHAR(64),
 	StateCode NVARCHAR(32)
 )
+
 
 CREATE TABLE Competition(
 	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -79,26 +77,23 @@ CREATE TABLE Cards (
 	FileType NVARCHAR(16) NOT NULL
 )
 
+--Date and Time will be DateTimeOffsets. NVARCHAR used for testing.
+
+
 /*
 -- Functions for Manipulating Data.
 use hspc_database;
 select * from Users
-
 use hspc_database;
 select * from Participants
-
 use hspc_database;
 select * from Teams
-
 use hspc_database;
 select * from Competition
-
 use hspc_database;
 select * from Article
-
 use hspc_database;
 select * from Cards
-
 -- Update Accesslevel
 update Users
 set AccessLevel = 2
@@ -107,10 +102,7 @@ where
 	
 -- Delete All Values Except Base Cases
 DELETE FROM Users WHERE FirstName != 'John';
-
 -- Delete Everything From Table
 TRUNCATE TABLE Participants
-
 ALTER TABLE dbo.Users ADD RequestLevel NVARCHAR(2);
 */
-
