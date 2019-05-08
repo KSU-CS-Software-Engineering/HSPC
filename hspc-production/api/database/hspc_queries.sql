@@ -10,8 +10,16 @@ DROP TABLE IF EXISTS Participants;
 
 CREATE DATABASE hspc_database
 GO
-
 USE hspc_database;
+
+CREATE TABLE Teams(
+	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
+	TeamName UNINVARCHAR(64),
+	SchoolName NVARCHAR(64),
+	SchoolAddress NVARCHAR(64),
+	StateCode NVARCHAR(64),
+	QuestionLevel NVARCHAR(12),
+)
 
 CREATE TABLE Users(
 	UserID INTEGER PRIMARY KEY IDENTITY(1, 1),
@@ -34,17 +42,6 @@ CREATE TABLE Participants(
 	QuestionLevel NVARCHAR(32) NOT NULL,
 	SchoolName NVARCHAR(64),
 	StateCode NVARCHAR(32)
-)
-
-CREATE TABLE Teams(
-	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
-	TeamName UNINVARCHAR(64),
-	SchoolName NVARCHAR(64),
-	SchoolAddress NVARCHAR(64),
-	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(12),
-	--AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
-	--SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
 )
 
 CREATE TABLE Competition(
@@ -72,7 +69,7 @@ CREATE TABlE Article (
 	ArticleID INTEGER PRIMARY KEY IDENTITY(1,1),
 	ArticleTitle NVARCHAR(64) NOT NULL,
 	ArticleSubHeading NVARCHAR(256),
-	ArticleMessage NVARCHAR(5096) NOT NULL,
+	ArticleMessage NVARCHAR(2096) NOT NULL,
 	ArticleDate NVARCHAR(54) NOT NULL
 )
 
@@ -81,9 +78,6 @@ CREATE TABLE Cards (
 	FileName NVARCHAR(256) NOT NULL,
 	FileType NVARCHAR(16) NOT NULL
 )
-
---Date and Time will be DateTimeOffsets. NVARCHAR used for testing.
-
 
 /*
 -- Functions for Manipulating Data.
