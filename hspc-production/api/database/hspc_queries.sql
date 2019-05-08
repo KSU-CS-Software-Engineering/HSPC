@@ -14,7 +14,7 @@ USE hspc_database;
 
 CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
-	TeamName UNINVARCHAR(64),
+	TeamName NVARCHAR(64),
 	SchoolName NVARCHAR(64),
 	SchoolAddress NVARCHAR(64),
 	StateCode NVARCHAR(64),
