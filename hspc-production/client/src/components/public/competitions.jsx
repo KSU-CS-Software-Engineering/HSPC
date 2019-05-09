@@ -11,6 +11,9 @@ var beginnerScore2018 = require('../../_common/assets/beginnerScore2018.pdf');
 var advancedScore2018 = require('../../_common/assets/advancedScore2018.pdf');
 var currentView = null;
 
+/*
+* @author: Kyle Fairfax
+*/
 export default class Competitions extends Component {
     constructor(props) {
         super(props)
@@ -51,7 +54,8 @@ export default class Competitions extends Component {
 
     /*
     * Opens PDFs in another window from the Docs folder in the public directory
-    * Takes two strings to represent the folder and file names as arguments 
+    * Takes two strings to represent the folder and file names as arguments
+    * @param the uploaded file
     */
     handleOpenFile = (File) => {
         console.log(File);
@@ -65,7 +69,7 @@ export default class Competitions extends Component {
     /*
     * Handles the showing of Scorecard pdf files. Files must be imported above to be used.
     */
-    handleScorecards = (event) => {
+    handleScorecards = () => {
         currentView =
             <div>
                 <Jumbotron>
@@ -77,7 +81,7 @@ export default class Competitions extends Component {
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
                             labelColor={'#ffffff'}
-                            onClick={(event) => this.handleOpenFile(beginnerScore2018)}
+                            onClick={() => this.handleOpenFile(beginnerScore2018)}
                         />
                         <br />
                         <RaisedButton
@@ -86,7 +90,7 @@ export default class Competitions extends Component {
                             style={{ margin: 15 }}
                             backgroundColor={'#350B4F'}
                             labelColor={'#ffffff'}
-                            onClick={(event) => this.handleOpenFile(advancedScore2018)}
+                            onClick={() => this.handleOpenFile(advancedScore2018)}
                         />
                     </MuiThemeProvider>
                 </Jumbotron>

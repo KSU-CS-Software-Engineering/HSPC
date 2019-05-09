@@ -14,6 +14,9 @@ import '../../_common/assets/css/dashboard-admin.css';
 
 var currentView = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class AdvisorDash extends Component {
     constructor(props) {
         super(props);

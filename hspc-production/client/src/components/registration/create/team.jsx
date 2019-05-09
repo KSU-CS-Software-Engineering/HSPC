@@ -11,6 +11,9 @@ import teamService from '../../../_common/services/team';
 import UserService from '../../../_common/services/user';
 import '../../../_common/assets/css/register-user.css';
 
+/*
+* @author: Daniel Bell
+*/
 export default class RegisterTeam extends Component {
     constructor(props) {
         super(props)

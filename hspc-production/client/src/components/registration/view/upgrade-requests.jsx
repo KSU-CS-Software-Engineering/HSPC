@@ -7,6 +7,9 @@ import AcceptIcon from '@material-ui/icons/Done';
 
 var currentView = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class UpgradeRequests extends Component {
     constructor(props) {
         super(props);

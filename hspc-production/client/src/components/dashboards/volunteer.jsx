@@ -11,6 +11,9 @@ import '../../_common/assets/css/dashboard-volunteer.css';
 
 var currentView = '';
 
+/*
+* @author: Daniel Bell
+*/
 export default class VolunteerDash extends Component {
     constructor(props) {
         super(props);

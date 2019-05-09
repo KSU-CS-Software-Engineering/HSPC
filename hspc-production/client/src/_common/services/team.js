@@ -2,6 +2,9 @@ import * as request from 'request';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/team';
 
+/*
+* @author: Daniel Bell
+*/
 class teamService {
     constructor() {
         this.teams = null;
@@ -9,12 +12,18 @@ class teamService {
 
     /*
     * Passes team information to the API and registers a new team object in the database.
+    * @param {string} text value of the new team's name
+    * @param {string} text value of the school the new team is representing
+    * @param {string} text value of the inputted school's address
+    * @param {string} text value representing the experience level of the new team
+    * @param {string} text value of the name of the new team's advisor
+    * @param {string} text value of the new team's advisor's email address
     */
     registerTeam(teamName, schoolName, schoolAddress, stateCode, questionLevel, advisor, advisorEmail) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/registerteam`,
+                url: `${controllerUrl}/create`,
                 headers: {},
                 json: true,
                 body: {
@@ -41,7 +50,7 @@ class teamService {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/view`,
                 headers: {}
             }
             request(options, (err, response, body) => {

@@ -7,7 +7,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
+const io = require('socket.io')();
+const port = 8000;
 const helperDirectory = pathJoin(__dirname, 'helpers');
 const controllerDirectory = pathJoin(__dirname, 'controllers');
 const serviceDirectory = pathJoin(__dirname, 'services');
@@ -57,8 +58,6 @@ const server = api.listen(process.env.PORT || 3001, () => {
 });
 
 // Web Socket
-const io = require('socket.io')();
-
 io.on('connection', function (socket) {
     console.log(socket.id, 'Connected');
     socket.on('disconnect', function () {
@@ -76,6 +75,5 @@ io.on('connection', function (socket) {
     })
 });
 
-const port = 8000;
 io.listen(port);
 console.log('Websocket listening on port', port);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, NavItem, Nav, NavDropdown, Jumbotron } from 'react-bootstrap';
 import StatusMessages from '../../_common/components/status-messages/status-messages.jsx';
-
 import AddEventTeam from '../registration/create/add-event-team';
 import BoardSetup from '../scoring/create-scoreboard';
 import Email from '../email/create-email';
@@ -24,6 +23,9 @@ import '../../_common/assets/css/dashboard-admin.css';
 
 var currentView = '';
 
+/*
+* @author: Daniel Bell
+*/
 export default class AdminDash extends Component {
     constructor(props) {
         super(props);
@@ -38,7 +40,7 @@ export default class AdminDash extends Component {
     }
 
     /*
-    * Finds the name of the current user and displays it.
+    * Finds and displays the name of the current user on render.
     */
     componentDidMount = () => {
         UserService.getAllUsers()
@@ -112,7 +114,6 @@ export default class AdminDash extends Component {
     }
 
     /*
-    * IN PROGRESS
     * Renders the Email.jsx component. Only available to users with an access level of >3 by default. 
     */
     handleCreateEmail = () => {
@@ -121,7 +122,6 @@ export default class AdminDash extends Component {
     }
 
     /*
-    * IN PROGRESS
     * Renders the BoardSetup.jsx component. Only available to users with an access level of >=3 by default. 
     */
     handleEditBoard = () => {

@@ -6,6 +6,9 @@ import '../../_common/assets/css/scoreboard.css';
 
 var socket = io('http://localhost:8000');
 
+/*
+* @author: Daniel Bell
+*/
 export default class Scoreboard extends Component {
     constructor(props) {
         super(props);

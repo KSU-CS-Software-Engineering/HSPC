@@ -2,6 +2,9 @@ import * as request from 'request';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/participant';
 
+/*
+* @author: Daniel Bell
+*/
 class participantService {
     constructor() {
         this.participant = null;
@@ -9,12 +12,18 @@ class participantService {
 
     /*
     * Calls the API and registers a new Event object in the database.
+    *
+    * @param {string} text value of the team name the participant is being added to
+    * @param {string} text value of the participant's school
+    * @param {string} two character code representing the prticipant's home state
+    * @param {string} text value representing the experience level of the participant
+    * @param {string} stringified value of the date of the event that the participant is registering for
     */
     addParticipant(TeamName, SchoolName, StateCode, QuestionLevel, EventDate) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/create`,
                 headers: {},
                 json: true,
                 body: {
@@ -39,7 +48,7 @@ class participantService {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/view`,
                 headers: {}
             }
             request(options, (err, response, body) => {

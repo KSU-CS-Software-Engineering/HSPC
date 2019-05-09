@@ -7,6 +7,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import '../../_common/assets/css/create-news.css';
 
+/*
+* @author: Daniel Bell
+*/
 export default class CreateNews extends Component {
     constructor(props) {
         super(props)
@@ -61,7 +64,6 @@ export default class CreateNews extends Component {
     handleMessageChange(event) {
         this.setState({ message: event.target.value });
     }
-
 
     /*
     * Renders the component UI

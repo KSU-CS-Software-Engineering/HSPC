@@ -2,6 +2,9 @@ import * as request from 'request';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/event';
 
+/*
+* @author: Daniel Bell
+*/
 class eventService {
     constructor() {
         this.event = null;
@@ -9,12 +12,16 @@ class eventService {
 
     /*
     * Calls the API and registers a new Event object in the database.
+    * @param {string} text location of the event
+    * @param {string} stringified value of the event date
+    * @param {string} stringified value of the event time
+    * @param {string} text value of the event's description
     */
     createEvent(eventLocation, eventDate, eventTime, eventDes) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/create`,
                 headers: {},
                 json: true,
                 body: {
@@ -38,7 +45,7 @@ class eventService {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/view`,
                 headers: {}
             }
             request(options, (err, response, body) => {

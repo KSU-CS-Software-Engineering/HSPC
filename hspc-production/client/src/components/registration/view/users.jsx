@@ -5,6 +5,9 @@ import UserService from '../../../_common/services/user';
 
 var currentView = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class ViewUsers extends Component {
     constructor(props) {
         super(props);

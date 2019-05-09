@@ -5,6 +5,9 @@ import '../../_common/assets/css/dashboard-student.css';
 
 var currentView = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class StudentDash extends Component {
     constructor(props) {
         super(props)

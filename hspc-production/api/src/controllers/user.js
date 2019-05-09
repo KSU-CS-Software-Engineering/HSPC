@@ -3,7 +3,14 @@ const statusResponses = getHelper('status-response');
 const userService = getService('user');
 const authService = getService('auth');
 
-router.get('/admindash', (req, res) => {
+/*
+* API Endpoint that returns all users stored within the database.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.get('/view', (req, res) => {
     userService.getAllUsers()
         .then((userdata) => {
             statusResponses.ok(res, userdata);
@@ -13,20 +20,14 @@ router.get('/admindash', (req, res) => {
         });
 });
 
-router.patch('/adduser', (req, res) => {
-    const teamName = req.body['teamName'];
-    const email = req.body['email'];
-
-    userService.assignToTeam(teamName, email)
-        .then(() => {
-            statusResponses.created(res, `${email}' successfully update!`);
-        })
-        .catch((err) => {
-            statusResponses.serverError(res);
-        });
-});
-
-router.post('/adduser', (req, res) => {
+/*
+* API Endpoint that serves the general creation of new users.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.post('/create', (req, res) => {
     const teamName = req.body['teamName'];
     const firstName = req.body['firstName'];
     const lastName = req.body['lastName'];
@@ -51,6 +52,26 @@ router.post('/adduser', (req, res) => {
                 .catch((err) => {
                     statusResponses.serverError(res);
                 });
+        });
+});
+
+/*
+* API Endpoint that adds an existing user to an active team.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.patch('/edit', (req, res) => {
+    const teamName = req.body['teamName'];
+    const email = req.body['email'];
+
+    userService.assignToTeam(teamName, email)
+        .then(() => {
+            statusResponses.created(res, `${email}' successfully update!`);
+        })
+        .catch((err) => {
+            statusResponses.serverError(res);
         });
 });
 

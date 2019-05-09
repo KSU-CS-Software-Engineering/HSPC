@@ -18,6 +18,9 @@ const selectStyles = {
     })
 };
 
+/*
+* @author: Daniel Bell
+*/
 export default class AddUser extends Component {
     constructor(props) {
         super(props)

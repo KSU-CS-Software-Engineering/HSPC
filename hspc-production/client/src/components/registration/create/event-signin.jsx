@@ -17,6 +17,9 @@ const selectStyles = {
     })
 };
 
+/*
+* @author: Daniel Bell
+*/
 export default class EventSignIn extends Component {
     constructor(props) {
         super(props)

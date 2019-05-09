@@ -24,6 +24,9 @@ import '../../_common/assets/css/dashboard-master.css';
 
 var currentView = '';
 
+/*
+* @author: Daniel Bell
+*/
 export default class MasterDash extends Component {
     constructor(props) {
         super(props);

@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/practice';
 
+/*
+* @author: Daniel Bell
+*/
 class practiceService {
     constructor() {
         this.files = null;
@@ -10,12 +13,13 @@ class practiceService {
 
     /*
     * Calls the API and adds a new file of practice problems into the database.
+    * @param {file} multipart data from the uploaded practice problem file
     */
     addPractice(practice) {
         return new Promise((resolve, reject) => {
             let data = new FormData();
             data.append('practice', practice);
-            axios.post(`${controllerUrl}/admindash`, data)
+            axios.post(`${controllerUrl}/create`, data)
                 .then((response) => {
                     if (response.statusCode === 200 || response.statusCode === 201) {
                         this.files = response; // saves the response.
@@ -35,7 +39,7 @@ class practiceService {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/view`,
                 headers: {}
             }
             request(options, (err, response, body) => {

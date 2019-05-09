@@ -5,6 +5,9 @@ import EventService from '../../../_common/services/event';
 
 var currentView = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class ViewEvents extends Component {
     constructor(props) {
         super(props);

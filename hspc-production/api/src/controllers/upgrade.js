@@ -2,7 +2,14 @@ const router = require('express').Router();
 const statusResponses = getHelper('status-response');
 const upgradeService = getService('upgrade');
 
-router.get('/admindash', (req, res) => {
+/*
+* API Endpoint that returns all accounts within an outstanding request for different permssions.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.get('/view', (req, res) => {
     upgradeService.getAllUpgrades()
         .then((requestdata) => {
             statusResponses.ok(res, requestdata);
@@ -12,7 +19,14 @@ router.get('/admindash', (req, res) => {
         });
 });
 
-router.post('/admindash', (req, res) => {
+/*
+* API Endpoint that changes the requesting account's permission level based on the action of an administrator.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.post('/edit', (req, res) => {
     const email = req.body['email'];
     const requestlevel = req.body['accessLevel'];
     if (requestlevel != undefined) {
@@ -33,6 +47,6 @@ router.post('/admindash', (req, res) => {
             statusResponses.serverError(res);
         });
     }
-
 });
+
 module.exports = router;

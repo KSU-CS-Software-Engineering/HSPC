@@ -9,6 +9,9 @@ import AuthService from '../../../_common/services/auth';
 import StatusMessages from '../../../_common/components/status-messages/status-messages';
 import '../../../_common/assets/css/register-user.css';
 
+/*
+* @author: Daniel Bell
+*/
 export default class Register extends Component {
   constructor(props) {
     super(props)

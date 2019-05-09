@@ -2,6 +2,9 @@ import * as request from 'request';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/upgrade';
 
+/*
+* @author: Daniel Bell
+*/
 class upgradeService {
     constructor() {
         this.userRequests = null;
@@ -14,7 +17,7 @@ class upgradeService {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/view`,
                 headers: {}
             }
             request(options, (err, response, body) => {
@@ -30,12 +33,14 @@ class upgradeService {
 
     /*
     * Calls the API and sets the AccessLevel value to the value of RequestLevel.
+    * @param {string} text value of the requesting account's email address
+    * @param {string} text value of the requested permission level
     */
     acceptUpgradeRequest(email, level) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/edit`,
                 headers: {},
                 json: true,
                 body: {
@@ -51,13 +56,14 @@ class upgradeService {
     }
 
     /*
-    * Calls the API and sets the RequestLevel value to ''.
+    * Calls the API and resets the RequestLevel value to the default.
+    * @param {string} text value of the requesting account's email address
     */
     removeUpgradeRequest(email) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/edit`,
                 headers: {},
                 json: true,
                 body: {

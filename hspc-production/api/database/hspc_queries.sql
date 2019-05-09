@@ -1,6 +1,5 @@
 DROP DATABASE IF EXISTS hspc_database;
 CREATE DATABASE hspc_database;
-
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Teams;
 DROP TABLE IF EXISTS Competition;
@@ -8,6 +7,7 @@ DROP TABLE IF EXISTS Questions;
 DROP TABLE IF EXISTS School;
 DROP TABLE IF EXISTS Article;
 DROP TABLE IF EXISTS Participants;
+DROP TABLE IF EXISTS Files;
 
 CREATE TABLE Teams(
 	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
@@ -41,7 +41,6 @@ CREATE TABLE Participants(
 	StateCode NVARCHAR(32)
 )
 
-
 CREATE TABLE Competition(
 	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
 	TeamID INTEGER FOREIGN KEY REFERENCES Teams(TeamID),
@@ -67,42 +66,13 @@ CREATE TABlE Article (
 	ArticleID INTEGER PRIMARY KEY IDENTITY(1,1),
 	ArticleTitle NVARCHAR(64) NOT NULL,
 	ArticleSubHeading NVARCHAR(256),
-	ArticleMessage NVARCHAR(2096) NOT NULL,
+	ArticleMessage NVARCHAR(MAX) NOT NULL,
 	ArticleDate NVARCHAR(54) NOT NULL
 )
 
-CREATE TABLE Cards (
-	CardID INTEGER PRIMARY KEY IDENTITY(1,1),
-	FileName NVARCHAR(256) NOT NULL,
-	FileType NVARCHAR(16) NOT NULL
+CREATE TABLE Files (
+	FileID INTEGER PRIMARY KEY IDENTITY(1,1),
+	FileData VARBINARY(MAX) NOT NULL,
+	FileType VARCHAR(32) NOT NULL,
+	FileGroup VARCHAR(32) NOT NULL
 )
-
---Date and Time will be DateTimeOffsets. NVARCHAR used for testing.
-
-
-/*
--- Functions for Manipulating Data.
-use hspc_database;
-select * from Users
-use hspc_database;
-select * from Participants
-use hspc_database;
-select * from Teams
-use hspc_database;
-select * from Competition
-use hspc_database;
-select * from Article
-use hspc_database;
-select * from Cards
--- Update Accesslevel
-update Users
-set AccessLevel = 2
-where
-	Email = 'volunteer@gmail.com'
-	
--- Delete All Values Except Base Cases
-DELETE FROM Users WHERE FirstName != 'John';
--- Delete Everything From Table
-TRUNCATE TABLE Participants
-ALTER TABLE dbo.Users ADD RequestLevel NVARCHAR(2);
-*/

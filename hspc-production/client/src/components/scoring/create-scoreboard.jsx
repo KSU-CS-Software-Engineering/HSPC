@@ -17,6 +17,9 @@ const columns = [
     { dataField: 'level', text: 'Level' }
 ];
 
+/*
+* @author: Daniel Bell
+*/
 export default class BoardSetup extends Component {
     constructor(props) {
         super(props)

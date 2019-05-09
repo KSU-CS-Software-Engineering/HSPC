@@ -9,7 +9,7 @@ import 'filepond/dist/filepond.min.css';
 import '../../_common/assets/css/publish-files.css';
 
 /*
-* Renders the component UI.
+* @author: Daniel Bell
 */
 export default class PublishScores extends Component {
     constructor(props) {

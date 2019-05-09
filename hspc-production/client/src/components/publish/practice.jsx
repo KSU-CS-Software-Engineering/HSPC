@@ -9,7 +9,7 @@ import 'filepond/dist/filepond.min.css';
 import '../../_common/assets/css/publish-files.css';
 
 /*
-* Renders the component UI.
+* @author: Daniel Bell
 */
 export default class PublishPractice extends Component {
     constructor(props) {
@@ -50,7 +50,7 @@ export default class PublishPractice extends Component {
         return (
             <div className="publish-scores">
                 <StatusMessages ref={this.statusMessages}></StatusMessages>
-                <h2 id="title">Publish Scores</h2>
+                <h2 id="title">Publish Practice Problems</h2>
                 <p><b>Please select a file below</b></p>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>

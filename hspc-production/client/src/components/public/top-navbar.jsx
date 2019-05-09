@@ -5,6 +5,7 @@ import '../../_common/assets/css/public-navbar.css';
 
 /*
 * Creates and renders the navbar. This is viewable across all views.
+* @author: Daniel Bell
 */
 export default class TopNavbar extends Component {
     render(){

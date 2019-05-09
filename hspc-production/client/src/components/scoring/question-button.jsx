@@ -20,6 +20,9 @@ const types = [
     }
 ];
 
+/*
+* @author: Daniel Bell
+*/
 export default class QuestionButton extends Component {
     constructor(props) {
         super(props);

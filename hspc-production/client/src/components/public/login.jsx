@@ -8,6 +8,9 @@ import AuthService from '../../_common/services/auth';
 import '../../_common/assets/css/public-login.css';
 import './homepage';
 
+/*
+* @author: Daniel Bell
+*/
 export default class Login extends Component {
     constructor(props) {
         super(props)
@@ -23,7 +26,7 @@ export default class Login extends Component {
     /*
     * Checks for matching user credentials and redirects the user to the proper portal.
     */
-    handleClick(event) {
+    handleClick() {
         AuthService.login(this.state.email, this.state.password).then((response) => {
             if (response.statusCode === 200) {
                 let loginRedirectPath;
@@ -94,7 +97,7 @@ export default class Login extends Component {
                             label="Sign In"
                             labelColor={'#ffffff'}
                             backgroundColor={'#350B4F'}
-                            onClick={(event) => this.handleClick(event)}
+                            onClick={() => this.handleClick()}
                         />
                         <RaisedButton
                             className="register-button"

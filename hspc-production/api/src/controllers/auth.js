@@ -4,6 +4,13 @@ const statusResponses = getHelper('status-response');
 const authService = getService('auth');
 const userService = getService('user');
 
+/*
+* API Endpoint that serves general user registration.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
 router.post('/register', (req, res) => {
     const teamName = req.body['teamName'];
     const firstName = req.body['firstName'];
@@ -39,6 +46,13 @@ router.post('/register', (req, res) => {
         });
 });
 
+/*
+* API Endpoint the serves user login.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
 router.post('/login', (req, res) => {
     const email = req.body['email']
     const password = req.body['password'];

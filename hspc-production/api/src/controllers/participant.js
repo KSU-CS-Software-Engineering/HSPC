@@ -3,9 +3,13 @@ const statusResponses = getHelper('status-response');
 const participantService = getService('participant');
 
 /*
- * Registers existing teams to a pre-exisiting event.
- */
-router.post('/admindash', (req, res) => {
+* API Endpoint serving the addition of existing teams to a pre-exisiting event.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.post('/create', (req, res) => {
     const TeamName = req.body['TeamName'];
     const SchoolName = req.body['SchoolName'];
     const StateCode = req.body['StateCode'];
@@ -34,9 +38,13 @@ router.post('/admindash', (req, res) => {
 });
 
 /*
- * Returns a list of users registered and the events they're registered to.
- */
-router.get('/admindash', (req, res) => {
+* API Endpoint that returns all users participants in a given event.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.get('/view', (req, res) => {
     participantService.getAllParticipants()
         .then((teamData) => {
             statusResponses.ok(res, teamData);

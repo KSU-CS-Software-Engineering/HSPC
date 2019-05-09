@@ -16,6 +16,9 @@ const selectStyles = {
     })
 };
 
+/*
+* @author: Daniel Bell
+*/
 export default class AddEventTeam extends Component {
     constructor(props) {
         super(props);

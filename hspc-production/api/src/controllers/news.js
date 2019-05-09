@@ -2,7 +2,10 @@ const router = require('express').Router();
 const statusResponses = getHelper('status-response');
 const newsService = getService('news');
 
-router.post('/admindash', (req, res) => {
+/*
+* API Endpoint that serves the creation of updates to be displayed on the homescreen.
+*/
+router.post('/create', (req, res) => {
     const articleTitle = req.body['articleTitle'];
     const articleSubHeading = req.body['articleSubHeading'];
     const articleMessage = req.body['articleBody'];
@@ -18,7 +21,10 @@ router.post('/admindash', (req, res) => {
         });
 });
 
-router.get('/admindash', (req, res) => {
+/*
+* API Endpoint that returns stored updates from the database.
+*/
+router.get('/view', (req, res) => {
     newsService.getNewsHistory()
         .then((teamData) => {
             statusResponses.ok(res, teamData);

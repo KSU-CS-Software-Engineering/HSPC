@@ -12,6 +12,9 @@ import '../../_common/assets/css/dashboard-admin.css';
 
 var currentView = '';
 
+/*
+* @author: Daniel Bell
+*/
 export default class JudgeDash extends Component {
     constructor(props) {
         super(props);

@@ -7,6 +7,9 @@ const types = [
     { text: 'Correct', class: 'answer-green', pointsAdded: 0.5 }
 ];
 
+/*
+* @author: Daniel Bell
+*/
 export default class ScoreboardTile extends Component {
     render() {
         return (

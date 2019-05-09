@@ -8,6 +8,10 @@ import StatusMessages from '../../_common/components/status-messages/status-mess
 //import { Transport } from './Transport';
 import '../../_common/assets/css/create-email.css';
 
+/*
+* @author: Daniel Bell
+* @todo: implement mass email feature
+*/
 export default class Email extends Component {
     constructor(props) {
         super(props)
@@ -53,14 +57,11 @@ export default class Email extends Component {
     handleSubmit() {
         if (this.state.emailAll) {
             console.log("Sent All");
-            
             // finish
         }
         else {
             console.log("Sent Once");
-
             // finish
-            
         }
     }
 

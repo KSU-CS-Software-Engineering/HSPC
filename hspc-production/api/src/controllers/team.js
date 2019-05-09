@@ -2,7 +2,14 @@ const router = require('express').Router();
 const statusResponses = getHelper('status-response');
 const teamService = getService('team');
 
-router.post('/registerteam', (req, res) => {
+/*
+* API Endpoint serving the creation of new teams.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.post('/create', (req, res) => {
     const teamName = req.body['teamName'];
     const schoolName = req.body['schoolName'];
     const schoolAddress = req.body['schoolAddress'];
@@ -20,7 +27,14 @@ router.post('/registerteam', (req, res) => {
         });
 });
 
-router.get('/admindash', (req, res) => {
+/*
+* API Endpoint that returns all teams stored within the database.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.get('/view', (req, res) => {
     teamService.getAllTeams()
         .then((teamData) => {
             statusResponses.ok(res, teamData);

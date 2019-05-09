@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const controllerUrl = process.env.REACT_APP_API_URL + '/scorecard';
 
+/*
+* @author: Daniel Bell
+*/
 class scorecardService {
     constructor() {
         this.files = null;
@@ -10,12 +13,13 @@ class scorecardService {
 
     /*
     * Calls the API and adds the given scorecard file to the database.
+    * @param {file} multipart data from the uploaded practice problem file
     */
     addScore(scorecard) {
         return new Promise((resolve, reject) => {
             let data = new FormData();
             data.append('scorecard', scorecard);
-            axios.post(`${controllerUrl}/admindash`, data)
+            axios.post(`${controllerUrl}/create`, data)
                 .then((response) => {
                     if (response.statusCode === 200 || response.statusCode === 201) {
                         this.files = response; // saves the response.
@@ -35,7 +39,7 @@ class scorecardService {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
-                url: `${controllerUrl}/admindash`,
+                url: `${controllerUrl}/view`,
                 headers: {}
             }
             request(options, (err, response, body) => {

@@ -5,6 +5,9 @@ import TeamService from '../../../_common/services/team';
 
 var currentView = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class ViewTeams extends Component {
     constructor(props) {
         super(props);

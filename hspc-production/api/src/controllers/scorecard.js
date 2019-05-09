@@ -6,7 +6,14 @@ const upload = multer({
     storage: multer.memoryStorage(),
 }).single('scorecard');
 
-router.post('/admindash', (req, res) => {
+/*
+* API Endpoint that serves the uploading of files of scorecards.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.post('/create', (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             if (err.name === 'MulterError') {
@@ -31,7 +38,14 @@ router.post('/admindash', (req, res) => {
     });
 });
 
-router.get('/admindash', (req, res) => {
+/*
+* API endpoint that returns all scorecard files stored within the database.
+*
+* @author: Daniel Bell
+* @param {string} endpoint location
+* @param {JSON} callback function containing request and response data from the client.
+*/
+router.get('/view', (req, res) => {
     scorecardService.getAllScores()
         .then((scores) => {
             statusResponses.ok(res, scores);

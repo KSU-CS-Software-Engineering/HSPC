@@ -5,6 +5,9 @@ import '../../_common/assets/css/public-homepage.css';
 var powercat = require('../../_common/assets/img/powercat.png');
 var news = null;
 
+/*
+* @author: Daniel Bell
+*/
 export default class Home extends Component {
     constructor(props) {
         super(props)

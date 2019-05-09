@@ -8,6 +8,9 @@ import ReCAPTCHA from 'react-recaptcha';
 import eventService from '../../../_common/services/event'
 import '../../../_common/assets/css/create-event.css';
 
+/*
+* @author: Daniel Bell
+*/
 export default class CreateEvent extends Component {
     constructor(props) {
         super(props)
