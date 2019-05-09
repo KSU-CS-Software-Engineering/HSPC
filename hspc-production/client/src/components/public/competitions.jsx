@@ -47,7 +47,6 @@ export default class Competitions extends Component {
                 </Jumbotron>
             </div>;
         this.forceUpdate();
-
     }
 
     /*

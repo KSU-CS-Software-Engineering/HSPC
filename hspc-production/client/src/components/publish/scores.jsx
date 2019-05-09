@@ -16,26 +16,36 @@ export default class PublishScores extends Component {
         super(props)
         this.statusMessages = React.createRef();
         this.state = {
-            upload: null
+            upload: []
         }
     }
 
     /*
-    * Passes uploaded file for storage in the database.
+    * Passes uploaded file data to the API for storage in the database.
     */
-    handlePublish = (event) => {
+    handlePublish = () => {
         if (this.state.upload.length > 0) {
-            scorecardService.addScore(this.state.upload[0])
-                .then((data) => {
-                    console.log("made it through");
-                    console.log(data);
+            scorecardService.addScore(this.state.upload[0], 'scores')
+                .then((response) => {
+                    if (response.status === 201) {
+                        this.statusMessages.current.showSuccess(response.data.message);
+                    }
+                    else {
+                        this.statusMessages.current.showError(response.data.message);
+                    }
                 })
                 .catch(() => {
-                    console.log("died...");
+                    this.statusMessages.current.showError("Something went wrong.");
                 });
+        }
+        else{
+            this.statusMessages.current.showError("No File Selected.")
         }
     }
 
+    /*
+    * Render the component UI.
+    */
     render() {
         return (
             <div className="publish-scores">
@@ -59,7 +69,7 @@ export default class PublishScores extends Component {
                             label="Publish Scorecard"
                             backgroundColor={'#00a655'}
                             labelColor={'#ffffff'}
-                            onClick={(event) => this.handlePublish(event)}
+                            onClick={() => this.handlePublish()}
                         />
                     </div>
                 </MuiThemeProvider>

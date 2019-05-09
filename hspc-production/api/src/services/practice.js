@@ -1,21 +1,21 @@
 const mssql = getHelper('db-mssql');
 
 module.exports = {
-    addScore: (scorecard) => {
+    addPractice: (practice) => {
         return new Promise((resolve, reject) => {
             const query =
                 `INSERT INTO dbo.Files(FileData, FileType, FileGroup)
-            VALUES(@scorecard, '${scorecard.mimetype}', 'Scorecard')`;
+            VALUES(@practice, '${practice.mimetype}', 'Practice')`;
             mssql.query(query, [{
-                name: 'scorecard',
+                name: 'practice',
                 type: mssql.sql.VarBinary(mssql.sql.MAX),
-                value: scorecard.buffer
+                value: practice.buffer
             }])
                 .then(() => resolve())
                 .catch((err) => reject(err));
         });
     },
-    getAllScores: () => {
+    getAllPractice: () => {
         return new Promise((resolve, reject) => {
             const query =
                 `SELECT * FROM dbo.Files`;

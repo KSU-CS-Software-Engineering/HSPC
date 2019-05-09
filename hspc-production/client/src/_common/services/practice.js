@@ -1,20 +1,20 @@
 import * as request from 'request';
 import axios from 'axios';
 
-const controllerUrl = process.env.REACT_APP_API_URL + '/scorecard';
+const controllerUrl = process.env.REACT_APP_API_URL + '/practice';
 
-class scorecardService {
+class practiceService {
     constructor() {
         this.files = null;
     }
 
     /*
-    * Calls the API and adds the given scorecard file to the database.
+    * Calls the API and adds a new file of practice problems into the database.
     */
-    addScore(scorecard) {
+    addPractice(practice) {
         return new Promise((resolve, reject) => {
             let data = new FormData();
-            data.append('scorecard', scorecard);
+            data.append('practice', practice);
             axios.post(`${controllerUrl}/admindash`, data)
                 .then((response) => {
                     if (response.statusCode === 200 || response.statusCode === 201) {
@@ -29,9 +29,9 @@ class scorecardService {
     }
 
     /*
-    * Calls the API and returns a JSON list of all published scorecards.
+    * Calls the API and returns a JSON list of all published practice problems.
     */
-    getAllScores() {
+    getAllPractice() {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'GET',
@@ -49,4 +49,4 @@ class scorecardService {
     }
 }
 
-export default new scorecardService();
+export default new practiceService();
