@@ -2,7 +2,6 @@ const mssql = getHelper('db-mssql');
 
 module.exports = {
     createCards: (file) => {
-        console.log(file);
         return new Promise((resolve, reject) => {
             const query =
                 `INSERT INTO dbo.Cards

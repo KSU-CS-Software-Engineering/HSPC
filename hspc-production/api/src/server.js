@@ -65,7 +65,6 @@ io.on('connection', function (socket) {
         console.log(socket.id, 'Disconnected');
     });
     socket.on('click', function (data) {
-        //console.log(data);
         //io.sockets.emit('broadcast', data);
         socket.broadcast.to(1).emit('broadcast', data);
     });

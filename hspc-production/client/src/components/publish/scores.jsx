@@ -3,6 +3,7 @@ import StatusMessages from '../../_common/components/status-messages/status-mess
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
+import scorecardService from '../../_common/services/scorecard';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import '../../_common/assets/css/publish-files.css';
@@ -15,16 +16,24 @@ export default class PublishScores extends Component {
         super(props)
         this.statusMessages = React.createRef();
         this.state = {
-
+            upload: null
         }
     }
 
     /*
     * Passes uploaded file for storage in the database.
     */
-    handlePublish = () => {
-        console.log("made it here");
-        // finish
+    handlePublish = (event) => {
+        if (this.state.upload.length > 0) {
+            scorecardService.addScore(this.state.upload[0])
+                .then((data) => {
+                    console.log("made it through");
+                    console.log(data);
+                })
+                .catch(() => {
+                    console.log("died...");
+                });
+        }
     }
 
     render() {
@@ -35,7 +44,16 @@ export default class PublishScores extends Component {
                 <p><b>Please select a file below</b></p>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
-                        <FilePond id="uploader" name={"file"} />
+                        <FilePond
+                            id="uploader"
+                            name={"file"}
+                            onupdatefiles={(files) => {
+                                this.setState({
+                                    upload:
+                                        files.map(files => files.file)
+                                });
+                            }}
+                        />
                         <RaisedButton
                             className="publish-button"
                             label="Publish Scorecard"

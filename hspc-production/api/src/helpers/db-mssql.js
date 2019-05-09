@@ -12,7 +12,8 @@ const dbConfig = {
 };
 
 module.exports = {
-    query: (query) => {
+    sql: sql,
+    query: (query, params) => {
         return new Promise((resolve, reject) => {
             sql.connect(dbConfig, (err) => {
                 if (err) {
@@ -21,6 +22,11 @@ module.exports = {
                     sql.close();
                 } else {
                     let request = new sql.Request();
+                    if (Array.isArray(params)) {
+                        params.forEach((param) => {
+                            request.input(param.name, param.type, param.value);
+                        });
+                    }
                     request.query(query, (err, result) => {
                         if (err) {
                             console.log("Error while querying database :- " + err);
