@@ -2,6 +2,7 @@
 **Authors: Daniel J. Bell, Kyle C. Fairfax, Joseph E. Webster**  
 **Date: August 2018 - May 2019**
 *********************************************************************************************************
+This project was created using React, NodeJS, and Microsoft SQL Server
 The intended audience includes High school Students, Advisors, and KSU Computer Science Administration.
 *********************************************************************************************************
 # Environment
