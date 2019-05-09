@@ -1,4 +1,5 @@
-DROP DATABASE IF EXISTS hspc_database
+DROP DATABASE IF EXISTS hspc_database;
+CREATE DATABASE hspc_database;
 
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Teams;
@@ -8,10 +9,14 @@ DROP TABLE IF EXISTS School;
 DROP TABLE IF EXISTS Article;
 DROP TABLE IF EXISTS Participants;
 
-CREATE DATABASE hspc_database
-GO
-
-USE hspc_database;
+CREATE TABLE Teams(
+	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
+	TeamName NVARCHAR(64),
+	SchoolName NVARCHAR(64),
+	SchoolAddress NVARCHAR(64),
+	StateCode NVARCHAR(64),
+	QuestionLevel NVARCHAR(12),
+)
 
 CREATE TABLE Users(
 	UserID INTEGER PRIMARY KEY IDENTITY(1, 1),
@@ -36,16 +41,6 @@ CREATE TABLE Participants(
 	StateCode NVARCHAR(32)
 )
 
-CREATE TABLE Teams(
-	TeamID INTEGER PRIMARY KEY IDENTITY(1, 1),
-	TeamName UNINVARCHAR(64),
-	SchoolName NVARCHAR(64),
-	SchoolAddress NVARCHAR(64),
-	StateCode NVARCHAR(64),
-	QuestionLevel NVARCHAR(12),
-	--AdvisorID INTEGER FOREIGN KEY REFERENCES Users(UserID),
-	--SchoolID INTEGER FOREIGN KEY REFERENCES School(SchoolID)
-)
 
 CREATE TABLE Competition(
 	CompetitionID INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -72,7 +67,7 @@ CREATE TABlE Article (
 	ArticleID INTEGER PRIMARY KEY IDENTITY(1,1),
 	ArticleTitle NVARCHAR(64) NOT NULL,
 	ArticleSubHeading NVARCHAR(256),
-	ArticleMessage NVARCHAR(5096) NOT NULL,
+	ArticleMessage NVARCHAR(2096) NOT NULL,
 	ArticleDate NVARCHAR(54) NOT NULL
 )
 
@@ -89,22 +84,16 @@ CREATE TABLE Cards (
 -- Functions for Manipulating Data.
 use hspc_database;
 select * from Users
-
 use hspc_database;
 select * from Participants
-
 use hspc_database;
 select * from Teams
-
 use hspc_database;
 select * from Competition
-
 use hspc_database;
 select * from Article
-
 use hspc_database;
 select * from Cards
-
 -- Update Accesslevel
 update Users
 set AccessLevel = 2
@@ -113,10 +102,7 @@ where
 	
 -- Delete All Values Except Base Cases
 DELETE FROM Users WHERE FirstName != 'John';
-
 -- Delete Everything From Table
 TRUNCATE TABLE Participants
-
 ALTER TABLE dbo.Users ADD RequestLevel NVARCHAR(2);
 */
-

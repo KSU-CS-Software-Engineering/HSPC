@@ -8,7 +8,7 @@ The intended audience includes High school Students, Advisors, and KSU Computer 
 # Environment
 **Ubuntu Linux v.19.04**          
 **Node v.10.15.3**         
-**NPM v.6.9.0**        
+**NPM v.6.4.1**        
 **React v.16.6.1**  
 **React-Boostrap v.0.32.4**  
 
@@ -33,13 +33,11 @@ The intended audience includes High school Students, Advisors, and KSU Computer 
 
 1. View Running Databases:	docker ps
 
-2. Start Database Instance:	docker start HCI_database
+2. Start Database Instance:	docker start <database_name>
 
-3. Stop Database Instance: 	docker stop HCI_database
+3. Stop Database Instance: 	docker stop <database_name>
 
-4. Remove Database Instance: (Only while database is inactive):	docker rm HCI_database
-
-5. Run Docker on startup: sudo systemctl enable docker
+4. Remove Database Instance: (Only while database is inactive):	docker rm <database_name>
 
 *********************************************************************************************************
 
